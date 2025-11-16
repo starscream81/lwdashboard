@@ -95,6 +95,15 @@ type Profile = {
   totalHeroPower?: number | null;
 };
 
+type Hero = {
+  id: string;
+  name: string;
+  power?: number | string | null;
+  team?: number | null;
+  type?: string | null;
+  role?: string | null;
+};
+
 const VS_TASKS = vsTasks as VsTasksConfig;
 
 const HQ_REQUIREMENTS = hqRequirements as HqRequirementsMap;
