@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -176,7 +176,6 @@ function convertServerTimeToLocal(timeStr: string): string {
   const now = new Date();
   const serverOffsetMinutes = SERVER_UTC_OFFSET_HOURS * 60;
 
-  // Treat HH:MM as server-local time, convert to UTC
   const utcMillis =
     Date.UTC(
       now.getUTCFullYear(),
@@ -592,7 +591,7 @@ export default function DashboardPage() {
 
         setTrackingItems(combined);
 
-        // Tracked Upgrades tile: show all actively tracked upgrades
+        // Tracked Upgrades tile
         const researchSummaries: UpgradeSummary[] =
           trackedResearchUpgrades.map((row) => ({
             id: row.id,
@@ -637,8 +636,6 @@ export default function DashboardPage() {
     setLoading(true);
     loadData();
   }, [user]);
-
-  const totalHeroes = heroes.length;
 
   const {
     nextLevel,
@@ -877,16 +874,6 @@ export default function DashboardPage() {
       serversDisplay: groupServerIds(servers),
     };
   }, []);
-
-  const teamsUsed = useMemo(() => {
-    const teams = new Set<number>();
-    heroes.forEach((h) => {
-      if (h.team !== null && h.team !== undefined) {
-        teams.add(h.team);
-      }
-    });
-    return teams;
-  }, [heroes]);
 
   const totalHeroPower = useMemo(() => {
     return heroes.reduce((sum, h) => {
