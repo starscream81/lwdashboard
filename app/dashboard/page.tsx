@@ -87,6 +87,14 @@ type UpgradeSummary = {
   status: string;
 };
 
+type Profile = {
+  displayName?: string | null;
+  allianceTag?: string | null;
+  serverId?: string | null;
+  avatarUrl?: string | null;
+  totalHeroPower?: number | null;
+};
+
 const VS_TASKS = vsTasks as VsTasksConfig;
 
 const HQ_REQUIREMENTS = hqRequirements as HqRequirementsMap;
