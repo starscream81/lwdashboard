@@ -80,24 +80,54 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
   { key: "Aircraft Center", displayName: "Aircraft Center" },
   { key: "Alert Tower", displayName: "Alert Tower" },
   { key: "Alliance Center", displayName: "Alliance Center" },
-  { key: "Barracks", displayName: "Barracks", multiInstance: true, maxInstances: 4 },
+  {
+    key: "Barracks",
+    displayName: "Barracks",
+    multiInstance: true,
+    maxInstances: 4,
+  },
   { key: "Builder's Hut", displayName: "Builder's Hut" },
   { key: "Chip Lab", displayName: "Chip Lab" },
   { key: "Coin Vault", displayName: "Coin Vault" },
   { key: "Component Factory", displayName: "Component Factory" },
-  { key: "Drill Ground", displayName: "Drill Ground", multiInstance: true, maxInstances: 4 },
+  {
+    key: "Drill Ground",
+    displayName: "Drill Ground",
+    multiInstance: true,
+    maxInstances: 4,
+  },
   {
     key: "Drone Parts Workshop",
     displayName: "Drone Parts Workshop",
   },
   { key: "Emergency Center", displayName: "Emergency Center" },
-  { key: "Farmland", displayName: "Farmland", multiInstance: true, maxInstances: 5 },
+  {
+    key: "Farmland",
+    displayName: "Farmland",
+    multiInstance: true,
+    maxInstances: 5,
+  },
   { key: "Food Warehouse", displayName: "Food Warehouse" },
   { key: "Gear Factory", displayName: "Gear Factory" },
-  { key: "Gold Mine", displayName: "Gold Mine", multiInstance: true, maxInstances: 5 },
+  {
+    key: "Gold Mine",
+    displayName: "Gold Mine",
+    multiInstance: true,
+    maxInstances: 5,
+  },
   { key: "HQ", displayName: "HQ" },
-  { key: "Hospital", displayName: "Hospital", multiInstance: true, maxInstances: 4 },
-  { key: "Iron Mine", displayName: "Iron Mine", multiInstance: true, maxInstances: 5 },
+  {
+    key: "Hospital",
+    displayName: "Hospital",
+    multiInstance: true,
+    maxInstances: 4,
+  },
+  {
+    key: "Iron Mine",
+    displayName: "Iron Mine",
+    multiInstance: true,
+    maxInstances: 5,
+  },
   { key: "Iron Warehouse", displayName: "Iron Warehouse" },
   {
     key: "Material Workshop",
@@ -106,12 +136,32 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
     maxInstances: 5,
   },
   { key: "Missile Center", displayName: "Missile Center" },
-  { key: "Oil Well", displayName: "Oil Well", multiInstance: true, maxInstances: 5 },
-  { key: "Recon Plane", displayName: "Recon Plane", multiInstance: true, maxInstances: 3 },
-  { key: "Smelter", displayName: "Smelter", multiInstance: true, maxInstances: 5 },
+  {
+    key: "Oil Well",
+    displayName: "Oil Well",
+    multiInstance: true,
+    maxInstances: 5,
+  },
+  {
+    key: "Recon Plane",
+    displayName: "Recon Plane",
+    multiInstance: true,
+    maxInstances: 3,
+  },
+  {
+    key: "Smelter",
+    displayName: "Smelter",
+    multiInstance: true,
+    maxInstances: 5,
+  },
   { key: "Tank Center", displayName: "Tank Center" },
   { key: "Tavern", displayName: "Tavern" },
-  { key: "Tech Center", displayName: "Tech Center", multiInstance: true, maxInstances: 3 },
+  {
+    key: "Tech Center",
+    displayName: "Tech Center",
+    multiInstance: true,
+    maxInstances: 3,
+  },
   {
     key: "Technical Institute",
     displayName: "Technical Institute",
@@ -192,13 +242,13 @@ export default function BuildingsPage() {
       return;
     }
 
+    const uid = user.uid;
+
     async function load() {
       setLoading(true);
       setError(null);
 
       try {
-        const uid = user.uid;
-
         const kvRef = collection(db, "users", uid, "buildings_kv");
         const trackingRef = collection(
           db,
@@ -312,8 +362,8 @@ export default function BuildingsPage() {
           }
         }
 
-        const builtGroups = Array.from(groupMap.values()).sort(
-          (a, b) => a.displayName.localeCompare(b.displayName)
+        const builtGroups = Array.from(groupMap.values()).sort((a, b) =>
+          a.displayName.localeCompare(b.displayName)
         );
 
         setGroups(builtGroups);
