@@ -104,6 +104,13 @@ type Hero = {
   role?: string | null;
 };
 
+type TeamsPower = {
+  1?: number;
+  2?: number;
+  3?: number;
+  4?: number;
+};
+
 const VS_TASKS = vsTasks as VsTasksConfig;
 
 const HQ_REQUIREMENTS = hqRequirements as HqRequirementsMap;
