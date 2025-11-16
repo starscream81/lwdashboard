@@ -105,10 +105,7 @@ type Hero = {
 };
 
 type TeamsPower = {
-  1?: number;
-  2?: number;
-  3?: number;
-  4?: number;
+  [team: number]: string;
 };
 
 type TrackingItem = {
