@@ -340,27 +340,32 @@ export default function HeroesPage() {
     handleUpdateHeroField(heroId, "team", team);
   };
 
-  const getGearFieldsForRole = (role?: HeroRole) => {
+  const getGearFieldsForRole = (role?: HeroRole): [string, string][] => {
     if (!role) return [];
+
     const r = role.toLowerCase();
+
     if (r === "attack") {
       return [
         ["rail_gun", "rail_gun_stars"],
         ["data_chip", "data_chip_stars"],
-      ];
+      ] as [string, string][];
     }
+
     if (r === "defense") {
       return [
         ["armor", "armor_stars"],
         ["radar", "radar_stars"],
-      ];
+      ] as [string, string][];
     }
+
     if (r === "support") {
       return [
         ["rail_gun", "rail_gun_stars"],
         ["radar", "radar_stars"],
-      ];
+      ] as [string, string][];
     }
+
     return [];
   };
 
