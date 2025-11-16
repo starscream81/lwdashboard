@@ -9,6 +9,7 @@ import {
   getDocs,
   query,
   setDoc,
+  where,
 } from "firebase/firestore";
 
 import Link from "next/link";
@@ -85,6 +86,8 @@ type UpgradeSummary = {
   name: string;
   type: "research" | "building";
   status: string;
+  currentLevel?: number | null;
+  nextLevel?: number | null;
 };
 
 type Profile = {
@@ -165,7 +168,7 @@ function getDayNumberFromDateString(dateStr: string): number {
   return Math.floor(Date.UTC(y, m - 1, d) / MS_PER_DAY);
 }
 
-// Convert a server-time string "HH:MM" (UTC-2) into the user's local time string
+// Convert a server time string "HH:MM" (UTC minus 2) into the user's local time string
 function convertServerTimeToLocal(timeStr: string): string {
   const [hhStr, mmStr] = timeStr.split(":");
   const hh = Number(hhStr);
@@ -243,8 +246,9 @@ function resolveHqRequirementsForNextLevel(
   }
 
   const nextLevel = currentHqLevel + 1;
-  const key = String(nextLevel);
+  const requiredLevel = currentHqLevel;
 
+  const key = String(nextLevel);
   const groupIds = HQ_REQUIREMENTS[key] ?? [];
 
   const rows: ResolvedRequirement[] = groupIds.map((groupId) => {
@@ -253,7 +257,7 @@ function resolveHqRequirementsForNextLevel(
       return {
         id: groupId,
         label: groupId,
-        requiredLevel: nextLevel,
+        requiredLevel,
         currentLevel: 0,
         met: false,
       };
@@ -268,12 +272,12 @@ function resolveHqRequirementsForNextLevel(
       }
     }
 
-    const met = currentLevel >= nextLevel;
+    const met = currentLevel >= requiredLevel;
 
     return {
       id: groupId,
       label: group.label,
-      requiredLevel: nextLevel,
+      requiredLevel,
       currentLevel,
       met,
     };
@@ -362,22 +366,37 @@ export default function DashboardPage() {
           setProfile(profileSnap.data() as Profile);
         }
 
-        // HQ level from buildings_kv / HQ
-        const hqRef = doc(db, "users", uid, "buildings_kv", "HQ");
-        const hqSnap = await getDoc(hqRef);
-        if (hqSnap.exists()) {
-          const data = hqSnap.data() as any;
-          const level = data.value ?? data.level ?? null;
-          setHqLevel(
-            typeof level === "number"
-              ? level
-              : level != null
-              ? Number(level)
-              : null
-          );
+        // HQ level from buildings_kv
+        let hqData: any | null = null;
+
+        const directHqRef = doc(db, "users", uid, "buildings_kv", "HQ");
+        const directHqSnap = await getDoc(directHqRef);
+
+        if (directHqSnap.exists()) {
+          hqData = directHqSnap.data();
+        } else {
+          const kvRef = collection(db, "users", uid, "buildings_kv");
+          const hqQuery = query(kvRef, where("name", "==", "HQ"));
+          const hqQuerySnap = await getDocs(hqQuery);
+
+          if (!hqQuerySnap.empty) {
+            hqData = hqQuerySnap.docs[0].data();
+          }
         }
 
-        // All building levels from buildings_kv (for HQ requirements tile)
+        if (hqData) {
+          const rawLevel = hqData.level ?? hqData.value ?? null;
+          const parsed =
+            typeof rawLevel === "number"
+              ? rawLevel
+              : rawLevel != null
+              ? Number(rawLevel)
+              : null;
+
+          setHqLevel(Number.isNaN(parsed as number) ? null : parsed);
+        }
+
+        // All building levels from buildings_kv (for HQ requirements tile and upgrades)
         const buildingsKvRef = collection(db, "users", uid, "buildings_kv");
         const buildingsKvSnap = await getDocs(buildingsKvRef);
 
@@ -385,7 +404,7 @@ export default function DashboardPage() {
 
         buildingsKvSnap.forEach((docSnap) => {
           const data = docSnap.data() as any;
-          const rawLevel = data.value ?? data.level ?? null;
+          const rawLevel = data.level ?? data.value ?? null;
 
           const level =
             typeof rawLevel === "number"
@@ -393,6 +412,13 @@ export default function DashboardPage() {
               : rawLevel != null
               ? Number(rawLevel)
               : 0;
+
+          const name =
+            (data.name || docSnap.id || "").toString().trim();
+
+          if (name) {
+            levels[name] = level;
+          }
 
           levels[docSnap.id] = level;
         });
@@ -510,13 +536,13 @@ export default function DashboardPage() {
           return false;
         });
 
-        // Next Up research: not in progress but has priority
+        // Next Up research: not in progress but has trackStatus or priority
         const nextUpResearch: TrackingItem[] = researchRows
           .filter(
             (row) =>
               !row.inProgress &&
-              row.priority != null &&
-              row.priority > 0
+              (row.trackStatus ||
+                (row.priority != null && row.priority > 0))
           )
           .map((row) => ({
             id: row.id,
@@ -552,19 +578,20 @@ export default function DashboardPage() {
           };
         });
 
+        // Currently Upgrading tile: upgrading or has priority
         const trackedBuildingUpgrades = buildingRows.filter((row) => {
           if (row.upgrading) return true;
-          if (row.tracked) return true;
           if (row.priority != null && row.priority > 0) return true;
           return false;
         });
 
+        // Next Up buildings: not upgrading and either tracked or priority
         const nextUpBuildings: TrackingItem[] = buildingRows
           .filter(
             (row) =>
               !row.upgrading &&
-              row.priority != null &&
-              row.priority > 0
+              (row.tracked ||
+                (row.priority != null && row.priority > 0))
           )
           .map((row) => ({
             id: row.id,
@@ -574,7 +601,7 @@ export default function DashboardPage() {
             orderIndex: row.orderIndex,
           }));
 
-        // Next Up panel combines research + buildings (priority, not in progress/upgrading)
+        // Next Up panel combines research plus buildings
         const combined: TrackingItem[] = [
           ...nextUpResearch,
           ...nextUpBuildings,
@@ -591,32 +618,54 @@ export default function DashboardPage() {
 
         setTrackingItems(combined);
 
-        // Tracked Upgrades tile
+        // Tracked Upgrades tile (research plus buildings with level info)
         const researchSummaries: UpgradeSummary[] =
-          trackedResearchUpgrades.map((row) => ({
-            id: row.id,
-            name: row.name,
-            type: "research",
-            status: row.inProgress
-              ? "In progress"
-              : row.priority != null && row.priority > 0
-              ? `Priority ${row.priority}`
-              : "Tracked",
-          }));
+          trackedResearchUpgrades.map((row) => {
+            const currentLevel = row.currentLevel;
+            let nextLevel: number | null = null;
+            if (currentLevel > 0) {
+              const tentative = currentLevel + 1;
+              if (row.maxLevel > 0 && tentative > row.maxLevel) {
+                nextLevel = row.maxLevel;
+              } else {
+                nextLevel = tentative;
+              }
+            }
+
+            return {
+              id: row.id,
+              name: row.name,
+              type: "research",
+              status: row.inProgress
+                ? "In progress"
+                : row.priority != null && row.priority > 0
+                ? `Priority ${row.priority}`
+                : "Tracked",
+              currentLevel,
+              nextLevel,
+            };
+          });
 
         const buildingSummaries: UpgradeSummary[] =
-          trackedBuildingUpgrades.map((row) => ({
-            id: row.id,
-            name: row.name,
-            type: "building",
-            status: row.upgrading
-              ? "Upgrading"
-              : row.priority != null && row.priority > 0
-              ? `Priority ${row.priority}`
-              : row.tracked
-              ? "Tracked"
-              : "Tracked",
-          }));
+          trackedBuildingUpgrades.map((row) => {
+            const currentLevel =
+              levels[row.name] != null ? levels[row.name] : 0;
+            const nextLevel =
+              currentLevel > 0 ? currentLevel + 1 : null;
+
+            return {
+              id: row.id,
+              name: row.name,
+              type: "building",
+              status: row.upgrading
+                ? "Upgrading"
+                : row.priority != null && row.priority > 0
+                ? `Priority ${row.priority}`
+                : "Tracked",
+              currentLevel,
+              nextLevel,
+            };
+          });
 
         const allSummaries: UpgradeSummary[] = [
           ...researchSummaries,
@@ -1204,15 +1253,16 @@ export default function DashboardPage() {
             )}
           </div>
 
-          {/* Tracked Upgrades */}
+          {/* Currently Upgrading */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col justify-between gap-2">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-slate-400">Tracked Upgrades</p>
-                <p className="text-lg font-semibold">{trackedCount}</p>
+                <p className="text-xs text-slate-400">
+                  Currently Upgrading
+                </p>
                 <p className="text-[11px] text-slate-400 mt-1">
-                  Includes research in progress or queued, and tracked or
-                  upgrading buildings.
+                  Includes research in progress and buildings marked as
+                  upgrading or with priority.
                 </p>
               </div>
             </div>
@@ -1224,9 +1274,18 @@ export default function DashboardPage() {
                     key={`${u.type}-${u.id}`}
                     className="flex items-center justify-between"
                   >
-                    <span className="truncate max-w-[11rem]">
-                      {u.name}
-                    </span>
+                    <div className="min-w-0">
+                      <span className="truncate max-w-[11rem] font-medium">
+                        {u.name}
+                        {u.currentLevel != null &&
+                          u.currentLevel > 0 &&
+                          u.nextLevel != null && (
+                            <span className="ml-1 text-slate-300">
+                              {u.currentLevel} {"->"} {u.nextLevel}
+                            </span>
+                          )}
+                      </span>
+                    </div>
                     <span className="ml-2 inline-flex items-center rounded-full px-2 py-0.5 border border-slate-600/80 text-[10px] text-slate-200">
                       {u.type === "research" ? "R" : "B"} · {u.status}
                     </span>
@@ -1238,6 +1297,13 @@ export default function DashboardPage() {
                   </li>
                 )}
               </ul>
+            )}
+
+            {trackedUpgrades.length === 0 && (
+              <p className="mt-1 text-[11px] text-slate-400">
+                Nothing upgrading yet. Start research or mark buildings as
+                upgrading or add priority to see them here.
+              </p>
             )}
           </div>
         </section>
@@ -1323,8 +1389,8 @@ export default function DashboardPage() {
             <div className="rounded-xl border border-slate-700/80 bg-slate-900/80 max-h-80 overflow-hidden flex flex-col">
               {trackingItems.length === 0 ? (
                 <div className="flex-1 flex items-center justify-center px-4 py-6 text-sm text-slate-400">
-                  Nothing on deck yet. Set priority on research or
-                  buildings to see them here.
+                  Nothing on deck yet. Set tracked or priority on research
+                  or buildings to see them here.
                 </div>
               ) : (
                 <div className="flex-1 overflow-y-auto divide-y divide-slate-800/80">
