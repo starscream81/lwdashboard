@@ -111,6 +111,13 @@ type TeamsPower = {
   4?: number;
 };
 
+type TrackingItem = {
+  id: string;
+  kind?: string; // "research" | "building" etc if you use that
+  name?: string;
+  [key: string]: any; // keep it flexible for now
+};
+
 const VS_TASKS = vsTasks as VsTasksConfig;
 
 const HQ_REQUIREMENTS = hqRequirements as HqRequirementsMap;
