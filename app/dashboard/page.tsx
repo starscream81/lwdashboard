@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { useEffect, useState, useMemo } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -110,9 +110,9 @@ type TeamsPower = {
 
 type TrackingItem = {
   id: string;
-  kind?: string; // "research" | "building" etc if you use that
+  kind?: string;
   name?: string;
-  [key: string]: any; // keep it flexible for now
+  [key: string]: any;
 };
 
 const VS_TASKS = vsTasks as VsTasksConfig;
@@ -307,21 +307,34 @@ export default function DashboardPage() {
     ResearchStatusCategory[]
   >([]);
 
-  const profileAlliance =
-    (profile as any)?.alliance != null && (profile as any)?.alliance !== ""
-      ? String((profile as any).alliance)
-      : null;
+  const isGuest = user?.isAnonymous ?? false;
 
-  const baseDisplayName = profile?.displayName ?? "Commander";
-  const combinedDisplayName = profileAlliance
+  const profileAlliance = isGuest
+    ? "GUEST"
+    : (profile as any)?.alliance != null &&
+      (profile as any)?.alliance !== ""
+    ? String((profile as any).alliance)
+    : null;
+
+  const baseDisplayName = isGuest
+    ? "Guest Commander"
+    : profile?.displayName ?? "Commander";
+
+  const combinedDisplayNameWithAlliance = profileAlliance
     ? `${baseDisplayName} [${profileAlliance}]`
     : baseDisplayName;
 
+  const combinedDisplayName = isGuest
+    ? `${combinedDisplayNameWithAlliance} (Guest)`
+    : combinedDisplayNameWithAlliance;
+
   const profileServerId =
-    (profile as any)?.serverId ??
-    (profile as any)?.server ??
-    (profile as any)?.serverNumber ??
-    null;
+    isGuest
+      ? "977"
+      : (profile as any)?.serverId ??
+        (profile as any)?.server ??
+        (profile as any)?.serverNumber ??
+        null;
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -454,11 +467,9 @@ export default function DashboardPage() {
             currentLevel: isNaN(currentLevel) ? 0 : currentLevel,
             maxLevel: isNaN(maxLevel) ? 0 : maxLevel,
             inProgress: !!data.inProgress,
-            priority:
-              data.priority != null ? Number(data.priority) : null,
+            priority: data.priority != null ? Number(data.priority) : null,
             trackStatus: !!data.trackStatus,
-            orderIndex:
-              data.orderIndex != null ? Number(data.orderIndex) : null,
+            orderIndex: data.orderIndex != null ? Number(data.orderIndex) : null,
           };
         });
 
@@ -534,8 +545,7 @@ export default function DashboardPage() {
           return {
             id: d.id,
             name: data.name ?? "(no name)",
-            priority:
-              data.priority != null ? Number(data.priority) : null,
+            priority: data.priority != null ? Number(data.priority) : null,
             orderIndex:
               data.orderIndex != null ? Number(data.orderIndex) : null,
             tracked: !!data.tracked,
@@ -672,7 +682,6 @@ export default function DashboardPage() {
       };
     }
 
-    // server_arms_race_state.json: servers is a map of serverId -> dayNumber (as of anchor date)
     const serversMap = stateJson.servers ?? {};
     const stateEntry = serversMap[String(serverId)];
     let baseDayNumber: number | null = null;
@@ -717,7 +726,6 @@ export default function DashboardPage() {
       };
     }
 
-    // Adjust by days since anchor using cycleLengthDays so it advances automatically
     const cycleLength =
       typeof scheduleJson.cycleLengthDays === "number"
         ? scheduleJson.cycleLengthDays
@@ -748,14 +756,12 @@ export default function DashboardPage() {
       });
     }
 
-    // arms_race_schedule.json: days is an array [{ dayNumber, phases: [...] }]
     const daysArray: any[] = Array.isArray(scheduleJson.days)
       ? scheduleJson.days
       : [];
 
     let dayConfig = daysArray.find((d) => d.dayNumber === dayNumber);
 
-    // Fallback: if still no exact match, use modulo or first day
     if (!dayConfig && daysArray.length > 0) {
       const fallbackCycle =
         typeof scheduleJson.cycleLengthDays === "number"
@@ -995,7 +1001,7 @@ export default function DashboardPage() {
                 />
               ) : (
                 <div className="h-12 w-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-lg font-semibold">
-                  {(profile?.displayName?.[0] ?? "C").toUpperCase()}
+                  {(baseDisplayName[0] ?? "C").toUpperCase()}
                 </div>
               )}
             </div>
@@ -1184,7 +1190,7 @@ export default function DashboardPage() {
             )}
           </div>
 
-          {/* Research Status (focus areas) */}
+          {/* Research Status */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <p className="text-xs text-slate-400">Research Status</p>
