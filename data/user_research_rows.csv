@@ -1,0 +1,1102 @@
+user_id,name,level,tracked,priority,updated_at
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,_seed_,0,false,false,2025-11-12 11:31:49.063987+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,3rd Tech Center,1,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Armor 1,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Armor 2,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Armor 3,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Armor 4,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Armor 5,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Armor VII,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Armor VIII,8,true,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Protection 1,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Protection 2,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Advanced Rewards,1,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Airborne Weapon 1 (Air),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Airborne Weapon 2 (Air),3,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - Attack I,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - Attack II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - Damage I,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - Damage II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - Defense I,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - Defense II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - HP I,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - HP II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - March Size I,1,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - March Size II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - Ultimate Defense I,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft - Ultimate Defense II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Mastery 1 (Air),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Mastery 2 (Air),3,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Synergy - Attack I,2,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Synergy - Attack II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Synergy - Damage I,1,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Synergy - Damage II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Synergy - Defense I,2,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Synergy - Defense II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Synergy - HP I,3,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Aircraft Synergy - HP II,0,false,false,2025-11-11 21:21:42.256721+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Armor Enhacement,1,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Armor Hardening 1 (Tank),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Armor Hardening 2 (Tank),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assault Tactics 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assault Tactics 2,2,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assault Tactics 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assault Tactics 4,1,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assault Training 1,5,false,false,2025-11-07 21:32:49.730764+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assault Training 2,5,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assault Training 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assault Training 4,1,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: Attack Conversion I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: Attack Conversion II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: Attack Conversion III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: Defense Conversion I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: Defense Conversion II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: Defense Conversion III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: HP Conversion I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: HP Conversion II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Assistance: HP Conversion III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Attack Boost,7,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Attack Boost I,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Attack Boost II,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Attack Boost III,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Barrack Expansion I,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Barrack Expansion II,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Barrack Expansion III,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Barrack Expansion IV,3,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Barracks Expansion I,6,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Base Expansion,1,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Basic Goods,5,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Cannon Enhancement 1 (Tank),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Cannon Enhancement 2 (Tank),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Coin Output I,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Coin Output II,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Coin Output III,4,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Coin Output IV,2,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Coin Output V,2,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Coin Protection,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Counter Defense 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Counter Defense 2,1,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Counter Defense 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Counter Defense 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Counter Defense I,1,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Counter Defense II,0,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Counter Defense III,0,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Boost,10,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Boost I,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Boost II,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Boost III,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Fortifications,10,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Training 1,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Training 2,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Training 3,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Training 4,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Training 5,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Training VII,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Defense Training VIII,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Drill Ground Expansion,3,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Duel Expert,20,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Efficient Healing,3,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Emergency Capacity I,2,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Endurance Upgrade,1,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Energy Barrage 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Energy Barrage 2,0,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Energy Barrage 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Energy Barrage 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone Attack I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone Attack II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone Attack III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone Defense I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone Defense II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone Defense III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone HP I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone HP II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Enhancement: Drone HP III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Extra Barracks,1,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Extra Drill Ground,1,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Extra Hospitals,1,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Extra Truck,1,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Builder I,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Builder II,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Builder III,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Builder IV,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Builder V,6,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Exploration 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Exploration 2,3,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Exploration 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fast Exploration 4,1,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fatal Strike 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fatal Strike 2,0,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fatal Strike 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fatal Strike 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fatal Strike I,0,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fierce Assault 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fierce Assault 2,2,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fierce Assault 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fierce Assault 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fierce Assault I,10,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fierce Assault II,3,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Fierce Assault III,0,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Final Stand 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Final Stand 2,1,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Final Stand 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Final Stand 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Final Stand I,10,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Final Stand II,3,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Final Stand III,0,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Firepower Boost,2,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Focused Training I,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Focused Training II,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Focused Training III,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Focused Training IV,4,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Focused Training V,3,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Food Output I,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Food Output II,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Food Output III,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Food Output IV,2,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Food Output V,2,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Food Protection,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Formation Training 1,5,false,false,2025-11-07 21:32:49.730764+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Formation Training 2,5,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Formation Training 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Formation Training 4,1,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Coins I,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Coins II,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Coins III,2,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Coins IV,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Food I,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Food II,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Food III,3,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Food IV,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Iron I,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Iron II,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Iron III,3,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Gathering Iron IV,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Healing Cost II,1,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Hold the Line 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Hold the Line 2,0,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Hold the Line 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Hold the Line 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Hold the Line I,1,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Hold the Line II,0,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Hold the Line III,0,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,HP Boost I,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,HP Boost II,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,HP Boost III,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Building,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Duel Master 2,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Enemy Kills,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Intercity Trade,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Radar,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Recruitment,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Research,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Secret Mobile Squad,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Speed-up,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Survivor Recruit,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Incentive - Training,10,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Infirmary Expansion I,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Infirmary Expansion II,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Infirmary Expansion III,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Infirmary Expansion IV,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Infirmary Expansion V,2,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Iron Output I,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Iron Output II,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Iron Output III,5,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Iron Output IV,3,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Iron Output V,1,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Iron Protection,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Limit Break: Chip Skill Boost,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Limit Break: Level Cap,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Limit Break: Skill Star I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Limit Break: Skill Star II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Load 5,0,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Load Training 1,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Load Training 2,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Load Training 3,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Load Training 4,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Lucky,5,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Master Craftsman,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Metal Barricade 1 (Missile),3,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Metal Barricade 2 (Missile),1,false,true,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Expansion 1 (Missile),3,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Expansion 2 (Missile),2,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Mastery 1 (Missile),4,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Mastery 2 (Missile),1,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - Attack I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - Attack II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - Damage I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - Damage II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - Defense I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - Defense II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - HP I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - HP II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - March Size I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - March Size II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - Ultimate Defense I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle - Ultimate Defense II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle Synergy - Attack I,1,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle Synergy - Attack II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle Synergy - Damage I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle Synergy - Damage II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle Synergy - Defense I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle Synergy - Defense II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle Synergy - HP I,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Missile Vehicle Synergy - HP II,0,false,false,2025-11-11 21:19:31.11183+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Morale,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,More Farmlands,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,More Gold Mines,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,More Iron Mines,1,false,false,2025-11-11 21:43:49.385233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,More Oil Wells,1,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Oil Output I,10,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Oil Output II,10,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Oil Output III,10,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Parts Workshop,1,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Physical Supression 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Physical Supression 2,0,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Physical Supression 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Physical Supression 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Plunder,5,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Power Boost 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Power Boost 2,2,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Power Boost 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Power Boost 4,2,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Power Boost I,2,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Precision Targeting 1 (Missile),4,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Precision Targeting 2 (Missile),2,false,true,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid Field Dressing I,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid Field Dressing II,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid Field Dressing III,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid Field Dressing IV,4,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid Field Dressing V,2,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid March 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid March 4,1,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid March I,0,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Rapid Transit,5,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Reindeer Sleigh Ride,1,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Reinforced Body 1 (Air),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Reinforced Body 2 (Air),2,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Research Enhancement I,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Research Enhancement II,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Research Enhancement III,5,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Research Enhancement IV,4,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Research Enhancement V,6,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Resource Protection,0,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Resource Reaper 1,5,false,false,2025-11-07 21:32:49.730764+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Resource Reaper 2,3,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Resource Reaper 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Resource Reaper 4,2,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Solid Defense 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Solid Defense 2,1,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Solid Defense 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Solid Defense 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Solid Defense I,1,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Solid Defense II,0,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Solid Defense III,0,false,false,2025-11-08 00:26:18.978026+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Super Bonus,1,false,false,2025-11-07 21:57:01.13257+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero Attack I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero Attack II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero Attack III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero Attack IV,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero Defense I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero Defense II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero Defense III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero Defense IV,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero HP I,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero HP II,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero HP III,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Support: Hero HP IV,0,false,false,2025-11-11 21:24:13.074722+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Survival Skills,3,false,false,2025-11-11 21:32:27.756233+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Survival Training 1,5,false,false,2025-11-07 21:32:49.730764+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Survival Training 2,4,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Survival Training 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Survival Training 4,2,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - Attack I,4,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - Attack II,1,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - Damage I,1,false,false,2025-11-08 00:47:37.382488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - Damage II,0,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - Defense I,4,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - Defense II,1,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - HP I,4,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - HP II,1,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - March Size I,2,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - March Size II,1,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - Ultimate Defense I,2,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank - Ultimate Defense II,0,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Mastery 1 (Tank),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Mastery 2 (Tank),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Synergy - Attack I,5,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Synergy - Attack II,4,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Synergy - Damage I,2,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Synergy - Damage II,2,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Synergy - Defense I,5,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Synergy - Defense II,4,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Synergy - HP I,5,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Tank Synergy - HP II,4,false,false,2025-11-08 00:41:14.866349+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Terminator 1,5,false,false,2025-11-07 21:32:49.730764+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Terminator 2,4,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Terminator 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Terminator 4,1,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Track Fortification 1 (Tank),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Track Fortification 2 (Tank),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Training Cost I,1,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Ultimate Guard,1,false,false,2025-11-08 00:57:49.66652+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Unit X,1,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Unlock Oil Well,1,false,false,2025-11-08 23:59:34.222692+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Vigilant Formation 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Vigilant Formation 2,1,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Vigilant Formation 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Vigilant Formation 4,0,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Vigilant Formation I,10,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Vigilant Formation II,1,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Vigilant Formation III,0,false,false,2025-11-08 00:25:09.157446+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Virus Resistence 1,5,false,false,2025-11-07 21:32:49.730764+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Virus Resistence 2,3,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Virus Resistence 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Virus Resistence 4,2,false,false,2025-11-07 21:51:18.233488+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Weapon Training 1,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Weapon Training 2,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Weapon Training 3,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Weapon Training 4,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Weapon Training 5,5,false,false,2025-11-08 00:55:52.675942+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Weapon Training VII,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Weapon Training VIII,10,false,false,2025-11-08 00:12:53.797939+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Weapons Upgrade,2,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Wingman Tactics 1 (Air),5,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Wingman Tactics 2 (Air),1,false,false,2025-11-07 21:03:28.53873+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Zombie Radar 1,5,false,false,2025-11-07 21:37:58.241291+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Zombie Radar 2,3,false,false,2025-11-07 21:39:41.034828+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Zombie Radar 3,0,false,false,2025-11-07 21:49:53.563083+00
+1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,Zombie Radar 4,1,false,false,2025-11-07 21:51:18.233488+00
+2bb3c262-d107-439f-b059-f1d694f8915b,_seed_,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,3rd Tech Center,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Armor 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Armor 2,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Armor 3,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Armor 4,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Armor 5,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Armor VII,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Armor VIII,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Protection 1,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Protection 2,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Advanced Rewards,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Airborne Weapon 1 (Air),5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Airborne Weapon 2 (Air),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - Attack I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - Attack II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - Damage I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - Damage II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - HP I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - HP II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - March Size I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - March Size II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - Ultimate Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft - Ultimate Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Mastery 1 (Air),5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Mastery 2 (Air),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Synergy - Attack I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Synergy - Attack II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Synergy - Damage I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Synergy - Damage II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Synergy - Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Synergy - Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Synergy - HP I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Aircraft Synergy - HP II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Armor Enhacement,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Armor Hardening 1 (Tank),5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Armor Hardening 2 (Tank),5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assault Tactics 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assault Tactics 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assault Tactics 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assault Tactics 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assault Training 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assault Training 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assault Training 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assault Training 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: Attack Conversion I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: Attack Conversion II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: Attack Conversion III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: Defense Conversion I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: Defense Conversion II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: Defense Conversion III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: HP Conversion I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: HP Conversion II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Assistance: HP Conversion III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Attack Boost,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Attack Boost I,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Attack Boost II,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Attack Boost III,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Barrack Expansion I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Barrack Expansion II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Barrack Expansion III,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Barrack Expansion IV,2,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Barracks Expansion I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Base Expansion,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Basic Goods,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Cannon Enhancement 1 (Tank),5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Cannon Enhancement 2 (Tank),5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Coin Output I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Coin Output II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Coin Output III,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Coin Output IV,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Coin Output V,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Coin Protection,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Counter Defense 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Counter Defense 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Counter Defense 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Counter Defense 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Counter Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Counter Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Counter Defense III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Boost,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Boost I,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Boost II,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Boost III,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Fortifications,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Training 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Training 2,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Training 3,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Training 4,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Training 5,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Training VII,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Defense Training VIII,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Drill Ground Expansion,3,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Duel Expert,20,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Efficient Healing,3,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Emergency Capacity I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Endurance Upgrade,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Energy Barrage 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Energy Barrage 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Energy Barrage 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Energy Barrage 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone Attack I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone Attack II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone Attack III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone Defense III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone HP I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone HP II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Enhancement: Drone HP III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Extra Barracks,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Extra Drill Ground,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Extra Hospitals,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Extra Truck,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Builder I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Builder II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Builder III,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Builder IV,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Builder V,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Exploration 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Exploration 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Exploration 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fast Exploration 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fatal Strike 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fatal Strike 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fatal Strike 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fatal Strike 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fatal Strike I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fierce Assault 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fierce Assault 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fierce Assault 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fierce Assault 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fierce Assault I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fierce Assault II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Fierce Assault III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Final Stand 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Final Stand 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Final Stand 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Final Stand 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Final Stand I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Final Stand II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Final Stand III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Firepower Boost,4,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Focused Training I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Focused Training II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Focused Training III,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Focused Training IV,2,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Focused Training V,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Food Output I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Food Output II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Food Output III,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Food Output IV,4,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Food Output V,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Food Protection,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Formation Training 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Formation Training 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Formation Training 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Formation Training 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Coins I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Coins II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Coins III,3,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Coins IV,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Food I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Food II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Food III,3,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Food IV,2,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Iron I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Iron II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Iron III,3,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Gathering Iron IV,2,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Healing Cost II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Hold the Line 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Hold the Line 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Hold the Line 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Hold the Line 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Hold the Line I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Hold the Line II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Hold the Line III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,HP Boost I,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,HP Boost II,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,HP Boost III,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Building,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Duel Master 2,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Enemy Kills,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Intercity Trade,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Radar,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Recruitment,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Research,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Secret Mobile Squad,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Speed-up,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Survivor Recruit,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Incentive - Training,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Infirmary Expansion I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Infirmary Expansion II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Infirmary Expansion III,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Infirmary Expansion IV,2,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Infirmary Expansion V,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Iron Output I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Iron Output II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Iron Output III,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Iron Output IV,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Iron Output V,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Iron Protection,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Limit Break: Chip Skill Boost,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Limit Break: Level Cap,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Limit Break: Skill Star I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Limit Break: Skill Star II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Load 5,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Load Training 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Load Training 2,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Load Training 3,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Load Training 4,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Lucky,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Master Craftsman,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Metal Barricade 1 (Missile),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Metal Barricade 2 (Missile),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Expansion 1 (Missile),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Expansion 2 (Missile),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Mastery 1 (Missile),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Mastery 2 (Missile),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - Attack I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - Attack II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - Damage I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - Damage II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - HP I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - HP II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - March Size I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - March Size II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - Ultimate Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle - Ultimate Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle Synergy - Attack I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle Synergy - Attack II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle Synergy - Damage I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle Synergy - Damage II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle Synergy - Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle Synergy - Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle Synergy - HP I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Missile Vehicle Synergy - HP II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Morale,10,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,More Farmlands,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,More Gold Mines,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,More Iron Mines,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,More Oil Wells,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Oil Output I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Oil Output II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Oil Output III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Parts Workshop,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Physical Supression 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Physical Supression 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Physical Supression 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Physical Supression 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Plunder,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Power Boost 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Power Boost 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Power Boost 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Power Boost 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Power Boost I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Precision Targeting 1 (Missile),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Precision Targeting 2 (Missile),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid Field Dressing I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid Field Dressing II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid Field Dressing III,4,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid Field Dressing IV,2,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid Field Dressing V,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid March 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid March 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid March I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Rapid Transit,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Reindeer Sleigh Ride,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Reinforced Body 1 (Air),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Reinforced Body 2 (Air),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Research Enhancement I,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Research Enhancement II,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Research Enhancement III,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Research Enhancement IV,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Research Enhancement V,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Resource Protection,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Resource Reaper 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Resource Reaper 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Resource Reaper 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Resource Reaper 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Solid Defense 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Solid Defense 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Solid Defense 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Solid Defense 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Solid Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Solid Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Solid Defense III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Super Bonus,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero Attack I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero Attack II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero Attack III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero Attack IV,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero Defense III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero Defense IV,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero HP I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero HP II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero HP III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Support: Hero HP IV,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Survival Skills,4,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Survival Training 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Survival Training 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Survival Training 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Survival Training 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - Attack I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - Attack II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - Damage I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - Damage II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - HP I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - HP II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - March Size I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - March Size II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - Ultimate Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank - Ultimate Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Mastery 1 (Tank),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Mastery 2 (Tank),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Synergy - Attack I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Synergy - Attack II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Synergy - Damage I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Synergy - Damage II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Synergy - Defense I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Synergy - Defense II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Synergy - HP I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Tank Synergy - HP II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Terminator 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Terminator 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Terminator 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Terminator 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Track Fortification 1 (Tank),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Track Fortification 2 (Tank),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Training Cost I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Ultimate Guard,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Unit X,1,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Unlock Oil Well,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Vigilant Formation 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Vigilant Formation 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Vigilant Formation 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Vigilant Formation 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Vigilant Formation I,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Vigilant Formation II,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Vigilant Formation III,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Virus Resistence 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Virus Resistence 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Virus Resistence 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Virus Resistence 4,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Weapon Training 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Weapon Training 2,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Weapon Training 3,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Weapon Training 4,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Weapon Training 5,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Weapon Training VII,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Weapon Training VIII,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Weapons Upgrade,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Wingman Tactics 1 (Air),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Wingman Tactics 2 (Air),0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Zombie Radar 1,5,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Zombie Radar 2,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Zombie Radar 3,0,false,false,2025-11-12 21:40:24.331394+00
+2bb3c262-d107-439f-b059-f1d694f8915b,Zombie Radar 4,0,false,false,2025-11-12 21:40:24.331394+00
+9cf16066-11f8-4b07-bc89-4f1013980063,_seed_,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,3rd Tech Center,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Armor 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Armor 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Armor 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Armor 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Armor 5,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Armor VII,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Armor VIII,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Protection 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Protection 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Advanced Rewards,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Airborne Weapon 1 (Air),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Airborne Weapon 2 (Air),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - Attack I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - Attack II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - Damage I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - Damage II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - HP I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - HP II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - March Size I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - March Size II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - Ultimate Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft - Ultimate Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Mastery 1 (Air),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Mastery 2 (Air),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Synergy - Attack I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Synergy - Attack II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Synergy - Damage I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Synergy - Damage II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Synergy - Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Synergy - Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Synergy - HP I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Aircraft Synergy - HP II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Armor Enhacement,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Armor Hardening 1 (Tank),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Armor Hardening 2 (Tank),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assault Tactics 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assault Tactics 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assault Tactics 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assault Tactics 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assault Training 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assault Training 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assault Training 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assault Training 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: Attack Conversion I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: Attack Conversion II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: Attack Conversion III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: Defense Conversion I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: Defense Conversion II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: Defense Conversion III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: HP Conversion I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: HP Conversion II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Assistance: HP Conversion III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Attack Boost,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Attack Boost I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Attack Boost II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Attack Boost III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Barrack Expansion I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Barrack Expansion II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Barrack Expansion III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Barrack Expansion IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Barracks Expansion I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Base Expansion,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Basic Goods,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Cannon Enhancement 1 (Tank),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Cannon Enhancement 2 (Tank),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Coin Output I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Coin Output II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Coin Output III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Coin Output IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Coin Output V,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Coin Protection,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Counter Defense 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Counter Defense 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Counter Defense 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Counter Defense 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Counter Defense I,10,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Counter Defense II,10,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Counter Defense III,10,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Boost,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Boost I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Boost II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Boost III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Fortifications,10,true,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Training 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Training 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Training 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Training 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Training 5,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Training VII,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Defense Training VIII,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Drill Ground Expansion,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Duel Expert,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Efficient Healing,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Emergency Capacity I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Endurance Upgrade,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Energy Barrage 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Energy Barrage 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Energy Barrage 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Energy Barrage 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone Attack I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone Attack II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone Attack III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone Defense III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone HP I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone HP II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Enhancement: Drone HP III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Extra Barracks,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Extra Drill Ground,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Extra Hospitals,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Extra Truck,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Builder I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Builder II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Builder III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Builder IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Builder V,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Exploration 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Exploration 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Exploration 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fast Exploration 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fatal Strike 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fatal Strike 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fatal Strike 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fatal Strike 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fatal Strike I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fierce Assault 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fierce Assault 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fierce Assault 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fierce Assault 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fierce Assault I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fierce Assault II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Fierce Assault III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Final Stand 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Final Stand 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Final Stand 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Final Stand 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Final Stand I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Final Stand II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Final Stand III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Firepower Boost,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Focused Training I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Focused Training II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Focused Training III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Focused Training IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Focused Training V,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Food Output I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Food Output II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Food Output III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Food Output IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Food Output V,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Food Protection,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Formation Training 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Formation Training 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Formation Training 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Formation Training 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Coins I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Coins II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Coins III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Coins IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Food I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Food II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Food III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Food IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Iron I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Iron II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Iron III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Gathering Iron IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Healing Cost II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Hold the Line 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Hold the Line 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Hold the Line 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Hold the Line 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Hold the Line I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Hold the Line II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Hold the Line III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,HP Boost I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,HP Boost II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,HP Boost III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Building,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Duel Master 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Enemy Kills,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Intercity Trade,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Radar,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Recruitment,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Research,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Secret Mobile Squad,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Speed-up,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Survivor Recruit,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Incentive - Training,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Infirmary Expansion I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Infirmary Expansion II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Infirmary Expansion III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Infirmary Expansion IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Infirmary Expansion V,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Iron Output I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Iron Output II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Iron Output III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Iron Output IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Iron Output V,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Iron Protection,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Limit Break: Chip Skill Boost,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Limit Break: Level Cap,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Limit Break: Skill Star I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Limit Break: Skill Star II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Load 5,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Load Training 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Load Training 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Load Training 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Load Training 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Lucky,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Master Craftsman,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Metal Barricade 1 (Missile),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Metal Barricade 2 (Missile),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Expansion 1 (Missile),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Expansion 2 (Missile),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Mastery 1 (Missile),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Mastery 2 (Missile),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - Attack I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - Attack II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - Damage I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - Damage II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - HP I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - HP II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - March Size I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - March Size II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - Ultimate Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle - Ultimate Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle Synergy - Attack I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle Synergy - Attack II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle Synergy - Damage I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle Synergy - Damage II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle Synergy - Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle Synergy - Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle Synergy - HP I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Missile Vehicle Synergy - HP II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Morale,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,More Farmlands,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,More Gold Mines,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,More Iron Mines,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,More Oil Wells,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Oil Output I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Oil Output II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Oil Output III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Parts Workshop,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Physical Supression 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Physical Supression 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Physical Supression 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Physical Supression 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Plunder,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Power Boost 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Power Boost 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Power Boost 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Power Boost 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Power Boost I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Precision Targeting 1 (Missile),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Precision Targeting 2 (Missile),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid Field Dressing I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid Field Dressing II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid Field Dressing III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid Field Dressing IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid Field Dressing V,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid March 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid March 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid March I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Rapid Transit,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Reindeer Sleigh Ride,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Reinforced Body 1 (Air),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Reinforced Body 2 (Air),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Research Enhancement I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Research Enhancement II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Research Enhancement III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Research Enhancement IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Research Enhancement V,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Resource Protection,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Resource Reaper 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Resource Reaper 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Resource Reaper 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Resource Reaper 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Solid Defense 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Solid Defense 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Solid Defense 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Solid Defense 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Solid Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Solid Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Solid Defense III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Super Bonus,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero Attack I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero Attack II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero Attack III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero Attack IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero Defense III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero Defense IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero HP I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero HP II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero HP III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Support: Hero HP IV,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Survival Skills,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Survival Training 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Survival Training 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Survival Training 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Survival Training 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - Attack I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - Attack II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - Damage I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - Damage II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - HP I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - HP II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - March Size I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - March Size II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - Ultimate Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank - Ultimate Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Mastery 1 (Tank),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Mastery 2 (Tank),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Synergy - Attack I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Synergy - Attack II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Synergy - Damage I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Synergy - Damage II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Synergy - Defense I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Synergy - Defense II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Synergy - HP I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Tank Synergy - HP II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Terminator 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Terminator 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Terminator 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Terminator 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Track Fortification 1 (Tank),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Track Fortification 2 (Tank),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Training Cost I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Ultimate Guard,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Unit X,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Unlock Oil Well,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Vigilant Formation 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Vigilant Formation 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Vigilant Formation 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Vigilant Formation 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Vigilant Formation I,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Vigilant Formation II,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Vigilant Formation III,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Virus Resistence 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Virus Resistence 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Virus Resistence 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Virus Resistence 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Weapon Training 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Weapon Training 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Weapon Training 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Weapon Training 4,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Weapon Training 5,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Weapon Training VII,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Weapon Training VIII,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Weapons Upgrade,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Wingman Tactics 1 (Air),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Wingman Tactics 2 (Air),0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Zombie Radar 1,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Zombie Radar 2,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Zombie Radar 3,0,false,false,2025-11-12 18:40:58.626156+00
+9cf16066-11f8-4b07-bc89-4f1013980063,Zombie Radar 4,0,false,false,2025-11-12 18:40:58.626156+00

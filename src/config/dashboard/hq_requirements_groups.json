@@ -1,0 +1,70 @@
+{
+  "tech_center": {
+    "label": "Tech Center",
+    "buildings": [
+      "Tech Center 1",
+      "Tech Center 2",
+      "Tech Center 3"
+    ],
+    "rule": "any_one"
+  },
+
+  "center_tank_air_missile": {
+    "label": "Tank, Air, or Missile Center",
+    "buildings": [
+      "Tank Center",
+      "Air Center",
+      "Missile Center"
+    ],
+    "rule": "any_one"
+  },
+
+  "barracks": {
+    "label": "Barracks",
+    "buildings": [
+      "Barracks 1",
+      "Barracks 2",
+      "Barracks 3",
+      "Barracks 4"
+    ],
+    "rule": "any_one"
+  },
+
+  "wall": {
+    "label": "Wall",
+    "buildings": [
+      "Wall"
+    ],
+    "rule": "any_one"
+  },
+
+  "hospital": {
+    "label": "Hospital",
+    "buildings": [
+      "Hospital 1",
+      "Hospital 2",
+      "Hospital 3",
+      "Hospital 4"
+    ],
+    "rule": "any_one"
+  },
+
+  "drill_ground": {
+    "label": "Drill Ground",
+    "buildings": [
+      "Drill Ground 1",
+      "Drill Ground 2",
+      "Drill Ground 3",
+      "Drill Ground 4"
+    ],
+    "rule": "any_one"
+  },
+
+  "alliance_center": {
+    "label": "Alliance Center",
+    "buildings": [
+      "Alliance Center"
+    ],
+    "rule": "any_one"
+  }
+}

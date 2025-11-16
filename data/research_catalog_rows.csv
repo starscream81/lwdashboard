@@ -1,0 +1,379 @@
+name,category,max_level,order_index
+3rd Tech Center,The Age of Oil,1,8
+Advanced Armor 1,Units,5,3
+Advanced Armor 2,Units,5,7
+Advanced Armor 3,Units,5,11
+Advanced Armor 4,Units,5,15
+Advanced Armor 5,Units,5,19
+Advanced Armor VII,Special Forces,10,7
+Advanced Armor VIII,Special Forces,10,16
+Advanced Protection 1,Special Forces,10,4
+Advanced Protection 2,Special Forces,10,19
+Advanced Rewards,Alliance Duel,1,4
+Airborne Weapon 1 (Air),Hero,5,6
+Airborne Weapon 2 (Air),Hero,5,18
+Aircraft - Attack I,Air Mastery,10,7
+Aircraft - Attack II,Air Mastery,10,17
+Aircraft - Damage I,Air Mastery,5,9
+Aircraft - Damage II,Air Mastery,5,19
+Aircraft - Defense I,Air Mastery,10,8
+Aircraft - Defense II,Air Mastery,10,18
+Aircraft - HP I,Air Mastery,10,6
+Aircraft - HP II,Air Mastery,10,16
+Aircraft - March Size I,Air Mastery,5,5
+Aircraft - March Size II,Air Mastery,5,15
+Aircraft - Ultimate Defense I,Air Mastery,10,10
+Aircraft - Ultimate Defense II,Air Mastery,10,20
+Aircraft Mastery 1 (Air),Hero,5,5
+Aircraft Mastery 2 (Air),Hero,5,17
+Aircraft Synergy - Attack I,Air Mastery,10,2
+Aircraft Synergy - Attack II,Air Mastery,10,12
+Aircraft Synergy - Damage I,Air Mastery,5,4
+Aircraft Synergy - Damage II,Air Mastery,5,14
+Aircraft Synergy - Defense I,Air Mastery,10,3
+Aircraft Synergy - Defense II,Air Mastery,10,13
+Aircraft Synergy - HP I,Air Mastery,10,1
+Aircraft Synergy - HP II,Air Mastery,10,11
+Armor Enhacement,Hero,5,27
+Armor Hardening 1 (Tank),Hero,5,3
+Armor Hardening 2 (Tank),Hero,5,15
+Assault Tactics 1,Squad 1,5,9
+Assault Tactics 2,Squad 2,5,9
+Assault Tactics 3,Squad 3,5,9
+Assault Tactics 4,Squad 4,5,9
+Assault Training 1,Squad 1,5,3
+Assault Training 2,Squad 2,5,3
+Assault Training 3,Squad 3,5,3
+Assault Training 4,Squad 4,5,3
+Assistance: Attack Conversion I,Tactical Weapon,10,8
+Assistance: Attack Conversion II,Tactical Weapon,10,18
+Assistance: Attack Conversion III,Tactical Weapon,30,32
+Assistance: Defense Conversion I,Tactical Weapon,10,9
+Assistance: Defense Conversion II,Tactical Weapon,10,19
+Assistance: Defense Conversion III,Tactical Weapon,30,33
+Assistance: HP Conversion I,Tactical Weapon,10,7
+Assistance: HP Conversion II,Tactical Weapon,10,17
+Assistance: HP Conversion III,Tactical Weapon,30,31
+Attack Boost,Intercity Truck,10,2
+Attack Boost I,Special Forces,10,2
+Attack Boost II,Special Forces,10,11
+Attack Boost III,Special Forces,10,21
+Barrack Expansion I,Development,5,3
+Barrack Expansion II,Development,5,10
+Barrack Expansion III,Development,5,17
+Barrack Expansion IV,Development,5,24
+Barracks Expansion I,Special Forces,10,9
+Base Expansion,The Age of Oil,1,19
+Basic Goods,Intercity Truck,5,1
+Cannon Enhancement 1 (Tank),Hero,5,2
+Cannon Enhancement 2 (Tank),Hero,5,14
+Coin Output I,Economy,5,3
+Coin Output II,Economy,5,10
+Coin Output III,Economy,5,17
+Coin Output IV,Economy,5,24
+Coin Output V,The Age of Oil,10,4
+Coin Protection,Economy,5,30
+Counter Defense 1,Squad 1,5,13
+Counter Defense 2,Squad 2,5,13
+Counter Defense 3,Squad 3,5,13
+Counter Defense 4,Squad 4,5,13
+Counter Defense I,Defense Fortifications,10,3
+Counter Defense II,Defense Fortifications,10,9
+Counter Defense III,Defense Fortifications,10,14
+Defense Boost,Intercity Truck,10,3
+Defense Boost I,Special Forces,10,3
+Defense Boost II,Special Forces,10,12
+Defense Boost III,Special Forces,10,14
+Defense Fortifications,Defense Fortifications,10,5
+Defense Training 1,Units,5,2
+Defense Training 2,Units,5,6
+Defense Training 3,Units,5,10
+Defense Training 4,Units,5,14
+Defense Training 5,Units,5,18
+Defense Training VII,Special Forces,10,5
+Defense Training VIII,Special Forces,10,22
+Drill Ground Expansion,Development,5,28
+Duel Expert,Alliance Duel,20,5
+Efficient Healing,Development,5,21
+Emergency Capacity I,The Age of Oil,10,13
+Endurance Upgrade,Hero,5,28
+Energy Barrage 1,Squad 1,5,19
+Energy Barrage 2,Squad 2,5,19
+Energy Barrage 3,Squad 3,5,19
+Energy Barrage 4,Squad 4,5,19
+Enhancement: Drone Attack I,Tactical Weapon,10,5
+Enhancement: Drone Attack II,Tactical Weapon,10,15
+Enhancement: Drone Attack III,Tactical Weapon,20,25
+Enhancement: Drone Defense I,Tactical Weapon,10,6
+Enhancement: Drone Defense II,Tactical Weapon,10,16
+Enhancement: Drone Defense III,Tactical Weapon,20,26
+Enhancement: Drone HP I,Tactical Weapon,10,4
+Enhancement: Drone HP II,Tactical Weapon,10,14
+Enhancement: Drone HP III,Tactical Weapon,20,24
+Extra Barracks,Development,1,14
+Extra Drill Ground,Siege to Seize,1,5
+Extra Hospitals,Defense Fortifications,1,1
+Extra Truck,Intercity Truck,1,7
+Fast Builder I,Development,5,1
+Fast Builder II,Development,5,8
+Fast Builder III,Development,5,15
+Fast Builder IV,Development,5,22
+Fast Builder V,The Age of Oil,10,6
+Fast Exploration 1,Squad 1,5,10
+Fast Exploration 2,Squad 2,5,10
+Fast Exploration 3,Squad 3,5,10
+Fast Exploration 4,Squad 4,5,10
+Fatal Strike 1,Squad 1,5,20
+Fatal Strike 2,Squad 2,5,20
+Fatal Strike 3,Squad 3,5,20
+Fatal Strike 4,Squad 4,5,20
+Fatal Strike I,Siege to Seize,10,16
+Fierce Assault 1,Squad 1,5,12
+Fierce Assault 2,Squad 2,5,12
+Fierce Assault 3,Squad 3,5,12
+Fierce Assault 4,Squad 4,5,12
+Fierce Assault I,Siege to Seize,10,3
+Fierce Assault II,Siege to Seize,10,9
+Fierce Assault III,Siege to Seize,10,14
+Final Stand 1,Squad 1,5,16
+Final Stand 2,Squad 2,5,16
+Final Stand 3,Squad 3,5,16
+Final Stand 4,Squad 4,5,16
+Final Stand I,Siege to Seize,10,2
+Final Stand II,Siege to Seize,10,8
+Final Stand III,Siege to Seize,10,13
+Firepower Boost,Hero,5,25
+Focused Training I,Development,5,6
+Focused Training II,Development,5,13
+Focused Training III,Development,5,20
+Focused Training IV,Development,5,27
+Focused Training V,The Age of Oil,10,9
+Food Output I,Economy,5,1
+Food Output II,Economy,5,8
+Food Output III,Economy,5,15
+Food Output IV,Economy,5,22
+Food Output V,The Age of Oil,10,2
+Food Protection,Economy,5,28
+Formation Training 1,Squad 1,5,4
+Formation Training 2,Squad 2,5,4
+Formation Training 3,Squad 3,5,4
+Formation Training 4,Squad 4,5,4
+Gathering Coins I,Economy,5,6
+Gathering Coins II,Economy,5,13
+Gathering Coins III,Economy,5,20
+Gathering Coins IV,Economy,5,27
+Gathering Food I,Economy,5,4
+Gathering Food II,Economy,5,11
+Gathering Food III,Economy,5,18
+Gathering Food IV,Economy,5,25
+Gathering Iron I,Economy,5,5
+Gathering Iron II,Economy,5,12
+Gathering Iron III,Economy,5,19
+Gathering Iron IV,Economy,5,26
+Healing Cost II,The Age of Oil,10,16
+Hold the Line 1,Squad 1,5,17
+Hold the Line 2,Squad 2,5,17
+Hold the Line 3,Squad 3,5,17
+Hold the Line 4,Squad 4,5,17
+Hold the Line I,Defense Fortifications,10,2
+Hold the Line II,Defense Fortifications,10,8
+Hold the Line III,Defense Fortifications,10,13
+HP Boost I,Special Forces,10,1
+HP Boost II,Special Forces,10,10
+HP Boost III,Special Forces,10,20
+Incentive - Building,Alliance Duel,10,6
+Incentive - Duel Master 2,Alliance Duel,10,14
+Incentive - Enemy Kills,Alliance Duel,10,9
+Incentive - Intercity Trade,Alliance Duel,10,11
+Incentive - Radar,Alliance Duel,10,1
+Incentive - Recruitment,Alliance Duel,10,3
+Incentive - Research,Alliance Duel,10,7
+Incentive - Secret Mobile Squad,Alliance Duel,10,12
+Incentive - Speed-up,Alliance Duel,10,2
+Incentive - Survivor Recruit,Alliance Duel,10,13
+Incentive - Training,Alliance Duel,10,8
+Infirmary Expansion I,Development,5,2
+Infirmary Expansion II,Development,5,9
+Infirmary Expansion III,Development,5,16
+Infirmary Expansion IV,Development,5,23
+Infirmary Expansion V,The Age of Oil,10,12
+Iron Output I,Economy,5,2
+Iron Output II,Economy,5,9
+Iron Output III,Economy,5,16
+Iron Output IV,Economy,5,23
+Iron Output V,The Age of Oil,10,3
+Iron Protection,Economy,5,29
+Limit Break: Chip Skill Boost,Tactical Weapon,3,34
+Limit Break: Level Cap,Tactical Weapon,10,27
+Limit Break: Skill Star I,Tactical Weapon,1,10
+Limit Break: Skill Star II,Tactical Weapon,1,20
+Load Training 5,Units,5,20
+Load Training 1,Units,5,4
+Load Training 2,Units,5,8
+Load Training 3,Units,5,12
+Load Training 4,Units,5,16
+Lucky,Intercity Truck,5,6
+Master Craftsman,Development,5,7
+Metal Barricade 1 (Missile),Hero,5,11
+Metal Barricade 2 (Missile),Hero,5,23
+Missile Expansion 1 (Missile),Hero,5,12
+Missile Expansion 2 (Missile),Hero,5,24
+Missile Mastery 1 (Missile),Hero,5,9
+Missile Mastery 2 (Missile),Hero,5,21
+Missile Vehicle - Attack I,Missile Mastery,10,7
+Missile Vehicle - Attack II,Missile Mastery,10,17
+Missile Vehicle - Damage I,Missile Mastery,5,9
+Missile Vehicle - Damage II,Missile Mastery,5,9
+Missile Vehicle - Defense I,Missile Mastery,10,8
+Missile Vehicle - Defense II,Missile Mastery,10,18
+Missile Vehicle - HP I,Missile Mastery,10,6
+Missile Vehicle - HP II,Missile Mastery,10,16
+Missile Vehicle - March Size I,Missile Mastery,5,5
+Missile Vehicle - March Size II,Missile Mastery,5,15
+Missile Vehicle - Ultimate Defense I,Missile Mastery,10,10
+Missile Vehicle - Ultimate Defense II,Missile Mastery,10,20
+Missile Vehicle Synergy - Attack I,Missile Mastery,10,2
+Missile Vehicle Synergy - Attack II,Missile Mastery,10,12
+Missile Vehicle Synergy - Damage I,Missile Mastery,5,4
+Missile Vehicle Synergy - Damage II,Missile Mastery,5,14
+Missile Vehicle Synergy - Defense I,Missile Mastery,10,3
+Missile Vehicle Synergy - Defense II,Missile Mastery,10,13
+Missile Vehicle Synergy - HP I,Missile Mastery,10,1
+Missile Vehicle Synergy - HP II,Missile Mastery,10,11
+Morale,Special Forces,10,13
+More Farmlands,Economy,1,7
+More Gold Mines,Economy,1,21
+More Iron Mines,Economy,1,14
+More Oil Wells,The Age of Oil,1,14
+Oil Output I,The Age of Oil,10,5
+Oil Output II,The Age of Oil,10,11
+Oil Output III,The Age of Oil,10,18
+Parts Workshop,The Age of Oil,1,17
+Physical Supression 1,Squad 1,5,18
+Physical Supression 2,Squad 2,5,18
+Physical Supression 3,Squad 3,5,18
+Physical Supression 4,Squad 4,5,18
+Plunder,Intercity Truck,5,5
+Power Boost 1,Squad 1,5,7
+Power Boost 2,Squad 2,5,7
+Power Boost 3,Squad 3,5,7
+Power Boost 4,Squad 4,5,7
+Power Boost I,Siege to Seize,10,1
+Precision Targeting 1 (Missile),Hero,5,10
+Precision Targeting 2 (Missile),Hero,5,22
+Rapid Field Dressing I,Development,5,5
+Rapid Field Dressing II,Development,5,12
+Rapid Field Dressing III,Development,5,19
+Rapid Field Dressing IV,Development,5,26
+Rapid Field Dressing V,The Age of Oil,10,10
+Rapid March 3,Squad 3,5,11
+Rapid March 4,Squad 4,5,11
+Rapid March I,Defense Fortifications,10,12
+Rapid Transit,Intercity Truck,5,4
+Reindeer Sleigh Ride,Intercity Truck,1,9
+Reinforced Body 1 (Air),Hero,5,7
+Reinforced Body 2 (Air),Hero,5,19
+Research Enhancement I,Development,5,4
+Research Enhancement II,Development,5,11
+Research Enhancement III,Development,5,18
+Research Enhancement IV,Development,5,25
+Research Enhancement V,The Age of Oil,10,7
+Resource Protection,Defense Fortifications,10,11
+Resource Reaper 1,Squad 1,5,6
+Resource Reaper 2,Squad 2,5,6
+Resource Reaper 3,Squad 3,5,6
+Resource Reaper 4,Squad 4,5,6
+Solid Defense 1,Squad 1,5,15
+Solid Defense 2,Squad 2,5,15
+Solid Defense 3,Squad 3,5,15
+Solid Defense 4,Squad 4,5,15
+Solid Defense I,Defense Fortifications,10,4
+Solid Defense II,Defense Fortifications,10,10
+Solid Defense III,Defense Fortifications,10,15
+Super Bonus,Alliance Duel,1,10
+Support: Hero Attack I,Tactical Weapon,10,2
+Support: Hero Attack II,Tactical Weapon,10,12
+Support: Hero Attack III,Tactical Weapon,20,22
+Support: Hero Attack IV,Tactical Weapon,20,29
+Support: Hero Defense I,Tactical Weapon,10,3
+Support: Hero Defense II,Tactical Weapon,10,13
+Support: Hero Defense III,Tactical Weapon,20,23
+Support: Hero Defense IV,Tactical Weapon,20,30
+Support: Hero HP I,Tactical Weapon,10,1
+Support: Hero HP II,Tactical Weapon,10,11
+Support: Hero HP III,Tactical Weapon,20,21
+Support: Hero HP IV,Tactical Weapon,20,28
+Survival Skills,Development,5,29
+Survival Training 1,Squad 1,5,5
+Survival Training 2,Squad 2,5,5
+Survival Training 3,Squad 3,10,5
+Survival Training 4,Squad 4,10,5
+Tank - Attack I,Tank Mastery,10,7
+Tank - Attack II,Tank Mastery,10,17
+Tank - Damage I,Tank Mastery,5,9
+Tank - Damage II,Tank Mastery,5,19
+Tank - Defense I,Tank Mastery,10,8
+Tank - Defense II,Tank Mastery,10,18
+Tank - HP I,Tank Mastery,10,6
+Tank - HP II,Tank Mastery,10,16
+Tank - March Size I,Tank Mastery,5,5
+Tank - March Size II,Tank Mastery,5,15
+Tank - Ultimate Defense I,Tank Mastery,10,10
+Tank - Ultimate Defense II,Tank Mastery,10,20
+Tank Mastery 1 (Tank),Hero,5,1
+Tank Mastery 2 (Tank),Hero,5,13
+Tank Synergy - Attack I,Tank Mastery,10,2
+Tank Synergy - Attack II,Tank Mastery,10,12
+Tank Synergy - Damage I,Tank Mastery,5,4
+Tank Synergy - Damage II,Tank Mastery,5,14
+Tank Synergy - Defense I,Tank Mastery,10,3
+Tank Synergy - Defense II,Tank Mastery,10,13
+Tank Synergy - HP I,Tank Mastery,10,1
+Tank Synergy - HP II,Tank Mastery,10,11
+Terminator 1,Squad 1,5,1
+Terminator 2,Squad 2,5,1
+Terminator 3,Squad 3,5,1
+Terminator 4,Squad 4,5,1
+Track Fortification 1 (Tank),Hero,5,4
+Track Fortification 2 (Tank),Hero,5,16
+Training Cost I,The Age of Oil,10,15
+Ultimate Guard,Intercity Truck,1,8
+Unit X,Special Forces,1,23
+Unlock Oil Well,The Age of Oil,1,1
+Vigilant Formation 1,Squad 1,5,14
+Vigilant Formation 2,Squad 2,5,14
+Vigilant Formation 3,Squad 3,5,14
+Vigilant Formation 4,Squad 4,5,14
+Vigilant Formation I,Siege to Seize,10,4
+Vigilant Formation II,Siege to Seize,10,10
+Vigilant Formation III,Siege to Seize,10,15
+Virus Resistence 1,Squad 1,5,2
+Virus Resistence 2,Squad 2,5,2
+Virus Resistence 3,Squad 3,5,2
+Virus Resistence 4,Squad 4,5,2
+Weapon Training 1,Units,5,1
+Weapon Training 2,Units,5,5
+Weapon Training 3,Units,5,9
+Weapon Training 4,Units,5,13
+Weapon Training 5,Units,5,17
+Weapon Training VII,Special Forces,10,6
+Weapon Training VIII,Special Forces,10,15
+Weapons Upgrade,Hero,5,26
+Wingman Tactics 1 (Air),Hero,5,8
+Wingman Tactics 2 (Air),Hero,5,20
+Zombie Radar 1,Squad 1,5,8
+Zombie Radar 2,Squad 2,5,8
+Zombie Radar 3,Squad 3,5,8
+Zombie Radar 4,Squad 4,5,8
+Rapid March 1,Squad 1,5,11
+Rapid March 2,Squad 2,5,11
+Focused Training I,Special Forces,10,8
+Rapid Field Dressing I,Special Forces,10,17
+Infirmary Expansion I,Special Forces,10,18
+Barrack Expansion I,Siege to Seize,10,6
+Focused Training I,Siege to Seize,10,7
+Drill Ground Expansion,Siege to Seize,10,11
+Rapid March I,Siege to Seize,10,12
+Infirmary Expansion I,Defense Fortifications,10,6
+Efficient Healing,Defense Fortifications,10,7
+Survival Skills,Defense Fortifications,10,16

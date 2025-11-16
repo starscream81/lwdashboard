@@ -1,0 +1,395 @@
+id,category,name,tracked,updated_at,priority,order_index,match_key,user_id,is_public
+005ff621-e11f-4149-ae95-f4ac933d6677,Squad 4,Hold the Line 4,false,2025-11-07 23:55:32.853035+00,false,,hold the line,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0153fa0e-2964-433e-83b4-50a00b173099,Economy,Gathering Iron IV,false,2025-11-11 21:44:54.453729+00,false,,gathering iron,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+01aca18d-75df-46d1-8aa5-3e9b08ceb4d1,Special Forces,Advanced Armor VII,false,2025-11-08 00:16:35.122974+00,false,,advanced armor,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+02248c96-9e22-416b-a498-320e9ed7e940,Alliance Duel,Advanced Rewards,false,2025-11-07 23:55:33.443379+00,false,,advanced rewards,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+02b44425-36d6-42c2-bcf0-c06bc5c9af57,Economy,Iron Output II,false,2025-11-11 21:44:54.453729+00,false,,iron output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+030dfccd-5f0c-411d-a764-a7e0c2e66198,Air Mastery,Aircraft Synergy - Defense II,false,2025-11-11 21:23:16.795209+00,false,,aircraft synergy defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+03873601-d9c4-499d-8215-e1f37bb21251,Units,Advanced Armor 2,false,2025-11-08 00:56:04.628317+00,false,,advanced armor,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+04643251-d3ca-4691-bce8-772feed8a398,Squad 4,Assault Training 4,false,2025-11-07 23:55:32.853035+00,false,,assault training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+04aabdb8-276f-498c-a112-6e390e2bbdc7,Squad 1,Formation Training 1,false,2025-11-07 23:55:31.105274+00,false,,formation training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+04b11cae-9e0c-4de8-8d67-ad24869403e6,Alliance Duel,Incentive - Building,false,2025-11-07 23:55:33.443379+00,false,,incentive building,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+04de1806-fb62-4b42-b9ee-9768a9a3161b,Special Forces,_seed_,false,2025-11-12 11:33:21.181667+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+051d36f7-bd92-4567-a6da-b814b4f1ed7a,Development,Rapid Field Dressing II,false,2025-11-11 21:32:50.876009+00,false,,rapid field dressing,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+052c4846-f48b-4e50-b7a0-6a07a6e42ca3,Squad 4,Formation Training 4,false,2025-11-07 23:55:32.853035+00,false,,formation training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+055cb7c2-2bcc-487d-93a5-c0655cb99e1f,Squad 1,Counter Defense 1,false,2025-11-07 23:55:31.105274+00,false,,counter defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+05f0f56d-b2a4-435b-a0fa-813fcfc9cbd5,Missile Mastery,Missile Vehicle Synergy - Damage II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle synergy damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+05fefc17-32f9-4255-94c0-900e65e48214,Squad 2,Final Stand 2,false,2025-11-07 23:55:31.693512+00,false,,final stand,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0628b97b-8919-4f8d-8c44-252baaec3b52,Hero,Weapons Upgrade,false,2025-11-07 23:55:30.126247+00,false,,weapons upgrade,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+07a3e128-2d56-4b80-a52b-788486204c6c,Hero,Endurance Upgrade,false,2025-11-07 23:55:30.126247+00,false,,endurance upgrade,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+08a5d4f4-9118-4414-b1fa-b28a1eb6aa30,Hero,Precision Targeting 2 (Missile),false,2025-11-07 23:55:30.126247+00,false,,precision targeting (missile),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+09129dfe-c736-4c95-afac-eb62bdc03559,Tactical Weapon,Support: Hero Defense III,false,2025-11-11 21:25:14.382631+00,false,,support hero defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0983e120-bbcb-402f-8f69-3aa2473d2c09,Special Forces,Defense Training VIII,false,2025-11-08 00:16:35.122974+00,false,,defense training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0a14327d-5a5c-40c0-a608-d85148241938,Units,Advanced Armor 4,false,2025-11-08 00:56:04.628317+00,false,,advanced armor,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0a83fe9e-0ee3-459f-ba15-63f397634cdb,Siege to Seize,Fierce Assault III,false,2025-11-08 00:32:02.342104+00,false,,fierce assault,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0ab7fded-64af-4a12-8944-7ee007cedd69,Special Forces,Focused Training I,false,2025-11-08 00:16:35.122974+00,false,,focused training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0af1c35e-41ee-46b8-89e8-129df536ef69,Tactical Weapon,Enhancement: Drone Attack III,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0b55ac85-9980-411e-b459-b9c5f0576f6b,Special Forces,Unit X,false,2025-11-08 00:16:35.122974+00,false,,unit,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0b7b373c-a5db-4138-a264-dbb603d1ad0e,Special Forces,Attack Boost II,false,2025-11-08 00:16:35.122974+00,false,,attack boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0c1853d2-e402-44b9-884c-d7e0d2dbbec7,Tank Mastery,Tank Synergy - Attack II,false,2025-11-08 00:41:38.63319+00,false,,tank synergy attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0d226f76-d60e-4426-bdce-3df8e9201fbc,Squad 3,Terminator 3,false,2025-11-07 23:55:32.280853+00,false,,terminator,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0e003276-7fb4-42b1-aef6-9fb1a04a25f3,Special Forces,HP Boost I,false,2025-11-08 00:16:35.122974+00,false,,hp boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0e58e097-9601-4d94-ad32-4603c22cd2db,Intercity Truck,Attack Boost,false,2025-11-08 00:58:21.728362+00,false,,attack boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0ebb453d-9540-455e-8707-99427f499f4a,Special Forces,Barracks Expansion I,false,2025-11-08 00:16:35.122974+00,false,,barracks expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0ef62866-c075-4085-99c1-7837c0f55195,Tank Mastery,Tank - HP I,false,2025-11-08 00:41:38.63319+00,false,,tank hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+0f2a5059-99a9-4cc5-949e-437b7c794032,Special Forces,HP Boost II,false,2025-11-08 00:16:35.122974+00,false,,hp boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1025128e-5f3b-4e06-a67e-bba84f0851e9,Squad 2,Zombie Radar 2,false,2025-11-07 23:55:31.693512+00,false,,zombie radar,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+10372266-ae19-4c5e-be51-0e09f42b04fb,Tactical Weapon,Assistance: Defense Conversion II,false,2025-11-11 21:25:14.382631+00,false,,assistance defense conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+11ae2dd8-450f-4bdb-949c-8419b16ed879,Development,Fast Builder II,false,2025-11-11 21:32:50.876009+00,false,,fast builder,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+144a314f-a5b4-4701-9845-9a29191aaa22,Hero,Aircraft Mastery 1 (Air),false,2025-11-07 23:55:30.126247+00,false,,aircraft mastery (air),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1494c7c5-6985-49db-942e-422b3701ec5d,Units,Defense Training 4,false,2025-11-08 00:56:04.628317+00,false,,defense training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+14d97dcf-a31a-4971-b517-ec35d349b938,Missile Mastery,Missile Vehicle Synergy - Defense I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle synergy defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+159caf61-b0b8-4b7f-945b-15aa6853238c,The Age of Oil,Rapid Field Dressing V,false,2025-11-09 20:44:49.73945+00,false,,rapid field dressing,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+15a1156d-8710-471a-8c64-0da97a48aeec,Air Mastery,Aircraft - Ultimate Defense II,false,2025-11-11 21:23:16.795209+00,false,,aircraft ultimate defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+15ef3467-e038-4e52-816f-2ec013f64f48,Units,Load Training 3,false,2025-11-08 00:56:04.628317+00,false,,load training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1630022b-1425-4e78-a4c9-7488767fcf51,Hero,Missile Mastery 2 (Missile),false,2025-11-07 23:55:30.126247+00,false,,missile mastery (missile),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+17609d86-5c1d-4e3f-b6b9-f51eaf046882,Squad 2,_seed_,false,2025-11-12 11:33:19.79142+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+179723de-053c-4483-a278-25f2b0ef944d,Economy,Iron Output IV,false,2025-11-11 21:44:54.453729+00,false,,iron output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+17d4f594-a6e1-4144-b73d-34e9d8dbfec2,Hero,Cannon Enhancement 1 (Tank),false,2025-11-07 23:55:30.126247+00,false,,cannon enhancement (tank),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+17f2a75d-719f-4d93-b821-ae9cd8a6b4d3,Development,Infirmary Expansion I,false,2025-11-11 21:32:50.876009+00,false,,infirmary expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1833b91e-1f8d-4965-9889-8e64a244c5c9,Siege to Seize,Drill Ground Expansion,false,2025-11-08 00:32:02.342104+00,false,,drill ground expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+185a6c9d-e5bd-49c3-8a5a-172f203d4754,Air Mastery,Aircraft - Defense II,false,2025-11-11 21:23:16.795209+00,false,,aircraft defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1878797b-a483-4bfe-8e96-4ca15bfb8801,Economy,_seed_,false,2025-11-12 11:33:18.691677+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+18a85f44-2675-4913-a7c6-97ccc4c6494c,Missile Mastery,Missile Vehicle Synergy - Attack I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle synergy attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+18db6051-b45a-4778-b98b-10891899393d,Development,Rapid Field Dressing IV,false,2025-11-11 21:32:50.876009+00,false,,rapid field dressing,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+19e0acbb-44b9-4106-ac9c-1ba6c87e5137,Siege to Seize,Fatal Strike I,false,2025-11-08 00:32:02.342104+00,false,,fatal strike,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1a60633f-f65b-4c07-8c0f-6b138156d7e4,Development,Barrack Expansion III,false,2025-11-11 21:32:50.876009+00,false,,barrack expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1a7df993-7a12-4b46-b230-2f04440196dd,Tank Mastery,Tank Synergy - HP II,false,2025-11-08 00:41:38.63319+00,false,,tank synergy hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1aebe426-c186-4261-b48a-f898f7c00db2,Tactical Weapon,Enhancement: Drone Defense I,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1f1f0432-958e-4694-987d-eddb8e75c2d0,Squad 3,Physical Supression 3,false,2025-11-07 23:55:32.280853+00,false,,physical supression,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1f287e80-0fcd-47bf-be28-bca4093e163f,Air Mastery,Aircraft Synergy - Attack I,false,2025-11-11 21:23:16.795209+00,false,,aircraft synergy attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1f6809c7-1ec1-4799-b465-5bb29faf0f08,Squad 4,Resource Reaper 4,false,2025-11-07 23:55:32.853035+00,false,,resource reaper,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+1fb45bed-d5e2-4c05-acc6-c9704a6994cf,Defense Fortifications,Counter Defense III,false,2025-11-08 00:29:42.948493+00,false,,counter defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+20d9e183-01e2-4382-8012-9c814ec93003,Units,Advanced Armor 3,false,2025-11-08 00:56:04.628317+00,false,,advanced armor,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+21051bc9-d6bd-452e-a60f-c406fc9ff941,Tactical Weapon,Limit Break: Skill Star II,false,2025-11-11 21:25:14.382631+00,false,,limit break skill star,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+21cf0136-14b2-4b62-a327-ce90eaeb028d,Squad 4,Fierce Assault 4,false,2025-11-07 23:55:32.853035+00,false,,fierce assault,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+22628b78-8c79-4328-b415-76eb0f5368a4,Development,Infirmary Expansion IV,false,2025-11-11 21:32:50.876009+00,false,,infirmary expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+22bf972a-3a27-487a-be34-d6ffb865f0ee,Squad 2,Fast Exploration 2,false,2025-11-07 23:55:31.693512+00,false,,fast exploration,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+234cf438-4eab-4cf9-b197-7d041aaa5d6b,Development,Barrack Expansion IV,false,2025-11-11 21:32:50.876009+00,false,,barrack expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+24201eb1-4933-44fb-a314-d3e8f1f773af,Air Mastery,Aircraft - Attack II,false,2025-11-11 21:23:16.795209+00,false,,aircraft attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2434a19e-2343-468a-8fe7-a48efb140086,Economy,More Iron Mines,false,2025-11-11 21:44:54.453729+00,false,,more iron mines,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+24618a48-210d-46c2-93a8-7d2aa339d654,Special Forces,Rapid Field Dressing I,false,2025-11-08 00:16:35.122974+00,false,,rapid field dressing,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+25debcf5-6df5-420e-8307-92e93d9a8a20,Tank Mastery,Tank - HP II,false,2025-11-08 00:41:38.63319+00,false,,tank hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+26827b43-1b56-4e4a-adb8-c85c4bd4f39e,Squad 1,Virus Resistence 1,false,2025-11-07 23:55:31.105274+00,false,,virus resistence,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+292283ba-ffc1-426c-9f41-d1f434607347,Alliance Duel,Incentive - Research,false,2025-11-07 23:55:33.443379+00,false,,incentive research,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+29b3daea-7f37-409f-a6ae-d88231019d7f,Development,_seed_,false,2025-11-12 11:33:18.42303+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2a1e4c05-5a21-418c-8d01-86453f209468,Development,Focused Training I,false,2025-11-11 21:32:50.876009+00,false,,focused training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2a88e8df-aaae-4ffa-b607-8600932253c0,Squad 3,Fatal Strike 3,false,2025-11-07 23:55:32.280853+00,false,,fatal strike,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2aa578f9-4f63-4238-acd7-adb383e51d4c,Squad 2,Physical Supression 2,false,2025-11-07 23:55:31.693512+00,false,,physical supression,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2b42d6e1-3b60-44cc-aab7-edf0b8d2ecd9,Units,Weapon Training 1,false,2025-11-08 00:56:04.628317+00,false,,weapon training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2c2610b3-5c0f-493f-9cfc-fe23a1043b30,Air Mastery,Aircraft Synergy - HP I,false,2025-11-11 21:23:16.795209+00,false,,aircraft synergy hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2cbf355f-e41b-43e8-8ebb-2e75e5e8aad1,Economy,Food Protection,false,2025-11-11 21:44:54.453729+00,false,,food protection,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2d35f219-5260-448e-8ac5-470cc34f3dfb,Development,Focused Training II,false,2025-11-11 21:32:50.876009+00,false,,focused training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2da62307-c679-4064-b723-c9f486d40257,Tank Mastery,Tank Synergy - Damage II,false,2025-11-08 00:41:38.63319+00,false,,tank synergy damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+2e48f78e-3d95-4742-b0df-15d853c7623b,Air Mastery,Aircraft - Damage I,false,2025-11-11 21:23:16.795209+00,false,,aircraft damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+30786839-9158-4ec7-b7be-c0e07305dbe5,Air Mastery,Aircraft Synergy - Attack II,false,2025-11-11 21:23:16.795209+00,false,,aircraft synergy attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+326853c2-7915-45ed-871a-7264685eae27,Hero,Airborne Weapon 1 (Air),false,2025-11-07 23:55:30.126247+00,false,,airborne weapon (air),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+32ea4281-4384-4e11-b2f9-d138d1204fb5,Tank Mastery,Tank - Damage II,false,2025-11-08 00:41:38.63319+00,false,,tank damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+334d78b3-218f-44e7-8258-4a3e4f337427,Hero,Missile Expansion 2 (Missile),false,2025-11-07 23:55:30.126247+00,false,,missile expansion (missile),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3360f9a0-6e0a-4417-a6eb-9c68254021d0,Special Forces,Advanced Protection 2,false,2025-11-08 00:16:35.122974+00,false,,advanced protection,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+34504d05-132d-4e48-9af9-afffa86d09c5,Development,Research Enhancement III,false,2025-11-11 21:32:50.876009+00,false,,research enhancement,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+34dd84e8-8a1b-4366-9300-0c30812b789c,Tank Mastery,Tank Synergy - Defense I,false,2025-11-08 00:41:38.63319+00,false,,tank synergy defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3556e948-37b4-4747-a552-a3ed060d680d,Squad 2,Power Boost 2,false,2025-11-07 23:55:31.693512+00,false,,power boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+361d6898-1c6a-45b6-8ab2-00d4e5bb2b3b,Tactical Weapon,Limit Break: Chip Skill Boost,false,2025-11-11 21:25:14.382631+00,false,,limit break chip skill boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+36e08664-ff8a-4634-a8ad-8ce15ff7cf98,Tactical Weapon,Enhancement: Drone Defense II,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+36eae373-643b-4cdc-91d9-fe5027781348,Squad 1,Resource Reaper 1,false,2025-11-07 23:55:31.105274+00,false,,resource reaper,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+391c54b0-1e84-4e3a-84ca-c04a7ce884a9,Units,Load Training 1,false,2025-11-08 00:56:04.628317+00,false,,load training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+394d2ae2-00d1-45f4-a3fe-6b030a34c22b,Squad 3,Virus Resistence 3,false,2025-11-07 23:55:32.280853+00,false,,virus resistence,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+39dfeeeb-2803-4eff-b974-6b320d9b2c4a,Intercity Truck,Ultimate Guard,false,2025-11-08 00:58:21.728362+00,false,,ultimate guard,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3a602e56-fba4-4494-9b5d-804b3df6de92,Hero,Track Fortification 2 (Tank),false,2025-11-07 23:55:30.126247+00,false,,track fortification (tank),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3aef7526-6e5c-4217-b564-275abd232ea3,Air Mastery,_seed_,false,2025-11-12 11:33:22.545555+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3bddba8b-2dd3-4228-ac12-dc4738affa78,Economy,More Gold Mines,false,2025-11-11 21:44:54.453729+00,false,,more gold mines,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3d6af57b-dc8b-45a6-901f-a258568fb2ab,Squad 2,Virus Resistence 2,false,2025-11-07 23:55:31.693512+00,false,,virus resistence,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3dd1ed01-c323-4cb8-9d49-e14134365c58,Defense Fortifications,Infirmary Expansion I,false,2025-11-08 00:29:42.948493+00,false,,infirmary expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3e3b5499-a9e0-4832-b3ea-2913542c3ce3,Missile Mastery,Missile Vehicle - Defense I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3e3e09dd-a80e-473a-820d-d80dca6aa1aa,Missile Mastery,Missile Vehicle Synergy - HP I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle synergy hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3ea3d763-b312-4b4e-afc0-f5b808be0cdd,Squad 4,Rapid March 4,false,2025-11-07 23:55:32.853035+00,false,,rapid march,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3f0b0dc7-8181-476e-95c3-f397ba2b5d1f,Development,Focused Training IV,false,2025-11-11 21:32:50.876009+00,false,,focused training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+3fb56019-4d8a-47d8-967c-639962b4486b,Special Forces,Morale,false,2025-11-08 00:16:35.122974+00,false,,morale,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+40ae4873-56a6-4df7-a6a1-725d61b1aff8,Tactical Weapon,Assistance: HP Conversion III,false,2025-11-11 21:25:14.382631+00,false,,assistance hp conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+41f114e1-133b-4802-8c7f-0ceba2b199f9,Special Forces,Weapon Training VIII,false,2025-11-08 00:16:35.122974+00,false,,weapon training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+42057575-9ec1-4275-9747-091afb6c6756,Air Mastery,Aircraft - HP I,false,2025-11-11 21:23:16.795209+00,false,,aircraft hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+435c3cee-3ac2-4eca-9f1a-05ef92f9b4f0,The Age of Oil,Parts Workshop,false,2025-11-09 20:44:49.73945+00,false,,parts workshop,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+44125e0d-ec67-43b8-b471-1616ae8d7ed9,Tank Mastery,Tank - Defense II,false,2025-11-08 00:41:38.63319+00,false,,tank defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+46d99fcb-7e87-43a9-8b63-a6d295994201,Tactical Weapon,Assistance: HP Conversion I,false,2025-11-11 21:25:14.382631+00,false,,assistance hp conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+47f15700-5ed2-4c71-b9c2-6ae05fb32a5a,Tactical Weapon,Enhancement: Drone HP II,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+4937d57d-9fef-48cc-968c-f262f267565e,Units,Weapon Training 5,false,2025-11-08 00:56:04.628317+00,false,,weapon training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+4ad779a7-32eb-49c2-86d5-89801f9b0b79,Missile Mastery,Missile Vehicle - March Size II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle march size,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+4b0a5f33-f1cc-4581-86d2-15df2b1dee15,Development,Fast Builder III,false,2025-11-11 21:32:50.876009+00,false,,fast builder,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+4cf52de2-b9e9-4d62-a272-2fb14d44c71c,Special Forces,Advanced Armor VIII,false,2025-11-08 00:16:35.122974+00,false,,advanced armor,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+4d3f5459-ac0b-43bc-88c4-f664bec1cf1b,Development,Infirmary Expansion III,false,2025-11-11 21:32:50.876009+00,false,,infirmary expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+4e57db49-8de0-43b3-b6c2-03bed9bb8a52,Economy,Gathering Iron III,false,2025-11-11 21:44:54.453729+00,false,,gathering iron,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+4e80cec8-7333-462d-b920-d86c9902517c,Air Mastery,Aircraft Synergy - Damage I,false,2025-11-11 21:23:16.795209+00,false,,aircraft synergy damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+4f1bc444-999c-40fa-81a2-5770d7b61ade,The Age of Oil,Training Cost I,false,2025-11-09 20:44:49.73945+00,false,,training cost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+50458664-45dd-4337-8b0a-0ea698091d65,Squad 2,Terminator 2,false,2025-11-07 23:55:31.693512+00,false,,terminator,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+51835a8c-d7cb-485e-a61c-500418cc9d94,Squad 2,Hold the Line 2,false,2025-11-07 23:55:31.693512+00,false,,hold the line,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5237b02b-094d-4630-ae42-5cd3468ea034,The Age of Oil,Infirmary Expansion V,false,2025-11-09 20:44:49.73945+00,false,,infirmary expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+526a4b20-2bee-43a1-8c7e-75716e078cdd,Economy,Gathering Food III,false,2025-11-11 21:44:54.453729+00,false,,gathering food,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5331094d-2e7a-4a09-8378-89e85a4c8039,Development,Master Craftsman,false,2025-11-11 21:32:50.876009+00,false,,master craftsman,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+53570cb4-fa29-4943-bfa9-38ab20b136b6,Tactical Weapon,Limit Break: Level Cap,false,2025-11-11 21:25:14.382631+00,false,,limit break level cap,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+541fad6f-87fa-4d19-905c-7e33de9516a0,The Age of Oil,Iron Output V,false,2025-11-09 20:44:49.73945+00,false,,iron output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5424516d-c937-4522-beeb-2efa13c7a15f,Tactical Weapon,Enhancement: Drone Defense III,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+547551a1-e679-47c4-b8c6-c618f525fb51,Squad 3,Survival Training 3,false,2025-11-07 23:55:32.280853+00,false,,survival training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+551fa246-6c61-437b-8944-28ef380d458d,Squad 3,_seed_,false,2025-11-12 11:33:20.046422+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5596ddb3-98f8-40f2-babc-470a3e64a1ba,Units,Advanced Armor 5,true,2025-11-08 00:56:04.628317+00,false,,advanced armor,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+55a01860-2bf2-4cda-b368-ea08d856585d,The Age of Oil,Food Output V,false,2025-11-09 20:44:49.73945+00,false,,food output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+55b28684-51c0-44dd-9518-1b5c597b8025,Hero,Reinforced Body 2 (Air),false,2025-11-07 23:55:30.126247+00,false,,reinforced body (air),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+55d552bf-8fd7-47cb-80d0-f35d37c52b2b,Tank Mastery,Tank - Attack II,false,2025-11-08 00:41:38.63319+00,false,,tank attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+55f8b46c-5ad2-4a69-b49e-7fb28eccb0ca,The Age of Oil,Base Expansion,false,2025-11-09 20:44:49.73945+00,false,,base expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+55fdf511-e0ac-4a1a-82aa-77d124af37a5,Hero,Metal Barricade 2 (Missile),false,2025-11-07 23:55:30.126247+00,false,,metal barricade (missile),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+56ad463e-6f49-4762-82d2-f50904fff2a8,Units,Load 5,false,2025-11-08 00:56:04.628317+00,false,,load,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+56d6f249-d268-4194-9990-21a42728de82,The Age of Oil,Healing Cost II,false,2025-11-09 20:44:49.73945+00,false,,healing cost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5739beac-84e9-44fc-9736-1e6c99f90d3b,Defense Fortifications,Solid Defense I,false,2025-11-08 00:29:42.948493+00,false,,solid defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+58120184-25e0-4451-a13f-866793d3ce4d,Alliance Duel,_seed_,false,2025-11-12 11:33:20.592771+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+58c7e762-21a6-4778-8217-8391e4c06fb7,Special Forces,Defense Boost III,false,2025-11-08 00:16:35.122974+00,false,,defense boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+593a3375-5c68-4584-aaa9-49bc11ff092a,Squad 3,Hold the Line 3,false,2025-11-07 23:55:32.280853+00,false,,hold the line,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5af02ce3-bb4b-4a49-8d83-7a658adb9f55,Squad 4,Terminator 4,false,2025-11-07 23:55:32.853035+00,false,,terminator,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5befed9a-229c-4419-bddf-34c8c510bd69,Squad 1,Terminator 1,false,2025-11-07 23:55:31.105274+00,false,,terminator,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5dba5a00-a2e4-497a-a052-01ea02a80c69,Air Mastery,Aircraft - March Size II,false,2025-11-11 21:23:16.795209+00,false,,aircraft march size,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5e33d342-e02a-4d74-93ea-4a1c4c9efd1d,Hero,Armor Hardening 1 (Tank),false,2025-11-07 23:55:30.126247+00,false,,armor hardening (tank),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5e8422b0-d57a-4b00-9255-0d496f09cac8,Hero,Aircraft Mastery 2 (Air),false,2025-11-07 23:55:30.126247+00,false,,aircraft mastery (air),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5f512570-d506-4dd4-8354-00dae405bbe9,Tactical Weapon,Assistance: HP Conversion II,false,2025-11-11 21:25:14.382631+00,false,,assistance hp conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+5f947b7e-edfa-4d5f-b714-2d81066693ce,Alliance Duel,Incentive - Intercity Trade,false,2025-11-07 23:55:33.443379+00,false,,incentive intercity trade,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+60337b0f-0fa5-483e-aff9-73a29990b218,Air Mastery,Aircraft - Attack I,false,2025-11-11 21:23:16.795209+00,false,,aircraft attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+608af026-a22b-4b48-837e-f7f54cad41dc,Tactical Weapon,Assistance: Defense Conversion I,false,2025-11-11 21:25:14.382631+00,false,,assistance defense conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+60eb8631-a405-4875-98a2-46c249095bd6,Siege to Seize,Fierce Assault II,false,2025-11-08 00:32:02.342104+00,false,,fierce assault,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+61d6f26f-7df3-4644-8990-db7fa5b3c7c2,Alliance Duel,Incentive - Survivor Recruit,false,2025-11-07 23:55:33.443379+00,false,,incentive survivor recruit,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+61e685ee-7bad-4c1e-8273-17442a2287d8,Intercity Truck,Plunder,false,2025-11-08 00:58:21.728362+00,false,,plunder,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+62013ae8-bd2b-4296-8b59-a853a32914c8,Squad 1,Vigilant Formation 1,false,2025-11-07 23:55:31.105274+00,false,,vigilant formation,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+62799d6b-e2f6-437a-aa3b-0595eb336e27,Economy,Coin Output IV,false,2025-11-11 21:44:54.453729+00,false,,coin output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+630231ed-5af3-417b-a0fd-b11b72955270,Hero,Airborne Weapon 2 (Air),false,2025-11-07 23:55:30.126247+00,false,,airborne weapon (air),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6357cdff-703a-4904-af8d-812d11278270,Tactical Weapon,Support: Hero Attack II,false,2025-11-11 21:25:14.382631+00,false,,support hero attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6367615a-ba0f-4384-b8c1-41b2d0376d20,Economy,Iron Output III,false,2025-11-11 21:44:54.453729+00,false,,iron output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+64758207-c5af-43a5-9c0b-f447884e5e48,Siege to Seize,Fierce Assault I,false,2025-11-08 00:32:02.342104+00,false,,fierce assault,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6484657d-929b-4e77-94e4-8d364d1620a3,Tactical Weapon,Enhancement: Drone HP III,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+655f1bcb-e3f6-4bd4-b3b0-9ba4c8689054,Economy,Gathering Coins II,false,2025-11-11 21:44:54.453729+00,false,,gathering coins,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+65972211-3384-4f79-be38-b6b9e61943ee,Defense Fortifications,Hold the Line I,false,2025-11-08 00:29:42.948493+00,false,,hold the line,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+66235a84-a6fb-4cc6-a0f0-df4d4a8b6d39,Intercity Truck,_seed_,false,2025-11-12 11:33:20.900601+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6695aaa6-ab42-41b3-8f47-e16a252cf4f3,Economy,Gathering Coins IV,false,2025-11-11 21:44:54.453729+00,false,,gathering coins,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6766aa3e-6dfb-4da2-ad45-ea3ef926e07b,Tactical Weapon,Support: Hero Defense II,false,2025-11-11 21:25:14.382631+00,false,,support hero defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+68cb8bd8-2d6c-4618-a71c-2ba6cfcb6ad5,Tactical Weapon,Support: Hero HP III,false,2025-11-11 21:25:14.382631+00,false,,support hero hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+692bc3de-82f7-4304-b43e-fe9f8bf10fb5,Development,Research Enhancement II,false,2025-11-11 21:32:50.876009+00,false,,research enhancement,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+69ee90be-192a-4ac4-80ac-98c0ba5d951d,Special Forces,Infirmary Expansion I,false,2025-11-08 00:16:35.122974+00,false,,infirmary expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+69f113cd-96d7-4ff1-ade5-14b6d455b827,Squad 4,Physical Supression 4,false,2025-11-07 23:55:32.853035+00,false,,physical supression,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6a1f493c-1765-4837-9bbc-99d7dc3f890c,Tactical Weapon,Support: Hero HP I,false,2025-11-11 21:25:14.382631+00,false,,support hero hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6a517b98-203a-4a39-88df-81ca09b9fa9b,Economy,More Farmlands,false,2025-11-11 21:44:54.453729+00,false,,more farmlands,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6a617914-924b-4561-b01c-4b3610772721,Air Mastery,Aircraft - HP II,false,2025-11-11 21:23:16.795209+00,false,,aircraft hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6ba72c0b-9a07-41f5-9c3c-8163c7cc8c44,Air Mastery,Aircraft Synergy - Damage II,false,2025-11-11 21:23:16.795209+00,false,,aircraft synergy damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6cb30b27-0b64-4c32-9858-bb4ea7825c2e,Missile Mastery,Missile Vehicle - Damage II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6cc86ed6-527e-4764-b155-bad246036e6f,Tank Mastery,Tank - March Size I,false,2025-11-08 00:41:38.63319+00,false,,tank march size,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6ced0f46-091f-47e2-9d9c-cce9842cd913,The Age of Oil,Oil Output II,false,2025-11-09 20:44:49.73945+00,false,,oil output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6d3461e3-5d61-4d26-9ca3-9df918eba744,Special Forces,Attack Boost I,false,2025-11-08 00:16:35.122974+00,false,,attack boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6d3b7742-2ac8-4b28-96bb-dc020064946b,Hero,Tank Mastery 2 (Tank),false,2025-11-07 23:55:30.126247+00,false,,tank mastery (tank),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6d90c235-bc22-4efa-bc8f-5082eacbbe69,Alliance Duel,Incentive - Radar,false,2025-11-07 23:55:33.443379+00,false,,incentive radar,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6dae6fdc-4e34-41f1-bc6c-a2ac6cec3147,Tactical Weapon,Support: Hero Defense I,false,2025-11-11 21:25:14.382631+00,false,,support hero defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6daf7165-bf55-45ec-b0c2-26ab4fdf7dbc,Siege to Seize,Final Stand II,false,2025-11-08 00:32:02.342104+00,false,,final stand,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+6dd9f0ba-81ab-4dd6-9996-912c8fd7c511,Squad 4,Virus Resistence 4,false,2025-11-07 23:55:32.853035+00,false,,virus resistence,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+70480dc6-0a2c-49b8-b257-8aa29efa3474,The Age of Oil,Oil Output I,false,2025-11-09 20:44:49.73945+00,false,,oil output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+70c4fadc-0164-4668-bd90-e4f795d870da,Hero,Missile Mastery 1 (Missile),false,2025-11-07 23:55:30.126247+00,false,,missile mastery (missile),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+714f2e48-5c8c-4bec-bfdd-3c532f413e16,Hero,Armor Hardening 2 (Tank),false,2025-11-07 23:55:30.126247+00,false,,armor hardening (tank),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7203000b-3828-43f4-818d-c66c566c5023,Missile Mastery,Missile Vehicle Synergy - Damage I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle synergy damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+75c7fb02-406f-40a4-ae6f-1a39b3245992,Alliance Duel,Incentive - Enemy Kills,false,2025-11-07 23:55:33.443379+00,false,,incentive enemy kills,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+764497cc-5c47-437e-924b-2003f7a1c0f8,Intercity Truck,Rapid Transit,false,2025-11-08 00:58:21.728362+00,false,,rapid transit,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+764a4cab-5e53-4de8-b802-ca08a120e750,Squad 3,Rapid March 3,false,2025-11-07 23:55:32.280853+00,false,,rapid march,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+769774fd-4d3d-4a99-9651-862dcd2eecab,Intercity Truck,Basic Goods,false,2025-11-08 00:58:21.728362+00,false,,basic goods,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+76a7a19f-9bb8-437d-b711-88166b2cf090,Economy,Coin Output I,false,2025-11-11 21:44:54.453729+00,false,,coin output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+76b08930-9a38-45fb-923e-f4835f8819c0,Units,_seed_,false,2025-11-12 11:33:19.222821+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+780ef3b4-b327-40b9-aa3c-7f4d75739261,Missile Mastery,Missile Vehicle - March Size I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle march size,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+787f05e4-6ab1-47a8-97b4-d874bb15b178,Tank Mastery,Tank Synergy - Defense II,false,2025-11-08 00:41:38.63319+00,false,,tank synergy defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7a85ce91-b9c6-4ae1-8bee-e1ecfd084d7b,Alliance Duel,Incentive - Secret Mobile Squad,false,2025-11-07 23:55:33.443379+00,false,,incentive secret mobile squad,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7ab8e625-656a-47c8-9931-f827e0793ee1,Squad 1,Assault Tactics 1,false,2025-11-07 23:55:31.105274+00,false,,assault tactics,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7abc484f-139c-4038-ad97-7e98a2765d8e,Economy,Gathering Coins III,false,2025-11-11 21:44:54.453729+00,false,,gathering coins,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7c3995f3-81f4-43ae-9df0-1c7c74b4060b,Economy,Gathering Iron II,false,2025-11-11 21:44:54.453729+00,false,,gathering iron,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7d2b7388-fe7f-4106-b5a8-199a3e369f0e,Development,Survival Skills,false,2025-11-11 21:32:50.876009+00,false,,survival skills,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7dde8233-850a-43ce-be0c-dc99b0cdd5a4,Siege to Seize,Power Boost I,false,2025-11-08 00:32:02.342104+00,false,,power boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7e398702-4e9b-4017-93d8-2d444bf4a9b3,Units,Load Training 4,false,2025-11-08 00:56:04.628317+00,false,,load training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7eee4cf8-d305-42a6-9d54-175205ce1379,Tactical Weapon,Enhancement: Drone HP I,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7f51a0f0-fd42-4230-92ca-ea41d14851f2,Development,Research Enhancement IV,false,2025-11-11 21:32:50.876009+00,false,,research enhancement,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+7fc23ca1-8c75-4344-946b-8cb089f30046,Defense Fortifications,Extra Hospitals,false,2025-11-08 00:29:42.948493+00,false,,extra hospitals,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+81714c2d-3ba7-403f-a2a8-2c057b8e149d,Squad 1,Zombie Radar 1,false,2025-11-07 23:55:31.105274+00,false,,zombie radar,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+82f04e3e-6f2a-4ce0-b13b-bd678468274f,Alliance Duel,Incentive - Speed-up,false,2025-11-07 23:55:33.443379+00,false,,incentive speed up,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+83468e63-d109-4322-8e0e-93cdf4e325b1,Squad 3,Zombie Radar 3,false,2025-11-07 23:55:32.280853+00,false,,zombie radar,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+857321bf-b26b-406d-9be2-0ffc1bdda666,Economy,Gathering Coins I,false,2025-11-11 21:44:54.453729+00,false,,gathering coins,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+85937cbe-fcf4-4f1a-8c10-18543ade9222,Hero,Track Fortification 1 (Tank),false,2025-11-07 23:55:30.126247+00,false,,track fortification (tank),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+86d679fb-4e5c-431c-a3a1-1a5fd4e8e851,Tank Mastery,Tank - Attack I,false,2025-11-08 00:41:38.63319+00,false,,tank attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+86e73294-d1e6-434c-9203-7813f3cd064b,Air Mastery,Aircraft - Damage II,false,2025-11-11 21:23:16.795209+00,false,,aircraft damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+89404a44-2e88-4550-ae6c-0721f5adee52,Economy,Food Output III,false,2025-11-11 21:44:54.453729+00,false,,food output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+8a19660d-f19b-49d1-9d28-5242035241bd,Hero,Metal Barricade 1 (Missile),false,2025-11-07 23:55:30.126247+00,false,,metal barricade (missile),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+8a253dba-25f7-4dcd-a3be-dda9354dca22,Units,Weapon Training 2,false,2025-11-08 00:56:04.628317+00,false,,weapon training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+8b4216fe-1167-4631-abc0-98613af9721b,Tactical Weapon,Enhancement: Drone Attack I,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+8c8cb357-fedb-4cbb-a7f4-ee7c52489dc1,Siege to Seize,Focused Training I,false,2025-11-08 00:32:02.342104+00,false,,focused training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+8ebfce73-8c3d-40ea-a2f2-e0f24420f8cf,Tactical Weapon,Assistance: Attack Conversion II,false,2025-11-11 21:25:14.382631+00,false,,assistance attack conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+8efa12ca-b07b-4a0a-9a25-4a2fd5614fbe,The Age of Oil,3rd Tech Center,false,2025-11-09 20:44:49.73945+00,false,,3rd tech center,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+8fe2cdd8-f976-4031-94b6-ad3107c70a47,Defense Fortifications,Rapid March I,false,2025-11-08 00:29:42.948493+00,false,,rapid march,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+90abb448-d5f6-4314-9dad-20ffe2762595,Squad 2,Solid Defense 2,false,2025-11-07 23:55:31.693512+00,false,,solid defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+915c23a2-65f1-4e57-bad2-34ab7847b07c,Economy,Gathering Food IV,false,2025-11-11 21:44:54.453729+00,false,,gathering food,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+933c8b0f-5c05-49f2-8a0c-638a52cede20,Tank Mastery,Tank Synergy - HP I,false,2025-11-08 00:41:38.63319+00,false,,tank synergy hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+93e364e5-e6f6-4f9c-990a-14743d2d89c1,Tactical Weapon,Enhancement: Drone Attack II,false,2025-11-11 21:25:14.382631+00,false,,enhancement drone attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+94447f73-3f19-4160-a5e7-12db5ec57f0a,The Age of Oil,Research Enhancement V,false,2025-11-09 20:44:49.73945+00,false,,research enhancement,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+947fbd60-860e-4ec6-8579-6740c5d09a67,Squad 3,Fast Exploration 3,false,2025-11-07 23:55:32.280853+00,false,,fast exploration,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+955b6b56-0645-4ca9-9140-8d3aa24ffcc0,Siege to Seize,Rapid March I,false,2025-11-08 00:32:02.342104+00,false,,rapid march,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+95fb0eb6-1435-4d62-bb04-0f554250ad25,Missile Mastery,Missile Vehicle Synergy - HP II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle synergy hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+972c270c-6370-4836-966b-0170b1044168,Squad 2,Assault Training 2,false,2025-11-07 23:55:31.693512+00,false,,assault training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9793b90c-396a-485d-a8cd-b9e4f102bf6a,Squad 4,Counter Defense 4,false,2025-11-07 23:55:32.853035+00,false,,counter defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+979b79d3-a416-4dd4-9be3-4aa91c068418,Squad 2,Assault Tactics 2,false,2025-11-07 23:55:31.693512+00,false,,assault tactics,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+97d1392b-ce43-4793-9502-b2e2f0f04b49,Missile Mastery,Missile Vehicle Synergy - Attack II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle synergy attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+97edcc13-1875-49bc-9f4f-c7b2d7f9e16a,Units,Weapon Training 3,false,2025-11-08 00:56:04.628317+00,false,,weapon training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9814a1bc-b416-4eed-bfb0-9a3c074e4d6c,Economy,Food Output II,false,2025-11-11 21:44:54.453729+00,false,,food output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+99053484-fd50-4858-92d5-9e325f3cb388,Tactical Weapon,Assistance: Defense Conversion III,false,2025-11-11 21:25:14.382631+00,false,,assistance defense conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9a3d6fdf-fa09-4d37-8923-31b9c3e5e9d3,Hero,Firepower Boost,false,2025-11-07 23:55:30.126247+00,false,,firepower boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9a3ea1b2-6e85-452d-9b33-1b292eef760d,Squad 2,Counter Defense 2,false,2025-11-07 23:55:31.693512+00,false,,counter defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9a443648-804a-4d6d-b59b-80f8bb82fe2d,Squad 2,Fatal Strike 2,false,2025-11-07 23:55:31.693512+00,false,,fatal strike,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9a641c3b-b7ba-4ae8-b8ec-54accbdb7241,Development,Drill Ground Expansion,false,2025-11-11 21:32:50.876009+00,false,,drill ground expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9ac4975c-a233-4b29-8ca0-48d3da214d4b,Development,Rapid Field Dressing I,false,2025-11-11 21:32:50.876009+00,false,,rapid field dressing,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9b199cc7-5f5d-43bc-b5dc-e006c9fc41a9,Squad 4,Power Boost 4,false,2025-11-07 23:55:32.853035+00,false,,power boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9bd5f157-a5df-4db8-bb1f-8229b3f7eacf,Squad 2,Formation Training 2,false,2025-11-07 23:55:31.693512+00,false,,formation training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9be6ec5b-a258-4f69-b123-cb0980d0bfde,Tactical Weapon,Support: Hero Attack I,false,2025-11-11 21:25:14.382631+00,false,,support hero attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9befa229-caec-4f3b-a0ce-a219934ce93b,Squad 1,Fatal Strike 1,false,2025-11-07 23:55:31.105274+00,false,,fatal strike,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9cc9254c-0c0b-4443-b539-cc9e3410cd7a,Hero,_seed_,false,2025-11-12 11:33:18.960993+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9de58aae-d8dd-4091-8112-984c8769950b,Squad 1,Fierce Assault 1,false,2025-11-07 23:55:31.105274+00,false,,fierce assault,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9e86ffce-daf7-45d0-939e-9cbcc2b9c534,Development,Barrack Expansion II,false,2025-11-11 21:32:50.876009+00,false,,barrack expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9edb59a9-92cd-4b16-b66d-7aa23ef023b9,Squad 4,Energy Barrage 4,false,2025-11-07 23:55:32.853035+00,false,,energy barrage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9efc400f-2ce9-4458-b681-726c264b9000,Hero,Reinforced Body 1 (Air),false,2025-11-07 23:55:30.126247+00,false,,reinforced body (air),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9f0419f9-d33e-4cb6-8a2a-b625f9bd9ad8,Squad 4,Final Stand 4,false,2025-11-07 23:55:32.853035+00,false,,final stand,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+9fc69e30-e68b-4f86-8f04-94f66a8d2c61,Squad 4,Fast Exploration 4,false,2025-11-07 23:55:32.853035+00,false,,fast exploration,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a06c90cb-88b4-4758-85bd-9910a8f50054,Air Mastery,Aircraft - Defense I,false,2025-11-11 21:23:16.795209+00,false,,aircraft defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a1225826-81ee-4516-9da5-0735e749db72,Economy,Coin Output III,false,2025-11-11 21:44:54.453729+00,false,,coin output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a13e1f6a-ce26-4e5a-83e4-f49db854403a,Missile Mastery,Missile Vehicle - HP I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a192f95f-a833-4dfe-9a12-5d53d9c047cf,Economy,Food Output I,false,2025-11-11 21:44:54.453729+00,false,,food output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a1ee7be8-0447-4303-9df2-e8734a372b91,Siege to Seize,_seed_,false,2025-11-12 11:33:21.436188+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a28371b7-0688-42c8-ae82-dda55b98f943,Squad 1,Solid Defense 1,false,2025-11-07 23:55:31.105274+00,false,,solid defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a288844d-4bbb-4250-b902-4cde923192d9,The Age of Oil,Oil Output III,false,2025-11-09 20:44:49.73945+00,false,,oil output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a3ad7d22-94f0-4421-b946-b4bad789b2ea,Squad 1,Energy Barrage 1,false,2025-11-07 23:55:31.105274+00,false,,energy barrage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a4b93d4f-bd88-4543-a702-f7e446107691,Alliance Duel,Super Bonus,false,2025-11-07 23:55:33.443379+00,false,,super bonus,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+a96b94ad-17da-4b65-81d4-8cbc58fd2594,Squad 3,Power Boost 3,false,2025-11-07 23:55:32.280853+00,false,,power boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+aa25ee70-8ec3-44f0-a4cd-90060e0440c7,Economy,Iron Output I,false,2025-11-11 21:44:54.453729+00,false,,iron output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ab06dc96-86ce-4095-9bc2-2f90fd5c7462,Air Mastery,Aircraft Synergy - HP II,false,2025-11-11 21:23:16.795209+00,false,,aircraft synergy hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ab93a402-3ccf-4a3c-8c5a-0aff13de1a1c,Development,Barrack Expansion I,false,2025-11-11 21:32:50.876009+00,false,,barrack expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+abb45ad8-6e57-4e7f-8386-0cae896b99da,Special Forces,Defense Boost II,false,2025-11-08 00:16:35.122974+00,false,,defense boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+aca41e8e-00d2-48ea-a7fb-1931a62f55b6,Economy,Food Output IV,false,2025-11-11 21:44:54.453729+00,false,,food output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+acd5f925-19e5-4d1f-b7af-336a7fab21d5,The Age of Oil,Fast Builder V,false,2025-11-09 20:44:49.73945+00,false,,fast builder,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ad0bbe9e-e82c-4080-9bb4-e362c609df93,Missile Mastery,Missile Vehicle Synergy - Defense II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle synergy defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+add03e66-e81c-47a0-998b-faa231115dc3,Squad 3,Vigilant Formation 3,false,2025-11-07 23:55:32.280853+00,false,,vigilant formation,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ae72702c-680a-453d-ae9c-c295b99ca051,Special Forces,Attack Boost III,false,2025-11-08 00:16:35.122974+00,false,,attack boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ae8ddaba-c85d-4a58-984f-67684475d221,Economy,Iron Protection,false,2025-11-11 21:44:54.453729+00,false,,iron protection,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+aeaf0250-eaa1-4a02-9bd8-49e46d24784e,Special Forces,HP Boost III,false,2025-11-08 00:16:35.122974+00,false,,hp boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+af6f1de3-9efe-475c-b8ae-86813d73506a,Missile Mastery,Missile Vehicle - Ultimate Defense II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle ultimate defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b007d631-c9aa-4b7d-9909-183cdfb709f0,Units,Weapon Training 4,false,2025-11-08 00:56:04.628317+00,false,,weapon training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b08f3033-27ed-40a3-ac5d-faece8e72fc1,The Age of Oil,Emergency Capacity I,false,2025-11-09 20:44:49.73945+00,false,,emergency capacity,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b0d14895-02dc-4645-96c0-f587e9f329a1,Squad 4,Solid Defense 4,false,2025-11-07 23:55:32.853035+00,false,,solid defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b10f3092-251a-4490-9404-d40a247c0195,Squad 1,Power Boost 1,false,2025-11-07 23:55:31.105274+00,false,,power boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b17bd929-47ac-4d25-bad8-e2fbe527a622,Air Mastery,Aircraft Synergy - Defense I,false,2025-11-11 21:23:16.795209+00,false,,aircraft synergy defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b396537d-052a-437c-aa1f-3946d45a5fa1,Hero,Cannon Enhancement 2 (Tank),false,2025-11-07 23:55:30.126247+00,false,,cannon enhancement (tank),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b49449b6-1f5c-4841-9307-8576b92ffd24,Squad 2,Vigilant Formation 2,false,2025-11-07 23:55:31.693512+00,false,,vigilant formation,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b5283e69-6350-4e1e-9768-4368aa5f2063,Development,Efficient Healing,false,2025-11-11 21:32:50.876009+00,false,,efficient healing,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b616d0cc-9c77-47ac-933a-990f12ce3d5b,Defense Fortifications,Hold the Line II,false,2025-11-08 00:29:42.948493+00,false,,hold the line,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b65222b2-a096-46b6-b1f9-f48ba164370f,Special Forces,Defense Boost I,false,2025-11-08 00:16:35.122974+00,false,,defense boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b7977bc1-c136-4561-a758-16fb64b691dc,Siege to Seize,Extra Drill Ground,false,2025-11-08 00:32:02.342104+00,false,,extra drill ground,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b8152434-3992-4d31-b118-3a7bb474efd6,Air Mastery,Aircraft - March Size I,false,2025-11-11 21:23:16.795209+00,false,,aircraft march size,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b88655d1-63b7-49bf-8fef-5428105d4e18,Development,Research Enhancement I,false,2025-11-11 21:32:50.876009+00,false,,research enhancement,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b91bf418-de97-4e05-a926-2e770c1f1565,Economy,Gathering Food II,false,2025-11-11 21:44:54.453729+00,false,,gathering food,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+b9331ee0-4e00-4c6a-8cc5-ba0307ccb3af,Development,Fast Builder IV,false,2025-11-11 21:32:50.876009+00,false,,fast builder,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+bbe01e6a-5863-4219-8b2c-3e3163c73c5d,Alliance Duel,Incentive - Duel Master 2,false,2025-11-07 23:55:33.443379+00,false,,incentive duel master,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+bc7502cd-ef59-4a3a-8dd6-867564318fed,Units,Defense Training 1,false,2025-11-08 00:56:04.628317+00,false,,defense training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+bdb6ab54-07f4-4921-bab6-10d73f6de167,Hero,Precision Targeting 1 (Missile),false,2025-11-07 23:55:30.126247+00,false,,precision targeting (missile),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+be029fb6-7fe3-4696-af2e-a9b4bfc76270,Tactical Weapon,Support: Hero HP IV,false,2025-11-11 21:25:14.382631+00,false,,support hero hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+bf0c879a-edb3-4b77-b123-eb914b6fbaea,Air Mastery,Aircraft - Ultimate Defense I,false,2025-11-11 21:23:16.795209+00,false,,aircraft ultimate defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+bf4307b7-afc1-4d13-ba1f-ea6c9aa3d891,Squad 3,Solid Defense 3,false,2025-11-07 23:55:32.280853+00,false,,solid defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+bfe3d50f-0179-4fec-95e7-433cd5c3f55d,The Age of Oil,Coin Output V,false,2025-11-09 20:44:49.73945+00,false,,coin output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c01f5428-b5e2-4948-ae6d-a33e459eb003,Defense Fortifications,Solid Defense II,false,2025-11-08 00:29:42.948493+00,false,,solid defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c0745a14-96a1-47d8-babd-b1170c0ad5a4,Tactical Weapon,Support: Hero Attack IV,false,2025-11-11 21:25:14.382631+00,false,,support hero attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c0ba37e0-2672-4bfd-9b52-1ae2d2d48e5e,Squad 1,Final Stand 1,false,2025-11-07 23:55:31.105274+00,false,,final stand,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c0e82d2c-dd95-428d-aebd-0ed4ddf738e2,Squad 2,Fierce Assault 2,false,2025-11-07 23:55:31.693512+00,false,,fierce assault,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c10cf3a6-92fb-47c1-b203-7ee4e2c977e4,Tank Mastery,_seed_,false,2025-11-12 11:33:21.973681+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c159c379-bbc7-46e6-a52a-bdfe71ba430e,Development,Focused Training III,false,2025-11-11 21:32:50.876009+00,false,,focused training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c1e81807-6977-4904-8bdf-c587862b048d,Squad 3,Fierce Assault 3,false,2025-11-07 23:55:32.280853+00,false,,fierce assault,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c32f0453-89cc-4f08-8686-aa99100ff482,Alliance Duel,Incentive - Training,false,2025-11-07 23:55:33.443379+00,false,,incentive training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c3509937-c529-4013-897e-497373422597,Squad 4,Fatal Strike 4,false,2025-11-07 23:55:32.853035+00,false,,fatal strike,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c40e966f-819f-4790-af5b-a18eed9bb8b3,Squad 4,Survival Training 4,false,2025-11-07 23:55:32.853035+00,false,,survival training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c42d4e4a-1119-4c8c-830f-f098c0bafbed,Squad 4,Vigilant Formation 4,false,2025-11-07 23:55:32.853035+00,false,,vigilant formation,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c48d38e0-ecd1-437b-a7c8-0d332f8524d1,Defense Fortifications,Resource Protection,false,2025-11-08 00:29:42.948493+00,false,,resource protection,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c55fa162-e87c-4679-998f-828a0462358d,Missile Mastery,Missile Vehicle - Attack II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c697eba2-015f-44e1-83f0-7f817b1cdc14,The Age of Oil,Unlock Oil Well,false,2025-11-09 20:44:49.73945+00,false,,unlock oil well,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c6f7ce79-c52c-4a22-af7d-3032dc72de91,Squad 3,Counter Defense 3,false,2025-11-07 23:55:32.280853+00,false,,counter defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c89c694f-d87b-4381-81c6-78ff5265a01a,Alliance Duel,Incentive - Recruitment,false,2025-11-07 23:55:33.443379+00,false,,incentive recruitment,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c9051973-884e-4353-ba69-7c8d7d0e1678,Defense Fortifications,Defense Fortifications,false,2025-11-08 00:29:42.948493+00,false,,defense fortifications,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c95ba98f-ec2b-4cfe-8c8f-fbfa4962790f,Defense Fortifications,_seed_,false,2025-11-12 11:33:21.702996+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+c9723524-e70a-4c0b-b353-74b9ec71b0d2,Tank Mastery,Tank - Ultimate Defense I,false,2025-11-08 00:41:38.63319+00,false,,tank ultimate defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+cac3985b-22f5-4c28-91b2-fc808565c6e9,Squad 3,Energy Barrage 3,false,2025-11-07 23:55:32.280853+00,false,,energy barrage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+caf793a4-5926-4502-85b7-e1d6b431ec6a,Units,Advanced Armor 1,false,2025-11-08 00:56:04.628317+00,false,,advanced armor,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+cc1991d8-d796-4b8c-8790-37431dac68ad,Tactical Weapon,_seed_,false,2025-11-12 11:33:23.072828+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+cd6f0f3f-67ce-40a0-b70f-ca9b481448b4,Missile Mastery,Missile Vehicle - Defense II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+cd9fe252-755f-4588-9d54-2537c508b079,Defense Fortifications,Counter Defense II,false,2025-11-08 00:29:42.948493+00,false,,counter defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+cdc760fc-36f4-42e3-89a9-c8c76f1c06c0,Defense Fortifications,Efficient Healing,false,2025-11-08 00:29:42.948493+00,false,,efficient healing,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ce2bf01b-8e99-4186-a2c1-083de6ab2799,Squad 1,Survival Training 1,false,2025-11-07 23:55:31.105274+00,false,,survival training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ce3b3ea7-aec0-44ce-b43a-0445985b60f9,Development,Extra Barracks,false,2025-11-11 21:32:50.876009+00,false,,extra barracks,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ce4032bd-a572-40f7-8c44-ab691adfffba,Squad 2,Survival Training 2,false,2025-11-07 23:55:31.693512+00,false,,survival training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ce4d26d2-a660-4adc-9087-555385ff6714,Tank Mastery,Tank - Ultimate Defense II,false,2025-11-08 00:41:38.63319+00,false,,tank ultimate defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+cf17c1c7-8445-457e-a3c0-eec12d2e8b2a,Siege to Seize,Final Stand I,false,2025-11-08 00:32:02.342104+00,false,,final stand,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+cf47306c-b0ac-45b0-8f07-2a2fd58b62a1,Missile Mastery,_seed_,false,2025-11-12 11:33:22.2601+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+cf7716b6-2120-4e12-b693-b26a1a055fca,Missile Mastery,Missile Vehicle - Ultimate Defense I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle ultimate defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d0b6ce04-3a37-4bd3-bc87-8bdfc0da6d1a,Special Forces,Advanced Protection 1,false,2025-11-08 00:16:35.122974+00,false,,advanced protection,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d0f7aab5-9bc1-4db0-94ec-4a9781c7c39d,Units,Defense Training 2,false,2025-11-08 00:56:04.628317+00,false,,defense training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d11576a2-f803-425e-89b6-6440d48675a9,Economy,Coin Protection,false,2025-11-11 21:44:54.453729+00,false,,coin protection,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d15a11c6-ce77-4256-952e-b22ee9ff34b7,Squad 3,Assault Training 3,false,2025-11-07 23:55:32.280853+00,false,,assault training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d1c87818-c8a3-40f9-9c78-0f19d425ad90,Squad 4,Assault Tactics 4,false,2025-11-07 23:55:32.853035+00,false,,assault tactics,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d2dc7674-4fea-443c-b29f-2ecb588e9ae5,Tactical Weapon,Support: Hero Defense IV,false,2025-11-11 21:25:14.382631+00,false,,support hero defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d3b8d8d3-548a-44b0-ba46-77e3c93fbe28,Economy,Gathering Food I,false,2025-11-11 21:44:54.453729+00,false,,gathering food,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d3e686e6-93eb-4a98-a860-ce1bee104d5e,Tactical Weapon,Support: Hero HP II,false,2025-11-11 21:25:14.382631+00,false,,support hero hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d416f54f-9d21-40c9-a9cb-654668997be0,The Age of Oil,_seed_,false,2025-11-12 11:33:22.795208+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d4b80c89-cb26-45f7-9890-192ff7e38e25,Hero,Armor Enhacement,false,2025-11-07 23:55:30.126247+00,false,,armor enhacement,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d518c229-f865-49f9-8ef4-904ecfb8261e,Hero,Wingman Tactics 1 (Air),false,2025-11-07 23:55:30.126247+00,false,,wingman tactics (air),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d5ccae10-66e3-4a38-9519-1ce7ec6cce0e,Tank Mastery,Tank Synergy - Damage I,false,2025-11-08 00:41:38.63319+00,false,,tank synergy damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d5d5ae85-ad75-4b17-a062-15aa620154df,Special Forces,Defense Training VII,false,2025-11-08 00:16:35.122974+00,false,,defense training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d6401ced-470e-4087-be5a-a7f3121d74fc,Squad 2,Resource Reaper 2,false,2025-11-07 23:55:31.693512+00,false,,resource reaper,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d8377390-8af7-47cc-9ed1-a0b9379cea7d,Tank Mastery,Tank - Damage I,false,2025-11-08 00:47:56.127799+00,false,,tank damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+d920426f-e3ec-4dc9-83b8-2532cb7017a0,Squad 4,_seed_,false,2025-11-12 11:33:20.323617+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+daed21ad-9a57-45c9-8bef-8082cfdcce11,Hero,Tank Mastery 1 (Tank),false,2025-11-07 23:55:30.126247+00,false,,tank mastery (tank),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+daf71022-0418-4d45-8595-cacdbb2e65ce,Squad 2,Energy Barrage 2,false,2025-11-07 23:55:31.693512+00,false,,energy barrage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+db09a675-823e-47b8-be8e-3cae07ea5fd9,Squad 3,Assault Tactics 3,false,2025-11-07 23:55:32.280853+00,false,,assault tactics,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+dc4fe671-7fbf-4cc1-8b05-5294a119c372,Intercity Truck,Reindeer Sleigh Ride,false,2025-11-08 00:58:21.728362+00,false,,reindeer sleigh ride,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ddf355cf-25fd-40b7-889b-91fe6b85ea13,Alliance Duel,Duel Expert,false,2025-11-07 23:55:33.443379+00,false,,duel expert,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+de448f89-841e-4ec8-b40d-d3273a0e5aef,Intercity Truck,Defense Boost,false,2025-11-08 00:58:21.728362+00,false,,defense boost,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+dedf815a-2422-43bb-a0c5-71a837a892b7,Economy,Gathering Iron I,false,2025-11-11 21:44:54.453729+00,false,,gathering iron,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+dedfd00a-2be0-47e6-b92e-25cba1d8f62a,Tank Mastery,Tank - Defense I,false,2025-11-08 00:41:38.63319+00,false,,tank defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e011791c-9b5a-46a7-afbb-e7867c1781ec,Defense Fortifications,Counter Defense I,false,2025-11-08 00:29:42.948493+00,false,,counter defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e0556374-7cfc-4981-b6c1-6276e66135cd,Squad 1,_seed_,false,2025-11-12 11:33:19.511035+00,false,," seed ",1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e0a174b9-8c4c-4d11-a287-c6c2e332ebad,Units,Defense Training 5,false,2025-11-08 00:56:04.628317+00,false,,defense training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e2a162c2-16fb-4244-af0a-497a9aa9ec2b,Tank Mastery,Tank - March Size II,false,2025-11-08 00:41:38.63319+00,false,,tank march size,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e324b291-d4d5-4ba6-ae7b-7a9e6a58fc5c,Special Forces,Weapon Training VII,false,2025-11-08 00:16:35.122974+00,false,,weapon training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e37aa8ae-67e9-42f8-8a7c-b8c9d289a825,Development,Infirmary Expansion II,false,2025-11-11 21:32:50.876009+00,false,,infirmary expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e381646e-b486-4172-adab-fde0b7642fa1,Defense Fortifications,Survival Skills,false,2025-11-08 00:29:42.948493+00,false,,survival skills,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e47c7dc1-7429-4d03-85cd-3e52e513bec3,The Age of Oil,Focused Training V,false,2025-11-09 20:44:49.73945+00,false,,focused training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e5698a4a-2615-4bd4-a096-e88fb7ec8705,Development,Fast Builder I,false,2025-11-11 21:32:50.876009+00,false,,fast builder,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e5c7f7d8-8287-4924-ae35-652a9ef39160,Siege to Seize,Vigilant Formation I,false,2025-11-08 00:32:02.342104+00,false,,vigilant formation,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e6176120-52cc-4c56-9d64-2c60d6e9e68c,Hero,Missile Expansion 1 (Missile),false,2025-11-07 23:55:30.126247+00,false,,missile expansion (missile),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e6d2894e-f43d-49c9-bc65-1a4444c9cebe,Siege to Seize,Vigilant Formation II,false,2025-11-08 00:32:02.342104+00,false,,vigilant formation,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e729359b-783b-47b3-b4c2-ae3a7d23c756,Tactical Weapon,Assistance: Attack Conversion III,false,2025-11-11 21:25:14.382631+00,false,,assistance attack conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e7ef5f74-d9fb-40b2-93ee-0c716437eaaa,The Age of Oil,More Oil Wells,false,2025-11-09 20:44:49.73945+00,false,,more oil wells,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+e8eb7714-c692-457b-a049-d1c94cce36a2,Intercity Truck,Lucky,false,2025-11-08 00:58:21.728362+00,false,,lucky,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ebbfcee7-d296-408e-9cf0-5feab919ef62,Tactical Weapon,Support: Hero Attack III,false,2025-11-11 21:25:14.382631+00,false,,support hero attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ec476f48-25c2-41bc-89af-29204b998262,Defense Fortifications,Hold the Line III,false,2025-11-08 00:29:42.948493+00,false,,hold the line,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ec6376d8-3968-4a31-98a8-b713916a3823,Siege to Seize,Final Stand III,false,2025-11-08 00:32:02.342104+00,false,,final stand,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ec908713-1f5f-46e6-a1d3-dc3b3577bb6d,Squad 1,Physical Supression 1,false,2025-11-07 23:55:31.105274+00,false,,physical supression,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ecb7a7ce-d581-4a5f-b7db-528f8d29c087,Tank Mastery,Tank Synergy - Attack I,false,2025-11-08 00:41:38.63319+00,false,,tank synergy attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ef7b4d86-787a-44fe-935b-b3d96d99ce01,Defense Fortifications,Solid Defense III,false,2025-11-08 00:29:42.948493+00,false,,solid defense,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+efb6c765-cecc-43bd-9d1c-1bf2f2a1d957,Economy,Coin Output II,false,2025-11-11 21:44:54.453729+00,false,,coin output,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+efcd388e-9ba3-4378-91e3-73ac71f26aeb,Units,Defense Training 3,false,2025-11-08 00:56:04.628317+00,false,,defense training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f046e4d4-17e5-448b-9b29-9c234077bef8,Squad 3,Resource Reaper 3,false,2025-11-07 23:55:32.280853+00,false,,resource reaper,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f1961b60-1ea0-4a34-aea5-fc03be4090aa,Squad 1,Hold the Line 1,false,2025-11-07 23:55:31.105274+00,false,,hold the line,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f2cf9fa3-e5d7-4e68-b505-4f0ddee04695,Missile Mastery,Missile Vehicle - HP II,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle hp,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f397dfd0-e9a6-4cdf-b14b-9b05902d9615,Squad 4,Zombie Radar 4,false,2025-11-07 23:55:32.853035+00,false,,zombie radar,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f3c9df3b-4499-4eff-b472-19a8bdf7aa43,Siege to Seize,Barrack Expansion I,false,2025-11-08 00:32:02.342104+00,false,,barrack expansion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f47ef886-b3cc-46d3-a836-2b2c1ecb993e,Missile Mastery,Missile Vehicle - Damage I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle damage,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f499d91e-ccbe-4da5-9f55-138fdec6dd3f,Squad 1,Assault Training 1,false,2025-11-07 23:55:31.105274+00,false,,assault training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f52ba681-fb88-4b2e-ab9a-ba7e3093ecdb,Tactical Weapon,Limit Break: Skill Star I,false,2025-11-11 21:25:14.382631+00,false,,limit break skill star,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f623aa84-248b-4afe-81d7-1118113287ba,Squad 3,Formation Training 3,false,2025-11-07 23:55:32.280853+00,false,,formation training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f6e092b1-a59c-459c-ab05-998ddda965ad,Units,Load Training 2,false,2025-11-08 00:56:04.628317+00,false,,load training,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f6efc766-4145-47d6-b5da-089c998759e9,Intercity Truck,Extra Truck,false,2025-11-08 00:58:21.728362+00,false,,extra truck,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f730d614-7528-4a0a-87d1-166eda78121e,Missile Mastery,Missile Vehicle - Attack I,false,2025-11-11 21:23:16.178865+00,false,,missile vehicle attack,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+f7ad8ce2-9dae-4b31-b3c9-42d10b9f2997,Hero,Wingman Tactics 2 (Air),false,2025-11-07 23:55:30.126247+00,false,,wingman tactics (air),1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+fae8482c-d26f-45a8-bc04-9ffe359af587,Squad 3,Final Stand 3,false,2025-11-07 23:55:32.280853+00,false,,final stand,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+fbdd4c4f-42a6-49e7-9f45-60fb6a58ab87,Tactical Weapon,Assistance: Attack Conversion I,false,2025-11-11 21:25:14.382631+00,false,,assistance attack conversion,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+fdd8fad8-b298-4bfa-9fbe-ddd1cd0d1967,Development,Rapid Field Dressing III,false,2025-11-11 21:32:50.876009+00,false,,rapid field dressing,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+fedec81d-4543-41b5-a70d-366d11826cb5,Squad 1,Fast Exploration 1,false,2025-11-07 23:55:31.105274+00,false,,fast exploration,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false
+ff445da7-a066-4fc8-8ca5-47110cb1d8f1,Siege to Seize,Vigilant Formation III,false,2025-11-08 00:32:02.342104+00,false,,vigilant formation,1e4ed8c4-a092-4600-9f7e-a29bfc72c8b5,false

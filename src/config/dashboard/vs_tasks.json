@@ -1,0 +1,89 @@
+{
+  "monday": {
+    "title": "Monday - Radar Training",
+    "tasks": [
+      { "id": "mon_01", "name": "Use Stamina" },
+      { "id": "mon_02", "name": "Complete Radar Tasks" },
+      { "id": "mon_03", "name": "Upgrade Hero EXP" },
+      { "id": "mon_04", "name": "Use Drone Battle Points" },
+      { "id": "mon_05", "name": "Use Drone Parts" },
+      { "id": "mon_06", "name": "Gather Resources" },
+      { "id": "mon_07", "name": "Open Drone Chip Chests" },
+      { "id": "mon_08", "name": "Buy Packs Containing Diamonds" }
+    ]
+  },
+
+  "tuesday": {
+    "title": "Tuesday - Base Expansion",
+    "tasks": [
+      { "id": "tue_01", "name": "Use Construction Speed-ups" },
+      { "id": "tue_02", "name": "Increase Building Power" },
+      { "id": "tue_03", "name": "Dispatch UR Truck" },
+      { "id": "tue_04", "name": "Perform UR Secret Tasks" },
+      { "id": "tue_05", "name": "Recruit Survivors" },
+      { "id": "tue_06", "name": "Buy Packs Containing Diamonds" }
+    ]
+  },
+
+  "wednesday": {
+    "title": "Wednesday - Age of Science",
+    "tasks": [
+      { "id": "wed_01", "name": "Use Research Speed-ups" },
+      { "id": "wed_02", "name": "Increase Tech Power" },
+      { "id": "wed_03", "name": "Use Valor Badges" },
+      { "id": "wed_04", "name": "Complete Radar Tasks" },
+      { "id": "wed_05", "name": "Open Drone Component Chests" },
+      { "id": "wed_06", "name": "Buy Packs Containing Diamonds" }
+    ]
+  },
+
+  "thursday": {
+    "title": "Thursday - Train Heroes",
+    "tasks": [
+      { "id": "thu_01", "name": "Recruit Heroes" },
+      { "id": "thu_02", "name": "Upgrade Hero EXP" },
+      { "id": "thu_03", "name": "Use Hero Shards" },
+      { "id": "thu_04", "name": "Use Hero Skill Medals" },
+      { "id": "thu_05", "name": "Use Hero Exclusive Weapon Shards" },
+      { "id": "thu_06", "name": "Buy Packs Containing Diamonds" }
+    ]
+  },
+
+  "friday": {
+    "title": "Friday - Total Mobilization",
+    "tasks": [
+      { "id": "fri_01", "name": "Complete Radar Tasks" },
+      { "id": "fri_02", "name": "Train Units" },
+      { "id": "fri_03", "name": "Use Construction Speed-ups" },
+      { "id": "fri_04", "name": "Use Research Speed-ups" },
+      { "id": "fri_05", "name": "Use Training Speed-ups" },
+      { "id": "fri_06", "name": "Increase Building Power" },
+      { "id": "fri_07", "name": "Increase Tech Power" },
+      { "id": "fri_08", "name": "Upgrade Overlord" },
+      { "id": "fri_09", "name": "Buy Packs Containing Diamonds" }
+    ]
+  },
+
+  "saturday": {
+    "title": "Saturday - Enemy Buster",
+    "tasks": [
+      { "id": "sat_01", "name": "Dispatch UR Truck" },
+      { "id": "sat_02", "name": "Perform UR Secret Tasks" },
+      { "id": "sat_03", "name": "Use Construction Speed-ups" },
+      { "id": "sat_04", "name": "Use Research Speed-ups" },
+      { "id": "sat_05", "name": "Use Training Speed-ups" },
+      { "id": "sat_06", "name": "Use Healing Speed-ups" },
+      { "id": "sat_07", "name": "Kill Enemy Units" },
+      { "id": "sat_08", "name": "Lose Units in PvP" },
+      { "id": "sat_09", "name": "Buy Packs Containing Diamonds" }
+    ]
+  },
+
+  "sunday": {
+    "title": "Sunday - Free Day",
+    "tasks": [
+      { "id": "sun_01", "name": "Don't forget to send squads to gather in mines before closing for the day!" }
+    ]
+  }    
+  
+}

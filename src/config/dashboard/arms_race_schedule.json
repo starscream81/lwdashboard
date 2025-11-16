@@ -1,0 +1,84 @@
+{
+  "serverTimeOffsetUtc": -2,
+  "cycleLengthDays": 7,
+  "segmentLengthHours": 4,
+  "days": [
+    {
+      "dayNumber": 1,
+      "phases": [
+        { "startServer": "00:00", "endServer": "03:59", "label": "Hero Advancement" },
+        { "startServer": "04:00", "endServer": "07:59", "label": "Base Building" },
+        { "startServer": "08:00", "endServer": "11:59", "label": "Unit Progression" },
+        { "startServer": "12:00", "endServer": "15:59", "label": "Tech Research" },
+        { "startServer": "16:00", "endServer": "19:59", "label": "Drone Boost" },
+        { "startServer": "20:00", "endServer": "23:59", "label": "Hero Advancement" }
+      ]
+    },
+    {
+      "dayNumber": 2,
+      "phases": [
+        { "startServer": "00:00", "endServer": "03:59", "label": "Base Building" },
+        { "startServer": "04:00", "endServer": "07:59", "label": "Unit Progression" },
+        { "startServer": "08:00", "endServer": "11:59", "label": "Tech Research" },
+        { "startServer": "12:00", "endServer": "15:59", "label": "Drone Boost" },
+        { "startServer": "16:00", "endServer": "19:59", "label": "Hero Advancement" },
+        { "startServer": "20:00", "endServer": "23:59", "label": "Base Building" }
+      ]
+    },
+    {
+      "dayNumber": 3,
+      "phases": [
+        { "startServer": "00:00", "endServer": "03:59", "label": "Unit Progression" },
+        { "startServer": "04:00", "endServer": "07:59", "label": "Tech Research" },
+        { "startServer": "08:00", "endServer": "11:59", "label": "Drone Boost" },
+        { "startServer": "12:00", "endServer": "15:59", "label": "Hero Advancement" },
+        { "startServer": "16:00", "endServer": "19:59", "label": "Base Building" },
+        { "startServer": "20:00", "endServer": "23:59", "label": "Unit Progression" }
+      ]
+    },
+    {
+      "dayNumber": 4,
+      "phases": [
+        { "startServer": "00:00", "endServer": "03:59", "label": "Tech Research" },
+        { "startServer": "04:00", "endServer": "07:59", "label": "Drone Boost" },
+        { "startServer": "08:00", "endServer": "11:59", "label": "Hero Advancement" },
+        { "startServer": "12:00", "endServer": "15:59", "label": "Base Building" },
+        { "startServer": "16:00", "endServer": "19:59", "label": "Unit Progression" },
+        { "startServer": "20:00", "endServer": "23:59", "label": "Tech Research" }
+      ]
+    },
+    {
+      "dayNumber": 5,
+      "phases": [
+        { "startServer": "00:00", "endServer": "03:59", "label": "Drone Boost" },
+        { "startServer": "04:00", "endServer": "07:59", "label": "Hero Advancement" },
+        { "startServer": "08:00", "endServer": "11:59", "label": "Base Building" },
+        { "startServer": "12:00", "endServer": "15:59", "label": "Unit Progression" },
+        { "startServer": "16:00", "endServer": "19:59", "label": "Tech Research" },
+        { "startServer": "20:00", "endServer": "23:59", "label": "Drone Boost" }
+      ]
+    },
+    {
+      "dayNumber": 6,
+      "phases": [
+        { "startServer": "00:00", "endServer": "03:59", "label": "Hero Advancement" },
+        { "startServer": "04:00", "endServer": "07:59", "label": "Base Building" },
+        { "startServer": "08:00", "endServer": "11:59", "label": "Unit Progression" },
+        { "startServer": "12:00", "endServer": "15:59", "label": "Tech Research" },
+        { "startServer": "16:00", "endServer": "19:59", "label": "Drone Boost" },
+        { "startServer": "20:00", "endServer": "23:59", "label": "Hero Advancement" }
+      ]
+    },
+    {
+      "dayNumber": 7,
+      "phases": [
+        { "startServer": "00:00", "endServer": "03:59", "label": "Base Building" },
+        { "startServer": "04:00", "endServer": "07:59", "label": "Unit Progression" },
+        { "startServer": "08:00", "endServer": "11:59", "label": "Tech Research" },
+        { "startServer": "12:00", "endServer": "15:59", "label": "Drone Boost" },
+        { "startServer": "16:00", "endServer": "19:59", "label": "Hero Advancement" },
+        { "startServer": "20:00", "endServer": "23:59", "label": "Base Building" }
+      ]
+    }
+  ]
+}
