@@ -34,6 +34,8 @@ type Hero = {
   skill2?: number | null;
   skill3?: number | null;
   max_skill_level?: number | null;
+  exclusive_weapon_owned?: boolean;
+  exclusive_weapon_level?: number | null;
 };
 
 type HeroCatalogEntry = {
@@ -43,7 +45,14 @@ type HeroCatalogEntry = {
   role?: HeroRole;
 };
 
-const TEAM_FILTERS = ["All", "Team 1", "Team 2", "Team 3", "Team 4", "Unassigned"] as const;
+const TEAM_FILTERS = [
+  "All",
+  "Team 1",
+  "Team 2",
+  "Team 3",
+  "Team 4",
+  "Unassigned",
+] as const;
 type TeamFilter = (typeof TEAM_FILTERS)[number];
 
 const ROLE_FILTERS = ["All", "Attack", "Defense", "Support"] as const;
@@ -155,6 +164,8 @@ export default function HeroesPage() {
             skill2: toNum(data.skill2),
             skill3: toNum(data.skill3),
             max_skill_level: toNum(data.max_skill_level),
+            exclusive_weapon_owned: !!data.exclusive_weapon_owned,
+            exclusive_weapon_level: toNum(data.exclusive_weapon_level),
           };
           return normalized;
         });
@@ -401,6 +412,8 @@ export default function HeroesPage() {
         skill2: null,
         skill3: null,
         max_skill_level: null,
+        exclusive_weapon_owned: false,
+        exclusive_weapon_level: null,
       });
 
       const newHero: Hero = {
@@ -422,6 +435,8 @@ export default function HeroesPage() {
         skill2: null,
         skill3: null,
         max_skill_level: null,
+        exclusive_weapon_owned: false,
+        exclusive_weapon_level: null,
       };
 
       setHeroes((prev) => [...prev, newHero]);
@@ -433,13 +448,17 @@ export default function HeroesPage() {
     }
   };
 
+  const handleCloseDetail = () => {
+    // Close the detail panel and reset to "All heroes"
+    setSelectedHeroId(null);
+    setCatalogFilter("All");
+  };
+
   if (!user && !loading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-slate-950">
         <div className="text-center space-y-4">
-          <h1 className="text-2xl font-semibold text-white">
-            Heroes
-          </h1>
+          <h1 className="text-2xl font-semibold text-white">Heroes</h1>
           <p className="text-slate-300">
             Please sign in to view your heroes.
           </p>
@@ -644,7 +663,7 @@ export default function HeroesPage() {
         {selectedHero && (
           <HeroDetailPanel
             hero={selectedHero}
-            onClose={() => setSelectedHeroId(null)}
+            onClose={handleCloseDetail}
             onUpdateField={handleUpdateHeroField}
             onUpdateNumericField={handleUpdateNumericField}
             onUpdateTeam={handleUpdateTeam}
@@ -667,9 +686,7 @@ function HeroDetailPanel(props: {
     raw: string
   ) => void;
   onUpdateTeam: (heroId: string, value: string) => void;
-  getGearFieldsForRole: (
-    role?: HeroRole
-  ) => [string, string][];
+  getGearFieldsForRole: (role?: HeroRole) => [string, string][];
   isSaving: (heroId: string, field: string) => boolean;
 }) {
   const {
@@ -682,11 +699,12 @@ function HeroDetailPanel(props: {
     isSaving,
   } = props;
 
-  // All gear pairs every hero has
+  // All gear pairs every hero has, in your requested order:
+  // Rail Gun, Armor, Data Chip, Radar (each with stars)
   const allGearPairs: [string, string][] = [
     ["rail_gun", "rail_gun_stars"],
-    ["data_chip", "data_chip_stars"],
     ["armor", "armor_stars"],
+    ["data_chip", "data_chip_stars"],
     ["radar", "radar_stars"],
   ];
 
@@ -694,7 +712,6 @@ function HeroDetailPanel(props: {
   const rolePairs = getGearFieldsForRole(hero.role);
   const relevantBaseKeys = new Set(rolePairs.map(([base]) => base));
 
-  // Skills: green if maxed, orange if below 20, neutral otherwise
   const skillColor = (value: number | null | undefined) => {
     if (value == null) return "text-slate-200";
     if (
@@ -712,7 +729,6 @@ function HeroDetailPanel(props: {
   const canShowStars = (base: number | null | undefined) =>
     base === 40;
 
-  // Decide color for gear row based on relevance + stars
   const gearRowClass = (
     baseValue: number | null | undefined,
     starValue: string | null | undefined,
@@ -720,19 +736,19 @@ function HeroDetailPanel(props: {
   ) => {
     const showStars = canShowStars(baseValue ?? null);
 
-    // Maxed: base is 40 and stars are 5 → green
     if (showStars && (starValue === "5" || starValue === "5.0")) {
       return "text-emerald-300";
     }
 
-    // Not maxed but important for this role → orange
     if (isRelevant) {
       return "text-orange-300";
     }
 
-    // Non relevant gear → neutral
     return "text-slate-200";
   };
+
+  const exclusiveOwned = !!hero.exclusive_weapon_owned;
+  const exclusiveLevel = hero.exclusive_weapon_level ?? null;
 
   return (
     <div className="fixed inset-0 z-40 bg-black/60 flex justify-end">
@@ -895,7 +911,6 @@ function HeroDetailPanel(props: {
                           const num =
                             trimmed === "" ? null : Number(trimmed);
                           if (num !== 40) {
-                            // If base is not 40, clear stars to keep data valid
                             onUpdateField(hero.id, starKey, null);
                           }
                         }}
@@ -948,6 +963,67 @@ function HeroDetailPanel(props: {
                   </div>
                 );
               })}
+            </div>
+
+            {/* Exclusive weapon */}
+            <div className="mt-4 border-t border-slate-800 pt-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="flex items-center gap-2 text-xs text-slate-200">
+                  <input
+                    type="checkbox"
+                    checked={exclusiveOwned}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      onUpdateField(
+                        hero.id,
+                        "exclusive_weapon_owned",
+                        checked
+                      );
+                      if (!checked) {
+                        onUpdateField(
+                          hero.id,
+                          "exclusive_weapon_level",
+                          null
+                        );
+                      }
+                    }}
+                    className="h-4 w-4 rounded border-slate-600 bg-slate-900 text-sky-500"
+                  />
+                  Has exclusive weapon
+                </label>
+              </div>
+
+              {exclusiveOwned && (
+                <div>
+                  <label className="block text-xs text-slate-400 mb-1">
+                    Exclusive Weapon Level
+                  </label>
+                  <input
+                    type="text"
+                    defaultValue={
+                      exclusiveLevel != null
+                        ? String(exclusiveLevel)
+                        : ""
+                    }
+                    onBlur={(e) =>
+                      onUpdateNumericField(
+                        hero.id,
+                        "exclusive_weapon_level",
+                        e.target.value
+                      )
+                    }
+                    className="w-full rounded-lg bg-slate-950/80 border border-slate-700/80 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
+                  />
+                  {isSaving(
+                    hero.id,
+                    "exclusive_weapon_level"
+                  ) && (
+                    <p className="text-[10px] text-sky-300 mt-1">
+                      Saving
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </section>
 
