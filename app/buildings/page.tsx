@@ -434,46 +434,52 @@ export default function BuildingsPage() {
   ) => {
     if (!user) return;
 
-    let groupNameForDoc = groupKey;
-    let existingTracking: BuildingTracking | null = null;
+    // Find the current group and instance so we can compute the new tracking state once
+    const currentGroup = groups.find(
+      (g) => g.groupKey === groupKey
+    );
+    if (!currentGroup) return;
 
-    setGroups((prev) => {
-      const updated = prev.map((group) => {
+    const currentInstance = currentGroup.instances.find(
+      (i) => i.id === instanceId
+    );
+    const baseTracking: BuildingTracking =
+      currentInstance?.tracking ??
+      buildDefaultTracking(instanceId, currentGroup.displayName);
+
+    const updatedTracking: BuildingTracking = {
+      ...baseTracking,
+      [field]: value,
+    };
+
+    // Update local state using the computed tracking
+    setGroups((prev) =>
+      prev.map((group) => {
         if (group.groupKey !== groupKey) return group;
 
         const updatedInstances = group.instances.map((instance) => {
-          if (instance.id !== instanceId) {
-            return instance;
-          }
-          const updatedTracking: BuildingTracking = {
-            ...instance.tracking,
-            [field]: value,
-          };
-          existingTracking = updatedTracking;
-          groupNameForDoc = group.displayName;
+          if (instance.id !== instanceId) return instance;
           return {
             ...instance,
             tracking: updatedTracking,
           };
         });
 
-        const hasTracked =
-          updatedInstances.some(
-            (instance) =>
-              instance.tracking.tracked ||
-              instance.tracking.upgrading
-          );
+        const hasTracked = updatedInstances.some(
+          (instance) =>
+            instance.tracking.tracked ||
+            instance.tracking.upgrading
+        );
 
         return {
           ...group,
           instances: updatedInstances,
           hasTracked,
         };
-      });
+      })
+    );
 
-      return updated;
-    });
-
+    // Persist to Firestore
     try {
       const ref = doc(
         db,
@@ -485,27 +491,22 @@ export default function BuildingsPage() {
 
       const payload: DocumentData = {
         id: instanceId,
-        name: groupNameForDoc,
+        name: currentGroup.displayName,
+        tracked: updatedTracking.tracked,
+        upgrading: updatedTracking.upgrading,
       };
 
-      if (existingTracking) {
-        payload.tracked = existingTracking.tracked;
-        payload.upgrading = existingTracking.upgrading;
-        if (
-          typeof existingTracking.priority === "number" ||
-          existingTracking.priority === null
-        ) {
-          payload.priority = existingTracking.priority;
-        }
-        if (
-          typeof existingTracking.orderIndex === "number" ||
-          existingTracking.orderIndex === null
-        ) {
-          payload.orderIndex = existingTracking.orderIndex;
-        }
-      } else {
-        payload.tracked = field === "tracked" ? value : false;
-        payload.upgrading = field === "upgrading" ? value : false;
+      if (
+        typeof updatedTracking.priority === "number" ||
+        updatedTracking.priority === null
+      ) {
+        payload.priority = updatedTracking.priority;
+      }
+      if (
+        typeof updatedTracking.orderIndex === "number" ||
+        updatedTracking.orderIndex === null
+      ) {
+        payload.orderIndex = updatedTracking.orderIndex;
       }
 
       await setDoc(ref, payload, { merge: true });
