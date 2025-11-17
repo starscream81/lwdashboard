@@ -1305,15 +1305,14 @@ export default function DashboardPage() {
                   Currently Upgrading
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1">
-                  Includes research in progress and buildings marked as
-                  upgrading or with priority.
+
                 </p>
               </div>
             </div>
 
             {trackedUpgrades.length > 0 && (
               <ul className="mt-1 space-y-1 text-[11px] text-slate-200">
-                {trackedUpgrades.slice(0, 4).map((u) => (
+                {trackedUpgrades.slice(0, 7).map((u) => (
                   <li
                     key={`${u.type}-${u.id}`}
                     className="flex items-center justify-between"
@@ -1335,7 +1334,7 @@ export default function DashboardPage() {
                     </span>
                   </li>
                 ))}
-                {trackedUpgrades.length > 4 && (
+                {trackedUpgrades.length > 7 && (
                   <li className="text-[10px] text-slate-400">
                     +{trackedUpgrades.length - 4} more
                   </li>
