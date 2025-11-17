@@ -270,7 +270,7 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
   },
   {
     key: "Technical Institute",
-    displayName: "Technical Institute",
+    displayName: "Tactical Institute",
   },
   {
     key: "Titanium Alloy Factory",
