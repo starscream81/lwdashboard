@@ -232,6 +232,11 @@ function groupServerIds(ids: number[]): string {
   return ranges.join(", ");
 }
 
+// Normalize building keys so Firestore names and JSON names align even if case or spaces differ
+function normalizeBuildingKey(name: string): string {
+  return name.trim().toLowerCase();
+}
+
 function resolveHqRequirementsForNextLevel(
   currentHqLevel: number | null | undefined,
   buildingLevels: BuildingLevelsMap
@@ -265,10 +270,22 @@ function resolveHqRequirementsForNextLevel(
 
     let currentLevel = 0;
 
+    // First pass: try exact building names from the group definition
     for (const buildingName of group.buildings) {
-      const level = buildingLevels[buildingName] ?? 0;
-      if (level > currentLevel) {
-        currentLevel = level;
+      const normalized = normalizeBuildingKey(buildingName);
+      const directLevel = buildingLevels[normalized] ?? 0;
+      if (directLevel > currentLevel) {
+        currentLevel = directLevel;
+      }
+    }
+
+    // Fallback: if still zero, try any building whose key contains the group label
+    if (currentLevel === 0) {
+      const labelKey = normalizeBuildingKey(group.label);
+      for (const [key, level] of Object.entries(buildingLevels)) {
+        if (key.includes(labelKey) && level > currentLevel) {
+          currentLevel = level;
+        }
       }
     }
 
@@ -413,14 +430,13 @@ export default function DashboardPage() {
               ? Number(rawLevel)
               : 0;
 
-          const name =
-            (data.name || docSnap.id || "").toString().trim();
+          const name = (data.name || docSnap.id || "").toString().trim();
 
           if (name) {
-            levels[name] = level;
+            levels[normalizeBuildingKey(name)] = level;
           }
 
-          levels[docSnap.id] = level;
+          levels[normalizeBuildingKey(docSnap.id)] = level;
         });
 
         setBuildingLevels(levels);
@@ -494,7 +510,8 @@ export default function DashboardPage() {
             inProgress: !!data.inProgress,
             priority: data.priority != null ? Number(data.priority) : null,
             trackStatus: !!data.trackStatus,
-            orderIndex: data.orderIndex != null ? Number(data.orderIndex) : null,
+            orderIndex:
+              data.orderIndex != null ? Number(data.orderIndex) : null,
           };
         });
 
@@ -648,8 +665,9 @@ export default function DashboardPage() {
 
         const buildingSummaries: UpgradeSummary[] =
           trackedBuildingUpgrades.map((row) => {
+            const key = normalizeBuildingKey(row.name);
             const currentLevel =
-              levels[row.name] != null ? levels[row.name] : 0;
+              levels[key] != null ? levels[key] : 0;
             const nextLevel =
               currentLevel > 0 ? currentLevel + 1 : null;
 
