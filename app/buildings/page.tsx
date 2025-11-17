@@ -5,6 +5,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   setDoc,
@@ -43,6 +44,8 @@ type BuildingInstance = {
   instanceLabel: string;
   level: number;
   tracking: BuildingTracking;
+  baseGroupKey?: string;
+  baseDisplayName?: string;
 };
 
 type BuildingGroup = {
@@ -52,6 +55,7 @@ type BuildingGroup = {
   hasTracked: boolean;
   multiInstance?: boolean;
   maxInstances?: number;
+  isSeasonGroup?: boolean;
 };
 
 type LevelChangeHandler = (
@@ -67,29 +71,65 @@ type TrackingToggleHandler = (
   value: boolean
 ) => void;
 
-type AddInstanceHandler = (groupKey: string) => void;
+type DeleteInstanceHandler = (groupKey: string, instanceId: string) => void;
 
 type BuildingGroupDef = {
   key: string;
   displayName: string;
   multiInstance?: boolean;
   maxInstances?: number;
+  seasonGroups?: string[];
 };
 
+const SEASON_1 = "Season 1 Buildings";
+const SEASON_2 = "Season 2 Buildings";
+const SEASON_3 = "Season 3 Buildings";
+const SEASON_4 = "Season 4 Buildings";
+const SEASON_5 = "Season 5 Buildings";
+
 const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
-  { key: "Aircraft Center", displayName: "Aircraft Center" },
+  {
+    key: "Air Force Base",
+    displayName: "Air Force Base",
+    seasonGroups: [SEASON_1, SEASON_2],
+  },
   { key: "Alert Tower", displayName: "Alert Tower" },
   { key: "Alliance Center", displayName: "Alliance Center" },
+  { key: "Altar", displayName: "Altar", seasonGroups: [SEASON_3] },
   {
     key: "Barracks",
     displayName: "Barracks",
     multiInstance: true,
     maxInstances: 4,
   },
+  {
+    key: "Blessing Fountain",
+    displayName: "Blessing Fountain",
+    multiInstance: true,
+    maxInstances: 5,
+    seasonGroups: [SEASON_3],
+  },
   { key: "Builder's Hut", displayName: "Builder's Hut" },
+  {
+    key: "Caffiene Institute",
+    displayName: "Caffiene Institute",
+    seasonGroups: [SEASON_5],
+  },
   { key: "Chip Lab", displayName: "Chip Lab" },
+  {
+    key: "Coffee Factory",
+    displayName: "Coffee Factory",
+    multiInstance: true,
+    maxInstances: 5,
+    seasonGroups: [SEASON_5],
+  },
   { key: "Coin Vault", displayName: "Coin Vault" },
   { key: "Component Factory", displayName: "Component Factory" },
+  {
+    key: "Curse Research Lab",
+    displayName: "Curse Research Lab",
+    seasonGroups: [SEASON_3],
+  },
   {
     key: "Drill Ground",
     displayName: "Drill Ground",
@@ -117,6 +157,11 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
   },
   { key: "HQ", displayName: "HQ" },
   {
+    key: "High-heat Furnace",
+    displayName: "High-heat Furnace",
+    seasonGroups: [SEASON_2],
+  },
+  {
     key: "Hospital",
     displayName: "Hospital",
     multiInstance: true,
@@ -130,6 +175,11 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
   },
   { key: "Iron Warehouse", displayName: "Iron Warehouse" },
   {
+    key: "Light House",
+    displayName: "Light House",
+    seasonGroups: [SEASON_4],
+  },
+  {
     key: "Material Workshop",
     displayName: "Material Workshop",
     multiInstance: true,
@@ -137,10 +187,49 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
   },
   { key: "Missile Center", displayName: "Missile Center" },
   {
+    key: "Missile Vehicle Base",
+    displayName: "Missile Vehicle Base",
+    seasonGroups: [SEASON_1, SEASON_2],
+  },
+  {
+    key: "Missileer Bar",
+    displayName: "Missileer Bar",
+    seasonGroups: [SEASON_5],
+  },
+  {
     key: "Oil Well",
     displayName: "Oil Well",
     multiInstance: true,
     maxInstances: 5,
+  },
+  {
+    key: "Opto-Electronic Lab",
+    displayName: "Opto-Electronic Lab",
+    seasonGroups: [SEASON_4],
+  },
+  {
+    key: "Pilot Bar",
+    displayName: "Pilot Bar",
+    seasonGroups: [SEASON_5],
+  },
+  {
+    key: "Protector Field",
+    displayName: "Protector Field",
+    seasonGroups: [SEASON_3, SEASON_4, SEASON_5],
+  },
+  {
+    key: "Protein Farm",
+    displayName: "Protein Farm",
+    multiInstance: true,
+    maxInstances: 5,
+    seasonGroups: [SEASON_1],
+  },
+  {
+    key: "Quartz Workshop",
+    displayName: "Quartz Workshop",
+    multiInstance: true,
+    maxInstances: 5,
+    seasonGroups: [SEASON_4],
   },
   {
     key: "Recon Plane",
@@ -154,7 +243,17 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
     multiInstance: true,
     maxInstances: 5,
   },
+  {
+    key: "Tank Base",
+    displayName: "Tank Base",
+    seasonGroups: [SEASON_1, SEASON_2],
+  },
   { key: "Tank Center", displayName: "Tank Center" },
+  {
+    key: "Tanker Bar",
+    displayName: "Tanker Bar",
+    seasonGroups: [SEASON_5],
+  },
   { key: "Tavern", displayName: "Tavern" },
   {
     key: "Tech Center",
@@ -167,32 +266,77 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
     displayName: "Technical Institute",
   },
   {
+    key: "Titanium Alloy Factory",
+    displayName: "Titanium Alloy Factory",
+    multiInstance: true,
+    maxInstances: 5,
+    seasonGroups: [SEASON_2],
+  },
+  {
     key: "Training Base",
     displayName: "Training Base",
     multiInstance: true,
     maxInstances: 5,
   },
+  {
+    key: "Virus Research Institute",
+    displayName: "Virus Research Institute",
+    seasonGroups: [SEASON_1],
+  },
   { key: "Wall", displayName: "Wall" },
 ];
+
+/**
+ * Normalize an identifier for comparison:
+ *  - lower case
+ *  - collapse non alphanumeric into spaces
+ *  - trim
+ */
+function normalizeIdentifier(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+/**
+ * Resolve a raw building name to a canonical group key from BUILDING_GROUP_DEFS.
+ */
+function resolveGroupName(rawName: string): string {
+  const trimmed = rawName.trim();
+  const normalized = normalizeIdentifier(trimmed);
+
+  for (const def of BUILDING_GROUP_DEFS) {
+    const defNorm = normalizeIdentifier(def.key);
+
+    if (normalized === defNorm) {
+      return def.key;
+    }
+
+    if (
+      normalized.startsWith(defNorm + " ") ||
+      normalized.startsWith(defNorm)
+    ) {
+      return def.key;
+    }
+  }
+
+  const match = trimmed.match(/^(.*?)(?:\s+(\d+))$/);
+  if (match && match[1]) {
+    return match[1].trim();
+  }
+
+  return trimmed;
+}
 
 function deriveGroupAndInstance(rawName: string): {
   groupName: string;
   instanceLabel: string;
 } {
-  const trimmed = rawName.trim();
-
-  const match = trimmed.match(/^(.*?)(?:\s+(\d+))$/);
-  if (match && match[1]) {
-    const groupName = match[1].trim();
-    return {
-      groupName,
-      instanceLabel: trimmed,
-    };
-  }
-
+  const groupName = resolveGroupName(rawName);
   return {
-    groupName: trimmed,
-    instanceLabel: trimmed,
+    groupName,
+    instanceLabel: rawName.trim(),
   };
 }
 
@@ -288,14 +432,16 @@ export default function BuildingsPage() {
           });
         });
 
-        const groupMap = new Map<string, BuildingGroup>();
+        const coreGroupMap = new Map<string, BuildingGroup>();
 
+        // First pass: existing KV docs -> core building groups
         kvSnap.forEach((docSnap) => {
           const id = docSnap.id;
           const data = docSnap.data() as BuildingKvDoc;
 
           const baseName =
             (data.name || id).toString().trim() || id.toString();
+
           const { groupName, instanceLabel } =
             deriveGroupAndInstance(baseName);
 
@@ -310,7 +456,7 @@ export default function BuildingsPage() {
             (entry) => entry.key === groupName
           );
 
-          const existingGroup = groupMap.get(groupName);
+          const existingGroup = coreGroupMap.get(groupName);
 
           const instance: BuildingInstance = {
             id,
@@ -320,7 +466,7 @@ export default function BuildingsPage() {
           };
 
           if (!existingGroup) {
-            groupMap.set(groupName, {
+            coreGroupMap.set(groupName, {
               groupKey: groupName,
               displayName: def?.displayName || groupName,
               instances: [instance],
@@ -344,26 +490,188 @@ export default function BuildingsPage() {
           }
         });
 
+        // Second pass: auto create missing instances per building definition
         for (const def of BUILDING_GROUP_DEFS) {
-          const existing = groupMap.get(def.key);
-          if (existing) {
-            existing.displayName = def.displayName;
-            existing.multiInstance = def.multiInstance;
-            existing.maxInstances = def.maxInstances;
+          const groupKey = def.key;
+          const baseLabel = def.displayName;
+
+          let group = coreGroupMap.get(groupKey);
+          const existingInstances = group?.instances ?? [];
+          const currentCount = existingInstances.length;
+
+          let targetCount: number;
+          if (def.multiInstance) {
+            targetCount =
+              typeof def.maxInstances === "number"
+                ? def.maxInstances
+                : currentCount;
           } else {
-            groupMap.set(def.key, {
-              groupKey: def.key,
-              displayName: def.displayName,
-              instances: [],
-              hasTracked: false,
+            targetCount = 1;
+          }
+
+          if (targetCount < 1) {
+            targetCount = currentCount;
+          }
+
+          const instancesArray = [...existingInstances];
+
+          if (currentCount < targetCount) {
+            const numToCreate = targetCount - currentCount;
+
+            for (let i = 0; i < numToCreate; i++) {
+              const index = currentCount + i;
+              const instanceLabel =
+                def.multiInstance && targetCount > 1
+                  ? `${baseLabel} ${index + 1}`
+                  : baseLabel;
+
+              const ref = await addDoc(
+                collection(db, "users", uid, "buildings_kv"),
+                {
+                  name: instanceLabel,
+                  level: 0,
+                }
+              );
+
+              const newInstanceId = ref.id;
+              const tracking = buildDefaultTracking(
+                newInstanceId,
+                baseLabel
+              );
+
+              instancesArray.push({
+                id: newInstanceId,
+                instanceLabel,
+                level: 0,
+                tracking,
+              });
+            }
+          }
+
+          const hasTracked = instancesArray.some(
+            (inst) =>
+              inst.tracking.tracked || inst.tracking.upgrading
+          );
+
+          if (group) {
+            group.instances = instancesArray;
+            group.displayName = baseLabel;
+            group.multiInstance = def.multiInstance;
+            group.maxInstances = def.maxInstances;
+            group.hasTracked = hasTracked;
+          } else {
+            coreGroupMap.set(groupKey, {
+              groupKey,
+              displayName: baseLabel,
+              instances: instancesArray,
+              hasTracked,
               multiInstance: def.multiInstance,
               maxInstances: def.maxInstances,
             });
           }
         }
 
-        const builtGroups = Array.from(groupMap.values()).sort((a, b) =>
-          a.displayName.localeCompare(b.displayName)
+        // Strict labeling inside each core building group
+        for (const group of coreGroupMap.values()) {
+          const def = BUILDING_GROUP_DEFS.find(
+            (entry) => entry.key === group.groupKey
+          );
+          const baseLabel =
+            def?.displayName || group.displayName || group.groupKey;
+
+          group.instances.sort((a, b) =>
+            a.id.localeCompare(b.id)
+          );
+
+          if (group.instances.length === 1 && !group.multiInstance) {
+            group.instances[0].instanceLabel = baseLabel;
+          } else if (group.instances.length > 0) {
+            group.instances.forEach((instance, idx) => {
+              if (group.multiInstance) {
+                instance.instanceLabel = `${baseLabel} ${idx + 1}`;
+              } else {
+                instance.instanceLabel = baseLabel;
+              }
+            });
+          }
+        }
+
+        // Build UI groups:
+        //  - Non-season buildings -> normal tiles
+        //  - Season buildings -> grouped under Season 1/2/3/4/5 tiles
+        const uiGroupMap = new Map<string, BuildingGroup>();
+
+        for (const coreGroup of coreGroupMap.values()) {
+          const def = BUILDING_GROUP_DEFS.find(
+            (entry) => entry.key === coreGroup.groupKey
+          );
+          const seasonGroups = def?.seasonGroups;
+
+          // Non-season: one tile per building type
+          if (!seasonGroups || seasonGroups.length === 0) {
+            const uiInstances: BuildingInstance[] =
+              coreGroup.instances.map((inst) => ({
+                ...inst,
+                baseGroupKey: coreGroup.groupKey,
+                baseDisplayName: coreGroup.displayName,
+              }));
+
+            const hasTracked = uiInstances.some(
+              (inst) =>
+                inst.tracking.tracked || inst.tracking.upgrading
+            );
+
+            uiGroupMap.set(coreGroup.groupKey, {
+              groupKey: coreGroup.groupKey,
+              displayName: coreGroup.displayName,
+              instances: uiInstances,
+              hasTracked,
+              multiInstance: coreGroup.multiInstance,
+              maxInstances: coreGroup.maxInstances,
+              isSeasonGroup: false,
+            });
+            continue;
+          }
+
+          // Season buildings: contribute to one or more season buckets
+          for (const seasonName of seasonGroups) {
+            let seasonGroup = uiGroupMap.get(seasonName);
+            if (!seasonGroup) {
+              seasonGroup = {
+                groupKey: seasonName,
+                displayName: seasonName,
+                instances: [],
+                hasTracked: false,
+                multiInstance: true,
+                maxInstances: undefined,
+                isSeasonGroup: true,
+              };
+              uiGroupMap.set(seasonName, seasonGroup);
+            }
+
+            const seasonInstances: BuildingInstance[] =
+              coreGroup.instances.map((inst) => ({
+                ...inst,
+                baseGroupKey: coreGroup.groupKey,
+                baseDisplayName: coreGroup.displayName,
+              }));
+
+            seasonGroup.instances.push(...seasonInstances);
+
+            if (
+              seasonInstances.some(
+                (inst) =>
+                  inst.tracking.tracked ||
+                  inst.tracking.upgrading
+              )
+            ) {
+              seasonGroup.hasTracked = true;
+            }
+          }
+        }
+
+        const builtGroups = Array.from(uiGroupMap.values()).sort(
+          (a, b) => a.displayName.localeCompare(b.displayName)
         );
 
         setGroups(builtGroups);
@@ -387,25 +695,23 @@ export default function BuildingsPage() {
   );
 
   const handleLevelChange: LevelChangeHandler = async (
-    groupKey,
+    _groupKey,
     instanceId,
     newLevel
   ) => {
     if (!user) return;
     const safeLevel = Number.isNaN(newLevel) ? 0 : newLevel;
 
+    // Update all appearances of this instance id (in case it shows in multiple season tiles)
     setGroups((prev) =>
-      prev.map((group) => {
-        if (group.groupKey !== groupKey) return group;
-        return {
-          ...group,
-          instances: group.instances.map((instance) =>
-            instance.id === instanceId
-              ? { ...instance, level: safeLevel }
-              : instance
-          ),
-        };
-      })
+      prev.map((group) => ({
+        ...group,
+        instances: group.instances.map((instance) =>
+          instance.id === instanceId
+            ? { ...instance, level: safeLevel }
+            : instance
+        ),
+      }))
     );
 
     try {
@@ -427,48 +733,47 @@ export default function BuildingsPage() {
   };
 
   const handleTrackingToggle: TrackingToggleHandler = async (
-    groupKey,
+    _groupKey,
     instanceId,
     field,
     value
   ) => {
     if (!user) return;
 
-    // Find the current group and instance so we can compute the new tracking state once
-    const currentGroup = groups.find(
-      (g) => g.groupKey === groupKey
+    // Find the instance so we know its base display name
+    const owningGroup = groups.find((group) =>
+      group.instances.some((inst) => inst.id === instanceId)
     );
-    if (!currentGroup) return;
+    const targetInstance = owningGroup?.instances.find(
+      (inst) => inst.id === instanceId
+    );
 
-    const currentInstance = currentGroup.instances.find(
-      (i) => i.id === instanceId
-    );
+    const baseDisplayName =
+      targetInstance?.baseDisplayName ||
+      owningGroup?.displayName ||
+      _groupKey;
+
     const baseTracking: BuildingTracking =
-      currentInstance?.tracking ??
-      buildDefaultTracking(instanceId, currentGroup.displayName);
+      targetInstance?.tracking ??
+      buildDefaultTracking(instanceId, baseDisplayName);
 
     const updatedTracking: BuildingTracking = {
       ...baseTracking,
       [field]: value,
     };
 
-    // Update local state using the computed tracking
     setGroups((prev) =>
       prev.map((group) => {
-        if (group.groupKey !== groupKey) return group;
-
-        const updatedInstances = group.instances.map((instance) => {
-          if (instance.id !== instanceId) return instance;
-          return {
-            ...instance,
-            tracking: updatedTracking,
-          };
-        });
+        const updatedInstances = group.instances.map((instance) =>
+          instance.id === instanceId
+            ? { ...instance, tracking: updatedTracking }
+            : instance
+        );
 
         const hasTracked = updatedInstances.some(
-          (instance) =>
-            instance.tracking.tracked ||
-            instance.tracking.upgrading
+          (inst) =>
+            inst.tracking.tracked ||
+            inst.tracking.upgrading
         );
 
         return {
@@ -479,7 +784,6 @@ export default function BuildingsPage() {
       })
     );
 
-    // Persist to Firestore
     try {
       const ref = doc(
         db,
@@ -491,7 +795,7 @@ export default function BuildingsPage() {
 
       const payload: DocumentData = {
         id: instanceId,
-        name: currentGroup.displayName,
+        name: baseDisplayName,
         tracked: updatedTracking.tracked,
         upgrading: updatedTracking.upgrading,
       };
@@ -515,63 +819,55 @@ export default function BuildingsPage() {
     }
   };
 
-  const handleAddInstance: AddInstanceHandler = async (groupKey) => {
+  const handleDeleteInstance: DeleteInstanceHandler = async (
+    _groupKey,
+    instanceId
+  ) => {
     if (!user) return;
 
-    const group = groups.find((entry) => entry.groupKey === groupKey);
-    if (!group) return;
+    const confirmed = window.confirm(
+      "Delete this building instance? Core buildings may be re created automatically on a future reload."
+    );
+    if (!confirmed) return;
 
-    if (!group.multiInstance && group.instances.length > 0) {
-      return;
-    }
-
-    if (
-      group.maxInstances != null &&
-      group.instances.length >= group.maxInstances
-    ) {
-      return;
-    }
-
-    const baseName = group.displayName;
-    const index = group.instances.length;
-    const instanceLabel =
-      !group.multiInstance || index === 0
-        ? baseName
-        : `${baseName} ${index + 1}`;
+    setGroups((prev) =>
+      prev.map((group) => {
+        const updatedInstances = group.instances.filter(
+          (inst) => inst.id !== instanceId
+        );
+        const hasTracked = updatedInstances.some(
+          (inst) =>
+            inst.tracking.tracked ||
+            inst.tracking.upgrading
+        );
+        return {
+          ...group,
+          instances: updatedInstances,
+          hasTracked,
+        };
+      })
+    );
 
     try {
-      const ref = await addDoc(
-        collection(db, "users", user.uid, "buildings_kv"),
-        {
-          name: instanceLabel,
-          level: 0,
-        }
+      const kvRef = doc(
+        db,
+        "users",
+        user.uid,
+        "buildings_kv",
+        instanceId
+      );
+      const trackingRef = doc(
+        db,
+        "users",
+        user.uid,
+        "buildings_tracking",
+        instanceId
       );
 
-      const newInstanceId = ref.id;
-      const tracking = buildDefaultTracking(
-        newInstanceId,
-        group.displayName
-      );
-
-      setGroups((prev) =>
-        prev.map((entry) => {
-          if (entry.groupKey !== groupKey) return entry;
-
-          return {
-            ...entry,
-            instances: [
-              ...entry.instances,
-              {
-                id: newInstanceId,
-                instanceLabel,
-                level: 0,
-                tracking,
-              },
-            ],
-          };
-        })
-      );
+      await Promise.all([
+        deleteDoc(kvRef),
+        deleteDoc(trackingRef).catch(() => {}),
+      ]);
     } catch (err) {
       console.error(err);
     }
@@ -615,7 +911,7 @@ export default function BuildingsPage() {
             </h1>
             <p className="text-sm text-slate-400">
               Manage building levels and tracking flags that feed your
-              command center dashboard.
+              command center dashboard. Seasonal buildings are grouped by season.
             </p>
           </div>
           <Link
@@ -645,8 +941,8 @@ export default function BuildingsPage() {
         {!loading && !error && groups.length === 0 && (
           <div className="mt-10 flex justify-center">
             <div className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300">
-              No buildings found yet. Add some building data to see it
-              here.
+              No buildings found yet. Data will appear here after your
+              first save.
             </div>
           </div>
         )}
@@ -674,7 +970,7 @@ export default function BuildingsPage() {
           onClose={() => setSelectedGroupKey(null)}
           onLevelChange={handleLevelChange}
           onTrackingToggle={handleTrackingToggle}
-          onAddInstance={handleAddInstance}
+          onDeleteInstance={handleDeleteInstance}
         />
       )}
     </main>
@@ -702,8 +998,7 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
   );
 
   const multiple =
-    group.instances.length > 1 ||
-    (!!group.multiInstance && group.instances.length > 0);
+    group.instances.length > 1 || group.isSeasonGroup;
 
   return (
     <button
@@ -719,7 +1014,7 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
           <p className="mt-1 text-xs text-slate-400">
             {hasInstances
               ? multiple
-                ? `Instances: ${group.instances.length}`
+                ? `Entries: ${group.instances.length}`
                 : "Single instance"
               : "No buildings created yet"}
           </p>
@@ -739,14 +1034,18 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
       </div>
 
       <div className="mt-4 flex items-center justify-between text-xs text-slate-300">
-        <span className="text-slate-400">Levels</span>
+        <span className="text-slate-400">
+          {group.isSeasonGroup ? "Season levels" : "Levels"}
+        </span>
         <span className="font-medium text-slate-100">
           {hasInstances ? levelsText : "none"}
         </span>
       </div>
 
       <div className="mt-3 text-[11px] text-slate-500">
-        Click to edit levels and tracking for this building group.
+        {group.isSeasonGroup
+          ? "Click to view and edit all buildings unlocked in this season."
+          : "Click to edit levels, tracking, and delete instances for this building group."}
       </div>
     </button>
   );
@@ -757,7 +1056,7 @@ type BuildingDetailPanelProps = {
   onClose: () => void;
   onLevelChange: LevelChangeHandler;
   onTrackingToggle: TrackingToggleHandler;
-  onAddInstance: AddInstanceHandler;
+  onDeleteInstance: DeleteInstanceHandler;
 };
 
 function BuildingDetailPanel({
@@ -765,14 +1064,9 @@ function BuildingDetailPanel({
   onClose,
   onLevelChange,
   onTrackingToggle,
-  onAddInstance,
+  onDeleteInstance,
 }: BuildingDetailPanelProps) {
   const hasInstances = group.instances.length > 0;
-  const canAddAnother = group.multiInstance
-    ? group.maxInstances != null
-      ? group.instances.length < group.maxInstances
-      : true
-    : !hasInstances;
 
   return (
     <div className="fixed inset-0 z-40 flex justify-end">
@@ -787,21 +1081,12 @@ function BuildingDetailPanel({
               {group.displayName}
             </h2>
             <p className="text-xs text-slate-400">
-              Update building levels plus tracked and upgrading flags.
+              {group.isSeasonGroup
+                ? "Season bucket showing all buildings associated with this season. Adjust levels, tracking flags, or delete old entries."
+                : "Update building levels plus tracked and upgrading flags. Delete instances to clean up old or seasonal data."}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            {canAddAnother && (
-              <button
-                type="button"
-                onClick={() => onAddInstance(group.groupKey)}
-                className="inline-flex items-center rounded-full border border-slate-700 px-3 py-1 text-[11px] font-medium text-slate-100 hover:bg-slate-800"
-              >
-                {hasInstances
-                  ? "Add instance"
-                  : "Create building"}
-              </button>
-            )}
             <button
               type="button"
               onClick={onClose}
@@ -816,21 +1101,26 @@ function BuildingDetailPanel({
           {hasInstances ? (
             <>
               <div className="rounded-2xl border border-slate-800 bg-slate-900/70">
-                <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-3 border-b border-slate-800 px-4 py-3 text-[11px] font-semibold text-slate-400">
-                  <div>Instance</div>
+                <div className="grid grid-cols-[minmax(0,2.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.8fr)] gap-3 border-b border-slate-800 px-4 py-3 text-[11px] font-semibold text-slate-400">
+                  <div>
+                    {group.isSeasonGroup ? "Building / Instance" : "Instance"}
+                  </div>
                   <div className="text-center">Level</div>
                   <div className="text-center">Tracked</div>
                   <div className="text-center">Upgrading</div>
+                  <div className="text-center">Delete</div>
                 </div>
 
                 {group.instances.map((instance) => (
                   <div
                     key={instance.id}
-                    className="grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-3 border-t border-slate-900 px-4 py-3 text-xs text-slate-100"
+                    className="grid grid-cols-[minmax(0,2.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.8fr)] items-center gap-3 border-t border-slate-900 px-4 py-3 text-xs text-slate-100"
                   >
                     <div className="pr-2">
                       <div className="font-medium text-slate-50">
-                        {instance.instanceLabel}
+                        {group.isSeasonGroup && instance.baseDisplayName
+                          ? `${instance.baseDisplayName} — ${instance.instanceLabel}`
+                          : instance.instanceLabel}
                       </div>
                       <div className="text-[11px] text-slate-500">
                         Document id: {instance.id}
@@ -894,23 +1184,38 @@ function BuildingDetailPanel({
                         }
                       />
                     </div>
+
+                    <div className="flex justify-center">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onDeleteInstance(
+                            group.groupKey,
+                            instance.id
+                          )
+                        }
+                        className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-rose-700/60 text-[11px] text-rose-200 hover:bg-rose-900/60"
+                      >
+                        ✕
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
 
               <p className="mt-3 text-[11px] text-slate-500">
                 Changes save automatically when you edit a level or
-                toggle a checkbox. Use tracked to flag buildings you want
-                to focus on next. When you begin the upgrade, switch to
-                upgrading so the dashboard can follow progress.
+                toggle a checkbox. Delete instances to clean up old,
+                duplicate, or seasonal buildings. Required core buildings
+                may be re created on a future page load if they are missing.
               </p>
             </>
           ) : (
             <div className="rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-4 text-xs text-slate-200">
               <p>
-                No buildings created for this group yet. Use the
-                button above to create the first one. Levels can stay
-                at zero until you unlock them in game.
+                No buildings created for this group yet. Core buildings
+                are auto created when needed. Seasonal buildings appear
+                here once they exist in your data.
               </p>
             </div>
           )}
