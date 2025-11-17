@@ -9,9 +9,11 @@ import {
   updateDoc,
   query,
   addDoc,
+  getDoc,
 } from "firebase/firestore";
 import Link from "next/link";
 import { auth, db } from "@/lib/firebase";
+import AppHeader from "@/components/AppHeader";
 
 type HeroRole = "Attack" | "Defense" | "Support" | string;
 
@@ -43,6 +45,11 @@ type HeroCatalogEntry = {
   name: string;
   type?: string;
   role?: HeroRole;
+};
+
+type Profile = {
+  displayName?: string | null;
+  alliance?: string | null;
 };
 
 const TEAM_FILTERS = [
@@ -106,6 +113,9 @@ export default function HeroesPage() {
   const [savingField, setSavingField] = useState<string | null>(null);
   const [creatingHero, setCreatingHero] = useState(false);
 
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  // Watch auth state
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
       if (!firebaseUser) {
@@ -119,6 +129,25 @@ export default function HeroesPage() {
 
     return () => unsub();
   }, []);
+
+  // Load profile for header
+  useEffect(() => {
+    if (!user) return;
+
+    const loadProfile = async () => {
+      try {
+        const ref = doc(db, "users", user.uid, "profiles", "default");
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          setProfile(snap.data() as Profile);
+        }
+      } catch (err) {
+        console.error("Failed to load profile for header", err);
+      }
+    };
+
+    loadProfile();
+  }, [user]);
 
   // Load user heroes
   useEffect(() => {
@@ -467,28 +496,32 @@ export default function HeroesPage() {
     );
   }
 
+  const isGuest = user?.isAnonymous ?? false;
+
+  const profileAlliance =
+    isGuest
+      ? "GUEST"
+      : (profile as any)?.alliance != null &&
+        (profile as any)?.alliance !== ""
+      ? String((profile as any).alliance)
+      : null;
+
+  const baseDisplayName = isGuest
+    ? "Guest Commander"
+    : profile?.displayName ?? "Commander";
+
+  const combinedDisplayNameWithAlliance = profileAlliance
+    ? `${baseDisplayName} [${profileAlliance}]`
+    : baseDisplayName;
+
+  const combinedDisplayName = isGuest
+    ? `${combinedDisplayNameWithAlliance} (Guest)`
+    : combinedDisplayNameWithAlliance;
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
+      <AppHeader userName={combinedDisplayName} />
       <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
-        {/* Top navigation pills */}
-        <div className="flex flex-wrap gap-2 mb-2">
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center rounded-full px-4 py-1.5 text-sm border border-slate-600 bg-slate-950 text-slate-200 hover:border-sky-500 hover:text-sky-200 transition-colors"
-          >
-            Dashboard
-          </Link>
-          <span className="inline-flex items-center rounded-full px-4 py-1.5 text-sm border border-sky-500 bg-sky-600 text-white">
-            Heroes
-          </span>
-          <Link
-            href="/research"
-            className="inline-flex items-center rounded-full px-4 py-1.5 text-sm border border-slate-600 bg-slate-950 text-slate-200 hover:border-sky-500 hover:text-sky-200 transition-colors"
-          >
-            Research
-          </Link>
-        </div>
-
         {/* Header */}
         <section className="space-y-2">
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
@@ -708,7 +741,7 @@ function HeroDetailPanel(props: {
     ["radar", "radar_stars"],
   ];
 
-  // Role–relevant gear (for highlighting)
+  // Role relevant gear (for highlighting)
   const rolePairs = getGearFieldsForRole(hero.role);
   const relevantBaseKeys = new Set(rolePairs.map(([base]) => base));
 

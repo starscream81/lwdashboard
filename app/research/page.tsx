@@ -1,15 +1,21 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
+import AppHeader from "@/components/AppHeader";
 import {
   subscribeToResearch,
   updateResearch,
   seedResearchForUser,
 } from "@/lib/research";
 import { ResearchTrackingDoc } from "@/types/research";
+
+type Profile = {
+  displayName?: string | null;
+  alliance?: string | null;
+};
 
 export default function ResearchPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -26,6 +32,9 @@ export default function ResearchPage() {
   const [showTrackedForTileOnly, setShowTrackedForTileOnly] =
     useState<boolean>(false);
 
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  // Auth state
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
       if (!firebaseUser) {
@@ -41,6 +50,25 @@ export default function ResearchPage() {
 
     return () => unsub();
   }, []);
+
+  // Load profile for header (displayName + alliance)
+  useEffect(() => {
+    if (!user) return;
+
+    const loadProfile = async () => {
+      try {
+        const ref = doc(db, "users", user.uid, "profiles", "default");
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          setProfile(snap.data() as Profile);
+        }
+      } catch (err) {
+        console.error("Failed to load profile for header", err);
+      }
+    };
+
+    loadProfile();
+  }, [user]);
 
   // Subscribe to user research and seed from research_catalog if empty
   useEffect(() => {
@@ -183,28 +211,33 @@ export default function ResearchPage() {
     await updateResearch(user!.uid, row.id, { priority: newValue });
   }
 
+  const isGuest = user?.isAnonymous ?? false;
+
+  const profileAlliance =
+    isGuest
+      ? "GUEST"
+      : (profile as any)?.alliance != null &&
+        (profile as any)?.alliance !== ""
+      ? String((profile as any).alliance)
+      : null;
+
+  const baseDisplayName = isGuest
+    ? "Guest Commander"
+    : profile?.displayName ?? "Commander";
+
+  const combinedDisplayNameWithAlliance = profileAlliance
+    ? `${baseDisplayName} [${profileAlliance}]`
+    : baseDisplayName;
+
+  const combinedDisplayName = isGuest
+    ? `${combinedDisplayNameWithAlliance} (Guest)`
+    : combinedDisplayNameWithAlliance;
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
-      <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
-        {/* Top Navigation */}
-        <nav className="mb-2 flex gap-3 text-sm">
-          <Link
-            href="/dashboard"
-            className="rounded-full px-3 py-1 border border-slate-700/80 bg-slate-900/80 hover:border-sky-500/70"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/heroes"
-            className="rounded-full px-3 py-1 border border-slate-700/80 bg-slate-900/80 hover:border-sky-500/70"
-          >
-            Heroes
-          </Link>
-          <span className="rounded-full px-3 py-1 border border-sky-500/80 bg-sky-600/80 text-white text-xs flex items-center">
-            Research
-          </span>
-        </nav>
+      <AppHeader userName={combinedDisplayName} />
 
+      <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
         {/* Header */}
         <section className="space-y-2">
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">

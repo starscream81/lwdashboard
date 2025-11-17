@@ -14,6 +14,7 @@ import {
 
 import Link from "next/link";
 import { auth, db } from "@/lib/firebase";
+import AppHeader from "@/components/AppHeader";
 import hqRequirementsGroups from "@/config/dashboard/hq_requirements_groups.json";
 import serverArmsRaceState from "@/config/dashboard/server_arms_race_state.json";
 import shinyTasksRotation from "@/config/dashboard/shiny_tasks_rotation.json";
@@ -130,7 +131,7 @@ const SHINY_ROTATION = shinyTasksRotation as ShinyRotationConfig;
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-// Anchor for Shiny rotation: this server calendar day was Group C
+// Anchor for Shiny rotation
 const SHINY_ROTATION_ANCHOR = {
   date: "2025-11-14",
   group: "C",
@@ -138,7 +139,6 @@ const SHINY_ROTATION_ANCHOR = {
 
 const ARMS_RACE_ANCHOR = {
   // server calendar date when server_arms_race_state.json was generated
-  // and its day numbers were correct for all servers
   date: "2025-11-14",
 };
 
@@ -146,7 +146,6 @@ const ARMS_RACE_ANCHOR = {
 const SERVER_UTC_OFFSET_HOURS = -2;
 
 function getServerDate(): Date {
-  // now.getTime() is already UTC-based; just apply the server offset once
   const now = new Date();
   const serverMillis =
     now.getTime() + SERVER_UTC_OFFSET_HOURS * 60 * 60 * 1000;
@@ -169,7 +168,7 @@ function getDayNumberFromDateString(dateStr: string): number {
   return Math.floor(Date.UTC(y, m - 1, d) / MS_PER_DAY);
 }
 
-// Convert a server time string "HH:MM" (UTC minus 2) into the user's local time string
+// Convert server time "HH:MM" to local display string
 function convertServerTimeToLocal(timeStr: string): string {
   const [hhStr, mmStr] = timeStr.split(":");
   const hh = Number(hhStr);
@@ -233,7 +232,6 @@ function groupServerIds(ids: number[]): string {
   return ranges.join(", ");
 }
 
-// Normalize building keys so Firestore names and JSON names align even if case or spaces differ
 function normalizeBuildingKey(name: string): string {
   return name.trim().toLowerCase();
 }
@@ -320,7 +318,9 @@ export default function DashboardPage() {
   const [teamsPower, setTeamsPower] = useState<TeamsPower>({});
   const [trackingItems, setTrackingItems] = useState<TrackingItem[]>([]);
   const [trackedCount, setTrackedCount] = useState<number>(0);
-  const [trackedUpgrades, setTrackedUpgrades] = useState<UpgradeSummary[]>([]);
+  const [trackedUpgrades, setTrackedUpgrades] = useState<UpgradeSummary[]>(
+    []
+  );
   const [loading, setLoading] = useState(true);
   const [savingTeam, setSavingTeam] = useState<number | null>(null);
   const [buildingLevels, setBuildingLevels] = useState<BuildingLevelsMap>({});
@@ -414,7 +414,7 @@ export default function DashboardPage() {
           setHqLevel(Number.isNaN(parsed as number) ? null : parsed);
         }
 
-        // All building levels from buildings_kv (for HQ requirements tile and upgrades)
+        // All building levels from buildings_kv
         const buildingsKvRef = collection(db, "users", uid, "buildings_kv");
         const buildingsKvSnap = await getDocs(buildingsKvRef);
 
@@ -516,7 +516,7 @@ export default function DashboardPage() {
           };
         });
 
-        // Research Status tile: only rows with trackStatus contribute
+        // Research Status tile
         const categoryTotals: Record<
           string,
           { current: number; max: number }
@@ -547,14 +547,13 @@ export default function DashboardPage() {
 
         setResearchStatus(status);
 
-        // Research upgrades: anything currently researching, or queued via priority
+        // Research upgrades
         const trackedResearchUpgrades = researchRows.filter((row) => {
           if (row.inProgress) return true;
           if (row.priority != null && row.priority > 0) return true;
           return false;
         });
 
-        // Next Up research: not in progress but has trackStatus or priority
         const nextUpResearch: TrackingItem[] = researchRows
           .filter(
             (row) =>
@@ -596,14 +595,12 @@ export default function DashboardPage() {
           };
         });
 
-        // Currently Upgrading tile: upgrading or has priority
         const trackedBuildingUpgrades = buildingRows.filter((row) => {
           if (row.upgrading) return true;
           if (row.priority != null && row.priority > 0) return true;
           return false;
         });
 
-        // Next Up buildings: not upgrading and either tracked or priority
         const nextUpBuildings: TrackingItem[] = buildingRows
           .filter(
             (row) =>
@@ -619,7 +616,6 @@ export default function DashboardPage() {
             orderIndex: row.orderIndex,
           }));
 
-        // Next Up panel combines research plus buildings
         const combined: TrackingItem[] = [
           ...nextUpResearch,
           ...nextUpBuildings,
@@ -636,7 +632,6 @@ export default function DashboardPage() {
 
         setTrackingItems(combined);
 
-        // Tracked Upgrades tile (research plus buildings with level info)
         const researchSummaries: UpgradeSummary[] =
           trackedResearchUpgrades.map((row) => {
             const currentLevel = row.currentLevel;
@@ -734,203 +729,194 @@ export default function DashboardPage() {
   }, []);
 
   const armsRaceToday: ArmsRaceToday = useMemo(() => {
-  const scheduleJson: any = armsRaceSchedule as any;
-  const stateJson: any = serverArmsRaceState as any;
+    const scheduleJson: any = armsRaceSchedule as any;
+    const stateJson: any = serverArmsRaceState as any;
 
-  const serverId = profileServerId;
+    const serverId = profileServerId;
 
-  // Still depends on your profile server, same as before
-  if (!serverId) {
-    return {
-      title: "Today’s Arms Race",
-      phases: [],
-      reason: "Server is not configured in your profile.",
-    };
-  }
-
-  const serversMap = stateJson.servers ?? {};
-  const rawEntry = serversMap[String(serverId)];
-
-  if (rawEntry == null) {
-    console.log("[ArmsRaceDebug] no entry for server", {
-      serverId,
-      serversMap,
-    });
-    return {
-      title: "Today’s Arms Race",
-      phases: [],
-      reason: `No Arms Race day found for server ${serverId}.`,
-    };
-  }
-
-  // Support both simple "3" and object shapes like { day: 3 }
-  let baseDayNumber: number | null = null;
-
-  if (typeof rawEntry === "number") {
-    baseDayNumber = rawEntry;
-  } else if (typeof rawEntry === "string") {
-    const parsed = Number(rawEntry);
-    if (!isNaN(parsed)) baseDayNumber = parsed;
-  } else if (typeof rawEntry === "object" && rawEntry !== null) {
-    const possibleKeys = ["day", "currentDay", "dayNumber", "index"];
-    for (const key of possibleKeys) {
-      const value = (rawEntry as any)[key];
-      if (typeof value === "number") {
-        baseDayNumber = value;
-        break;
-      }
-      if (typeof value === "string") {
-        const parsed = Number(value);
-        if (!isNaN(parsed)) {
-          baseDayNumber = parsed;
-          break;
-        }
-      }
-    }
-  }
-
-  if (baseDayNumber == null) {
-    console.log("[ArmsRaceDebug] could not resolve baseDayNumber", {
-      serverId,
-      rawEntry,
-    });
-    return {
-      title: "Today’s Arms Race",
-      phases: [],
-      reason: `No Arms Race day found for server ${serverId}.`,
-    };
-  }
-
-  const cycleLength =
-    typeof scheduleJson.cycleLengthDays === "number"
-      ? scheduleJson.cycleLengthDays
-      : typeof stateJson.cycleLengthDays === "number"
-      ? stateJson.cycleLengthDays
-      : 7;
-
-  let activeDayNumber = baseDayNumber;
-
-  if (cycleLength > 0 && ARMS_RACE_ANCHOR.date) {
-    const serverDayNumberToday = getServerDayNumber();
-    const anchorDayNumber = getDayNumberFromDateString(
-      ARMS_RACE_ANCHOR.date
-    );
-    const diffDays = serverDayNumberToday - anchorDayNumber;
-
-    // baseDayNumber is 1-based (1..cycleLength)
-    const baseIndex = baseDayNumber - 1; // 0-based
-    const adjustedIndexRaw = baseIndex + diffDays;
-
-    const adjustedIndex =
-      ((adjustedIndexRaw % cycleLength) + cycleLength) % cycleLength;
-
-    activeDayNumber = adjustedIndex + 1; // back to 1-based
-  }
-
-  const allDays: any[] = Array.isArray(scheduleJson.days)
-    ? scheduleJson.days
-    : [];
-
-  let dayConfig: any =
-    allDays.find((d) => d && d.dayNumber === activeDayNumber) ?? null;
-
-  if (!dayConfig && allDays.length > 0) {
-    // Fallback by index if dayNumber is not present in JSON
-    const index = Math.max(
-      0,
-      Math.min(allDays.length - 1, activeDayNumber - 1)
-    );
-    dayConfig = allDays[index];
-  }
-
-  if (!dayConfig || !Array.isArray(dayConfig.phases)) {
-    console.log("[ArmsRaceDebug] no phases for active day", {
-      serverId,
-      baseDayNumber,
-      activeDayNumber,
-      dayConfig,
-    });
-    return {
-      title: "Today’s Arms Race",
-      phases: [],
-      reason: "No Arms Race phases found for today.",
-    };
-  }
-
-  const serverNow = getServerDate();
-  const currentMinutes =
-    serverNow.getUTCHours() * 60 + serverNow.getUTCMinutes();
-
-  const phases: ArmsRacePhaseDisplay[] = dayConfig.phases.map(
-    (phase: any, index: number) => {
-      const id = String(phase.id ?? index);
-      const name = String(
-        phase.label ?? phase.name ?? `Phase ${index + 1}`
-      );
-
-      // Times in server clock, "HH:MM"
-      const startServerTime = String(
-        phase.startServer ?? phase.startTime ?? phase.start ?? "00:00"
-      );
-      const endServerTime = String(
-        phase.endServer ?? phase.endTime ?? phase.end ?? "23:59"
-      );
-
-      // Local labels for display
-      const startLabel = convertServerTimeToLocal(startServerTime);
-      const endLabel = convertServerTimeToLocal(endServerTime);
-
-      const [shhStr, smmStr] = startServerTime.split(":");
-      const [ehhStr, emmStr] = endServerTime.split(":");
-      const shh = Number(shhStr);
-      const smm = Number(smmStr);
-      const ehh = Number(ehhStr);
-      const emm = Number(emmStr);
-
-      let isCurrent = false;
-
-      if (
-        !isNaN(shh) &&
-        !isNaN(smm) &&
-        !isNaN(ehh) &&
-        !isNaN(emm)
-      ) {
-        const startMinutes = shh * 60 + smm;
-        const endMinutes = ehh * 60 + emm;
-
-        if (startMinutes <= endMinutes) {
-          // Normal phase inside same day
-          isCurrent =
-            currentMinutes >= startMinutes &&
-            currentMinutes <= endMinutes;
-        } else {
-          // Phase wraps past midnight (not used now, but safe)
-          isCurrent =
-            currentMinutes >= startMinutes ||
-            currentMinutes <= endMinutes;
-        }
-      }
-
+    if (!serverId) {
       return {
-        id,
-        name,
-        startLabel,
-        endLabel,
-        isCurrent,
+        title: "Today’s Arms Race",
+        phases: [],
+        reason: "Server is not configured in your profile.",
       };
     }
-  );
 
-  return {
-    title: "Today’s Arms Race",
-    phases,
-    reason:
-      phases.length === 0
-        ? "No Arms Race phases found for today."
-        : null,
-  };
-}, [profileServerId]);
+    const serversMap = stateJson.servers ?? {};
+    const rawEntry = serversMap[String(serverId)];
 
+    if (rawEntry == null) {
+      console.log("[ArmsRaceDebug] no entry for server", {
+        serverId,
+        serversMap,
+      });
+      return {
+        title: "Today’s Arms Race",
+        phases: [],
+        reason: `No Arms Race day found for server ${serverId}.`,
+      };
+    }
+
+    let baseDayNumber: number | null = null;
+
+    if (typeof rawEntry === "number") {
+      baseDayNumber = rawEntry;
+    } else if (typeof rawEntry === "string") {
+      const parsed = Number(rawEntry);
+      if (!isNaN(parsed)) baseDayNumber = parsed;
+    } else if (typeof rawEntry === "object" && rawEntry !== null) {
+      const possibleKeys = ["day", "currentDay", "dayNumber", "index"];
+      for (const key of possibleKeys) {
+        const value = (rawEntry as any)[key];
+        if (typeof value === "number") {
+          baseDayNumber = value;
+          break;
+        }
+        if (typeof value === "string") {
+          const parsed = Number(value);
+          if (!isNaN(parsed)) {
+            baseDayNumber = parsed;
+            break;
+          }
+        }
+      }
+    }
+
+    if (baseDayNumber == null) {
+      console.log("[ArmsRaceDebug] could not resolve baseDayNumber", {
+        serverId,
+        rawEntry,
+      });
+      return {
+        title: "Today’s Arms Race",
+        phases: [],
+        reason: `No Arms Race day found for server ${serverId}.`,
+      };
+    }
+
+    const cycleLength =
+      typeof scheduleJson.cycleLengthDays === "number"
+        ? scheduleJson.cycleLengthDays
+        : typeof stateJson.cycleLengthDays === "number"
+        ? stateJson.cycleLengthDays
+        : 7;
+
+    let activeDayNumber = baseDayNumber;
+
+    if (cycleLength > 0 && ARMS_RACE_ANCHOR.date) {
+      const serverDayNumberToday = getServerDayNumber();
+      const anchorDayNumber = getDayNumberFromDateString(
+        ARMS_RACE_ANCHOR.date
+      );
+      const diffDays = serverDayNumberToday - anchorDayNumber;
+
+      const baseIndex = baseDayNumber - 1;
+      const adjustedIndexRaw = baseIndex + diffDays;
+
+      const adjustedIndex =
+        ((adjustedIndexRaw % cycleLength) + cycleLength) % cycleLength;
+
+      activeDayNumber = adjustedIndex + 1;
+    }
+
+    const allDays: any[] = Array.isArray(scheduleJson.days)
+      ? scheduleJson.days
+      : [];
+
+    let dayConfig: any =
+      allDays.find((d) => d && d.dayNumber === activeDayNumber) ?? null;
+
+    if (!dayConfig && allDays.length > 0) {
+      const index = Math.max(
+        0,
+        Math.min(allDays.length - 1, activeDayNumber - 1)
+      );
+      dayConfig = allDays[index];
+    }
+
+    if (!dayConfig || !Array.isArray(dayConfig.phases)) {
+      console.log("[ArmsRaceDebug] no phases for active day", {
+        serverId,
+        baseDayNumber,
+        activeDayNumber,
+        dayConfig,
+      });
+      return {
+        title: "Today’s Arms Race",
+        phases: [],
+        reason: "No Arms Race phases found for today.",
+      };
+    }
+
+    const serverNow = getServerDate();
+    const currentMinutes =
+      serverNow.getUTCHours() * 60 + serverNow.getUTCMinutes();
+
+    const phases: ArmsRacePhaseDisplay[] = dayConfig.phases.map(
+      (phase: any, index: number) => {
+        const id = String(phase.id ?? index);
+        const name = String(
+          phase.label ?? phase.name ?? `Phase ${index + 1}`
+        );
+
+        const startServerTime = String(
+          phase.startServer ?? phase.startTime ?? phase.start ?? "00:00"
+        );
+        const endServerTime = String(
+          phase.endServer ?? phase.endTime ?? phase.end ?? "23:59"
+        );
+
+        const startLabel = convertServerTimeToLocal(startServerTime);
+        const endLabel = convertServerTimeToLocal(endServerTime);
+
+        const [shhStr, smmStr] = startServerTime.split(":");
+        const [ehhStr, emmStr] = endServerTime.split(":");
+        const shh = Number(shhStr);
+        const smm = Number(smmStr);
+        const ehh = Number(ehhStr);
+        const emm = Number(emmStr);
+
+        let isCurrent = false;
+
+        if (
+          !isNaN(shh) &&
+          !isNaN(smm) &&
+          !isNaN(ehh) &&
+          !isNaN(emm)
+        ) {
+          const startMinutes = shh * 60 + smm;
+          const endMinutes = ehh * 60 + emm;
+
+          if (startMinutes <= endMinutes) {
+            isCurrent =
+              currentMinutes >= startMinutes &&
+              currentMinutes <= endMinutes;
+          } else {
+            isCurrent =
+              currentMinutes >= startMinutes ||
+              currentMinutes <= endMinutes;
+          }
+        }
+
+        return {
+          id,
+          name,
+          startLabel,
+          endLabel,
+          isCurrent,
+        };
+      }
+    );
+
+    return {
+      title: "Today’s Arms Race",
+      phases,
+      reason:
+        phases.length === 0
+          ? "No Arms Race phases found for today."
+          : null,
+    };
+  }, [profileServerId]);
 
   const shinyToday: ShinyToday = useMemo(() => {
     const cfg = SHINY_ROTATION;
@@ -1051,7 +1037,7 @@ export default function DashboardPage() {
 
         <Link
           href="/login"
-          className="mt-6 inline-flex items-center items-center rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 shadow"
+          className="mt-6 inline-flex items-center rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 shadow"
         >
           Go to login
         </Link>
@@ -1061,17 +1047,14 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
+      <AppHeader />
+
+
       <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
-        {/* Header strip */}
-        <section className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-3 py-1 border border-slate-700/60">
-              <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-xs font-medium text-slate-200">
-                Last War Command Center
-              </span>
-            </div>
-            <div>
+        {/* Dashboard title and overlapping profile card */}
+        <section className="pt-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-xl space-y-2">
               <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
                 Last War Dashboard
               </h1>
@@ -1079,50 +1062,55 @@ export default function DashboardPage() {
                 Track your base, squads, and upgrades in one place.
               </p>
             </div>
-          </div>
 
-          <div className="flex items-center gap-3 rounded-xl bg-slate-900/80 px-4 py-3 border border-slate-700/70">
-            <div className="relative">
-              {profile?.avatarUrl ? (
-                <img
-                  src={profile.avatarUrl}
-                  alt={profile.displayName ?? "Commander avatar"}
-                  className="h-12 w-12 rounded-full object-cover border border-slate-700"
-                />
-              ) : (
-                <div className="h-12 w-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-lg font-semibold">
-                  {(baseDisplayName[0] ?? "C").toUpperCase()}
+              <div className="mt-4 md:mt-0 flex justify-end md:justify-between md:min-w-[260px]">
+                <div className="relative md:-translate-y-10">
+
+                <div className="flex items-center gap-3 rounded-xl bg-slate-900/80 px-4 py-3 border border-slate-700/70 shadow-lg shadow-slate-900/80">
+                  <div className="relative">
+                    {profile?.avatarUrl ? (
+                      <img
+                        src={profile.avatarUrl}
+                        alt={profile.displayName ?? "Commander avatar"}
+                        className="h-12 w-12 rounded-full object-cover border border-slate-700"
+                      />
+                    ) : (
+                      <div className="h-12 w-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-lg font-semibold">
+                        {(baseDisplayName[0] ?? "C").toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    <Link
+                      href="/profile"
+                      className="text-sm font-semibold hover:text-sky-300 transition-colors"
+                    >
+                      {combinedDisplayName}
+                    </Link>
+
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-slate-300">
+                      {profileServerId && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
+                          <span className="h-1.5 w-1.5 rounded-full bg-orange-400" />
+                          {profileServerId}
+                        </span>
+                      )}
+
+                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
+                        <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+                        HQ:{" "}
+                        {hqLevel != null && !isNaN(hqLevel)
+                          ? hqLevel
+                          : "not set"}
+                      </span>
+
+                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                        Total Hero Power: {formattedTotalHeroPower}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-            <div className="space-y-1">
-              <Link
-                href="/profile"
-                className="text-sm font-semibold hover:text-sky-300 transition-colors"
-              >
-                {combinedDisplayName}
-              </Link>
-
-              <div className="flex flex-wrap items-center gap-2 text-xs text-slate-300">
-                {profileServerId && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
-                    <span className="h-1.5 w-1.5 rounded-full bg-orange-400" />
-                    {profileServerId}
-                  </span>
-                )}
-
-                <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
-                  <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-                  HQ:{" "}
-                  {hqLevel != null && !isNaN(hqLevel)
-                    ? hqLevel
-                    : "not set"}
-                </span>
-
-                <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  Total Hero Power: {formattedTotalHeroPower}
-                </span>
               </div>
             </div>
           </div>
@@ -1229,8 +1217,10 @@ export default function DashboardPage() {
         </section>
 
         {/* Summary chips */}
+        {/* (everything from here down is unchanged from your existing layout) */}
+
+        {/* HQ Requirements */}
         <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          {/* HQ Requirements */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <p className="text-xs text-slate-400">
@@ -1362,6 +1352,8 @@ export default function DashboardPage() {
           </div>
         </section>
 
+        {/* Teams and Next Up */}
+        {/* unchanged */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Teams section */}
           <section className="lg:col-span-2 space-y-3">

@@ -10,11 +10,13 @@ import {
   getDocs,
   setDoc,
   DocumentData,
+  getDoc,
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { auth, db } from "@/lib/firebase";
+import AppHeader from "@/components/AppHeader";
 
 type BuildingKvDoc = {
   name?: string;
@@ -79,6 +81,11 @@ type BuildingGroupDef = {
   multiInstance?: boolean;
   maxInstances?: number;
   seasonGroups?: string[];
+};
+
+type Profile = {
+  displayName?: string | null;
+  alliance?: string | null;
 };
 
 const SEASON_1 = "Season 1 Buildings";
@@ -367,6 +374,8 @@ export default function BuildingsPage() {
     null
   );
 
+  const [profile, setProfile] = useState<Profile | null>(null);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (!firebaseUser) {
@@ -380,6 +389,25 @@ export default function BuildingsPage() {
 
     return () => unsubscribe();
   }, [router]);
+
+  // Load profile for header
+  useEffect(() => {
+    if (!user) return;
+
+    const loadProfile = async () => {
+      try {
+        const ref = doc(db, "users", user.uid, "profiles", "default");
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          setProfile(snap.data() as Profile);
+        }
+      } catch (err) {
+        console.error("Failed to load profile for header", err);
+      }
+    };
+
+    loadProfile();
+  }, [user]);
 
   useEffect(() => {
     if (!user) {
@@ -901,26 +929,42 @@ export default function BuildingsPage() {
     );
   }
 
+  const isGuest = user.isAnonymous ?? false;
+
+  const profileAlliance =
+    isGuest
+      ? "GUEST"
+      : (profile as any)?.alliance != null &&
+        (profile as any)?.alliance !== ""
+      ? String((profile as any).alliance)
+      : null;
+
+  const baseDisplayName = isGuest
+    ? "Guest Commander"
+    : profile?.displayName ?? "Commander";
+
+  const combinedDisplayNameWithAlliance = profileAlliance
+    ? `${baseDisplayName} [${profileAlliance}]`
+    : baseDisplayName;
+
+  const combinedDisplayName = isGuest
+    ? `${combinedDisplayNameWithAlliance} (Guest)`
+    : combinedDisplayNameWithAlliance;
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
+      <AppHeader userName={combinedDisplayName} />
+
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <header className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold text-slate-50">
-              Buildings
-            </h1>
-            <p className="text-sm text-slate-400">
-              Manage building levels and tracking flags that feed your
-              command center dashboard. Seasonal buildings are grouped by season.
-            </p>
-          </div>
-          <Link
-            href="/"
-            className="mt-2 inline-flex items-center justify-center rounded-xl border border-slate-700 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-800 sm:mt-0"
-          >
-            Back to dashboard
-          </Link>
-        </header>
+        <section className="mb-6 space-y-1">
+          <h1 className="text-2xl font-semibold text-slate-50">
+            Buildings
+          </h1>
+          <p className="text-sm text-slate-400">
+            Manage building levels and tracking flags that feed your
+            command center dashboard. Seasonal buildings are grouped by season.
+          </p>
+        </section>
 
         {loading && (
           <div className="mt-10 flex justify-center">
