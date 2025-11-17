@@ -146,9 +146,10 @@ const ARMS_RACE_ANCHOR = {
 const SERVER_UTC_OFFSET_HOURS = -2;
 
 function getServerDate(): Date {
+  // now.getTime() is already UTC-based; just apply the server offset once
   const now = new Date();
-  const utcMillis = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
-  const serverMillis = utcMillis + SERVER_UTC_OFFSET_HOURS * 60 * 60 * 1000;
+  const serverMillis =
+    now.getTime() + SERVER_UTC_OFFSET_HOURS * 60 * 60 * 1000;
   return new Date(serverMillis);
 }
 
@@ -733,168 +734,203 @@ export default function DashboardPage() {
   }, []);
 
   const armsRaceToday: ArmsRaceToday = useMemo(() => {
-    const scheduleJson: any = armsRaceSchedule as any;
-    const stateJson: any = serverArmsRaceState as any;
+  const scheduleJson: any = armsRaceSchedule as any;
+  const stateJson: any = serverArmsRaceState as any;
 
-    const serverId = profileServerId;
+  const serverId = profileServerId;
 
-    if (!serverId) {
-      return {
-        title: "Today\u2019s Arms Race",
-        phases: [],
-        reason: "Server is not configured in your profile.",
-      };
-    }
+  // Still depends on your profile server, same as before
+  if (!serverId) {
+    return {
+      title: "Today’s Arms Race",
+      phases: [],
+      reason: "Server is not configured in your profile.",
+    };
+  }
 
-    const serversMap = stateJson.servers ?? {};
-    const stateEntry = serversMap[String(serverId)];
-    let baseDayNumber: number | null = null;
+  const serversMap = stateJson.servers ?? {};
+  const rawEntry = serversMap[String(serverId)];
 
-    if (typeof stateEntry === "number") {
-      baseDayNumber = stateEntry;
-    } else if (typeof stateEntry === "string") {
-      const parsed = Number(stateEntry);
-      if (!isNaN(parsed)) {
-        baseDayNumber = parsed;
+  if (rawEntry == null) {
+    console.log("[ArmsRaceDebug] no entry for server", {
+      serverId,
+      serversMap,
+    });
+    return {
+      title: "Today’s Arms Race",
+      phases: [],
+      reason: `No Arms Race day found for server ${serverId}.`,
+    };
+  }
+
+  // Support both simple "3" and object shapes like { day: 3 }
+  let baseDayNumber: number | null = null;
+
+  if (typeof rawEntry === "number") {
+    baseDayNumber = rawEntry;
+  } else if (typeof rawEntry === "string") {
+    const parsed = Number(rawEntry);
+    if (!isNaN(parsed)) baseDayNumber = parsed;
+  } else if (typeof rawEntry === "object" && rawEntry !== null) {
+    const possibleKeys = ["day", "currentDay", "dayNumber", "index"];
+    for (const key of possibleKeys) {
+      const value = (rawEntry as any)[key];
+      if (typeof value === "number") {
+        baseDayNumber = value;
+        break;
       }
-    } else if (stateEntry && typeof stateEntry === "object") {
-      const possibleKeys = ["day", "currentDay", "dayNumber", "index"];
-      for (const key of possibleKeys) {
-        const value = (stateEntry as any)[key];
-        if (typeof value === "number") {
-          baseDayNumber = value;
+      if (typeof value === "string") {
+        const parsed = Number(value);
+        if (!isNaN(parsed)) {
+          baseDayNumber = parsed;
           break;
         }
-        if (typeof value === "string") {
-          const parsed = Number(value);
-          if (!isNaN(parsed)) {
-            baseDayNumber = parsed;
-            break;
-          }
+      }
+    }
+  }
+
+  if (baseDayNumber == null) {
+    console.log("[ArmsRaceDebug] could not resolve baseDayNumber", {
+      serverId,
+      rawEntry,
+    });
+    return {
+      title: "Today’s Arms Race",
+      phases: [],
+      reason: `No Arms Race day found for server ${serverId}.`,
+    };
+  }
+
+  const cycleLength =
+    typeof scheduleJson.cycleLengthDays === "number"
+      ? scheduleJson.cycleLengthDays
+      : typeof stateJson.cycleLengthDays === "number"
+      ? stateJson.cycleLengthDays
+      : 7;
+
+  let activeDayNumber = baseDayNumber;
+
+  if (cycleLength > 0 && ARMS_RACE_ANCHOR.date) {
+    const serverDayNumberToday = getServerDayNumber();
+    const anchorDayNumber = getDayNumberFromDateString(
+      ARMS_RACE_ANCHOR.date
+    );
+    const diffDays = serverDayNumberToday - anchorDayNumber;
+
+    // baseDayNumber is 1-based (1..cycleLength)
+    const baseIndex = baseDayNumber - 1; // 0-based
+    const adjustedIndexRaw = baseIndex + diffDays;
+
+    const adjustedIndex =
+      ((adjustedIndexRaw % cycleLength) + cycleLength) % cycleLength;
+
+    activeDayNumber = adjustedIndex + 1; // back to 1-based
+  }
+
+  const allDays: any[] = Array.isArray(scheduleJson.days)
+    ? scheduleJson.days
+    : [];
+
+  let dayConfig: any =
+    allDays.find((d) => d && d.dayNumber === activeDayNumber) ?? null;
+
+  if (!dayConfig && allDays.length > 0) {
+    // Fallback by index if dayNumber is not present in JSON
+    const index = Math.max(
+      0,
+      Math.min(allDays.length - 1, activeDayNumber - 1)
+    );
+    dayConfig = allDays[index];
+  }
+
+  if (!dayConfig || !Array.isArray(dayConfig.phases)) {
+    console.log("[ArmsRaceDebug] no phases for active day", {
+      serverId,
+      baseDayNumber,
+      activeDayNumber,
+      dayConfig,
+    });
+    return {
+      title: "Today’s Arms Race",
+      phases: [],
+      reason: "No Arms Race phases found for today.",
+    };
+  }
+
+  const serverNow = getServerDate();
+  const currentMinutes =
+    serverNow.getUTCHours() * 60 + serverNow.getUTCMinutes();
+
+  const phases: ArmsRacePhaseDisplay[] = dayConfig.phases.map(
+    (phase: any, index: number) => {
+      const id = String(phase.id ?? index);
+      const name = String(
+        phase.label ?? phase.name ?? `Phase ${index + 1}`
+      );
+
+      // Times in server clock, "HH:MM"
+      const startServerTime = String(
+        phase.startServer ?? phase.startTime ?? phase.start ?? "00:00"
+      );
+      const endServerTime = String(
+        phase.endServer ?? phase.endTime ?? phase.end ?? "23:59"
+      );
+
+      // Local labels for display
+      const startLabel = convertServerTimeToLocal(startServerTime);
+      const endLabel = convertServerTimeToLocal(endServerTime);
+
+      const [shhStr, smmStr] = startServerTime.split(":");
+      const [ehhStr, emmStr] = endServerTime.split(":");
+      const shh = Number(shhStr);
+      const smm = Number(smmStr);
+      const ehh = Number(ehhStr);
+      const emm = Number(emmStr);
+
+      let isCurrent = false;
+
+      if (
+        !isNaN(shh) &&
+        !isNaN(smm) &&
+        !isNaN(ehh) &&
+        !isNaN(emm)
+      ) {
+        const startMinutes = shh * 60 + smm;
+        const endMinutes = ehh * 60 + emm;
+
+        if (startMinutes <= endMinutes) {
+          // Normal phase inside same day
+          isCurrent =
+            currentMinutes >= startMinutes &&
+            currentMinutes <= endMinutes;
+        } else {
+          // Phase wraps past midnight (not used now, but safe)
+          isCurrent =
+            currentMinutes >= startMinutes ||
+            currentMinutes <= endMinutes;
         }
       }
-    }
 
-    if (baseDayNumber == null) {
-      console.log("[ArmsRaceDebug]", {
-        serverId,
-        stateEntry,
-        baseDayNumber,
-        effectiveDayNumber: null,
-        reason: "no baseDayNumber",
-      });
       return {
-        title: "Today\u2019s Arms Race",
-        phases: [],
-        reason: `No Arms Race day found for server ${serverId}.`,
+        id,
+        name,
+        startLabel,
+        endLabel,
+        isCurrent,
       };
     }
+  );
 
-    const cycleLength =
-      typeof scheduleJson.cycleLengthDays === "number"
-        ? scheduleJson.cycleLengthDays
-        : 7;
+  return {
+    title: "Today’s Arms Race",
+    phases,
+    reason:
+      phases.length === 0
+        ? "No Arms Race phases found for today."
+        : null,
+  };
+}, [profileServerId]);
 
-    let dayNumber = baseDayNumber;
-
-    if (cycleLength > 0) {
-      const serverDayNumberToday = getServerDayNumber();
-      const anchorDayNumber = getDayNumberFromDateString(
-        ARMS_RACE_ANCHOR.date
-      );
-      const daysSinceAnchor = serverDayNumberToday - anchorDayNumber;
-
-      const normalizedOffset =
-        ((daysSinceAnchor % cycleLength) + cycleLength) % cycleLength;
-
-      dayNumber =
-        ((baseDayNumber - 1 + normalizedOffset) % cycleLength) + 1;
-
-      console.log("[ArmsRaceDebug]", {
-        serverId,
-        stateEntry,
-        baseDayNumber,
-        daysSinceAnchor,
-        cycleLength,
-        effectiveDayNumber: dayNumber,
-      });
-    }
-
-    const daysArray: any[] = Array.isArray(scheduleJson.days)
-      ? scheduleJson.days
-      : [];
-
-    let dayConfig = daysArray.find((d) => d.dayNumber === dayNumber);
-
-    if (!dayConfig && daysArray.length > 0) {
-      const fallbackCycle =
-        typeof scheduleJson.cycleLengthDays === "number"
-          ? scheduleJson.cycleLengthDays
-          : daysArray.length;
-
-      if (fallbackCycle > 0) {
-        const modDay = ((dayNumber - 1) % fallbackCycle) + 1;
-        dayConfig =
-          daysArray.find((d) => d.dayNumber === modDay) ?? daysArray[0];
-      } else {
-        dayConfig = daysArray[0];
-      }
-    }
-
-    if (!dayConfig) {
-      return {
-        title: "Today\u2019s Arms Race",
-        phases: [],
-        reason: `No Arms Race schedule found for day ${dayNumber}.`,
-      };
-    }
-
-    const phasesData: any[] = Array.isArray(dayConfig.phases)
-      ? dayConfig.phases
-      : [];
-
-    const now = getServerDate();
-    const minutesNow = now.getUTCHours() * 60 + now.getUTCHours();
-
-    const parseTime = (time: string): number => {
-      const [hhStr, mmStr] = time.split(":");
-      const hh = Number(hhStr);
-      const mm = Number(mmStr);
-      if (isNaN(hh) || isNaN(mm)) return 0;
-      return hh * 60 + mm;
-    };
-
-    const phases: ArmsRacePhaseDisplay[] = phasesData.map(
-      (phase, index: number) => {
-        const startStr = phase.startServer ?? "00:00";
-        const endStr = phase.endServer ?? "23:59";
-        const startMinutes = parseTime(startStr);
-        const endMinutes = parseTime(endStr);
-
-        const isCurrent =
-          minutesNow >= startMinutes && minutesNow <= endMinutes;
-
-        return {
-          id: `phase-${index}`,
-          name: phase.label ?? "Unknown",
-          startLabel: convertServerTimeToLocal(startStr),
-          endLabel: convertServerTimeToLocal(endStr),
-          isCurrent,
-        };
-      }
-    );
-
-    const title =
-      typeof dayConfig.title === "string"
-        ? dayConfig.title
-        : "Today\u2019s Arms Race";
-
-    return {
-      title,
-      phases,
-      reason: null,
-    };
-  }, [profileServerId]);
 
   const shinyToday: ShinyToday = useMemo(() => {
     const cfg = SHINY_ROTATION;
