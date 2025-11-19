@@ -2,12 +2,6 @@
 
 import { getApps, initializeApp, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-
-console.log("service account path test");
-
-// Adjust this path if your JSON file has a slightly different name or location
-// This assumes: project-root/scripts/service-account-key.json
-// and this file is at: project-root/src/lib/firebaseAdmin.ts
 import serviceAccount from "../../scripts/serviceAccountKey.json";
 
 const adminApp =
@@ -15,6 +9,11 @@ const adminApp =
     ? getApps()[0]
     : initializeApp({
         credential: cert(serviceAccount as any),
+        databaseURL: "https://last-war-survival-tracker.firebaseio.com",
       });
 
-export const adminDb = getFirestore(adminApp);
+// IMPORTANT: specify databaseId "(default)"
+export const adminDb = getFirestore(adminApp, "(default)");
+
+console.log("service account path test");
+console.log("service account project", adminApp.options.projectId);

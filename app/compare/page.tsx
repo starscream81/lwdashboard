@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
+import { collection, getDocs } from "firebase/firestore";
+
 import { auth, db } from "@/lib/firebase";
 
 type CompareMode = "aggregated" | "direct";
@@ -91,6 +93,14 @@ export default function CompareCenterPage() {
   const [loadingAggregated, setLoadingAggregated] = useState(true);
   const [aggregatedError, setAggregatedError] = useState<string | null>(null);
 
+    // Direct Compare states
+  const [directPlayers, setDirectPlayers] = useState([]);
+  const [directPlayersLoading, setDirectPlayersLoading] = useState(false);
+  const [directPlayersError, setDirectPlayersError] = useState<string | null>(null);
+
+  const [selectedPlayerUid, setSelectedPlayerUid] = useState("");
+
+
   // Auth guard
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -160,30 +170,87 @@ export default function CompareCenterPage() {
     loadTeams();
   }, [user]);
 
-  // Load aggregated team powers for all users
-  useEffect(() => {
-    const fetchAggregated = async () => {
-      setLoadingAggregated(true);
-      setAggregatedError(null);
+// Load players eligible for Direct Compare (client-side via Firestore)
+useEffect(() => {
+  if (!user || activeMode !== "direct") return;
 
-      try {
-        const res = await fetch("/api/compare/aggregated");
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
+  const loadPlayers = async () => {
+    setDirectPlayersLoading(true);
+    setDirectPlayersError(null);
+
+    try {
+      // 1. Get all users
+      const usersCol = collection(db, "users");
+      const usersSnap = await getDocs(usersCol);
+
+      const players: any[] = [];
+
+      for (const userDoc of usersSnap.docs) {
+        const uid = userDoc.id;
+
+        // skip current user
+        if (uid === user.uid) continue;
+
+        const userRef = userDoc.ref;
+
+        // 2. Read privacy doc: users/{uid}/dashboard_meta/privacy
+        const privacyRef = doc(db, "users", uid, "dashboard_meta", "privacy");
+        const privacySnap = await getDoc(privacyRef);
+
+        if (!privacySnap.exists()) {
+          continue;
         }
-        const data = (await res.json()) as AggregatedStats;
-        setAggregated(data);
-      } catch (err) {
-        console.error("Error loading aggregated compare", err);
-        setAggregatedError("Failed to load group averages.");
-        setAggregated(null);
-      } finally {
-        setLoadingAggregated(false);
-      }
-    };
 
-    fetchAggregated();
-  }, []);
+        const privacyData = privacySnap.data() as { canCompare?: boolean } | undefined;
+        if (!privacyData?.canCompare) {
+          continue;
+        }
+
+        // 3. Read a profile doc for name + server
+        let displayName = `Player ${uid.slice(0, 6)}`;
+        let serverId: string | number | undefined = undefined;
+
+        try {
+          const profilesCol = collection(db, "users", uid, "profiles");
+          const profilesSnap = await getDocs(profilesCol);
+
+          if (!profilesSnap.empty) {
+            const pdata = profilesSnap.docs[0].data() as any;
+            displayName =
+              pdata.displayName ||
+              pdata.name ||
+              `Player ${uid.slice(0, 6)}`;
+            serverId = pdata.serverId ?? pdata.server;
+          }
+        } catch (err) {
+          console.warn(`Profile lookup failed for user ${uid}`, err);
+        }
+
+        players.push({ uid, displayName, serverId });
+      }
+
+      // optional sort
+      players.sort((a, b) => {
+        const sA = String(a.serverId ?? "");
+        const sB = String(b.serverId ?? "");
+        if (sA !== sB) return sA.localeCompare(sB);
+        return a.displayName.localeCompare(b.displayName);
+      });
+
+      setDirectPlayers(players);
+    } catch (err: any) {
+      console.error("Failed loading direct compare players:", err);
+      setDirectPlayersError(err?.message || "Failed to load players for direct compare.");
+      setDirectPlayers([]);
+    } finally {
+      setDirectPlayersLoading(false);
+    }
+  };
+
+  loadPlayers();
+}, [user, activeMode]);
+
+
 
   const handleToggleCompare = async () => {
     if (!user || canCompare === null) return;
@@ -459,17 +526,68 @@ export default function CompareCenterPage() {
             )}
 
             {activeMode === "direct" && (
-              <div className="mt-1 text-sm text-slate-300 space-y-2">
-                <p>
-                  Direct Player Compare will let you pick a specific player and
-                  view side by side stats when both of you have Direct Compare
-                  Visibility enabled.
+              <div className="mt-1 space-y-6 text-sm text-slate-300">
+                <p className="text-slate-300">
+                  Choose a player who has also enabled Direct Compare to view
+                  side by side statistics.
                 </p>
-                <p className="text-xs text-slate-500">
-                  This mode is not wired yet. Once you are happy with
-                  Aggregated Compare, we can add a player picker and a safe API
-                  that respects mutual consent.
-                </p>
+
+                {/* Player Picker */}
+                <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4 space-y-3">
+                  <h3 className="text-base font-semibold text-slate-100">
+                    Select Player To Compare With
+                  </h3>
+
+                  {directPlayersLoading && (
+                    <p className="text-xs text-slate-400">Loading players…</p>
+                  )}
+
+                  {directPlayersError && (
+                    <p className="text-xs text-red-400">{directPlayersError}</p>
+                  )}
+
+                  {!directPlayersLoading && directPlayers.length === 0 && (
+                    <p className="text-xs text-slate-500">
+                      No players are currently eligible for direct compare.
+                    </p>
+                  )}
+
+                  {directPlayers.length > 0 && (
+                    <select
+                      className="mt-1 block w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+                      value={selectedPlayerUid}
+                      onChange={(e) => setSelectedPlayerUid(e.target.value)}
+                    >
+                      <option value="">Select a player…</option>
+                      {directPlayers.map((p: any) => (
+                        <option key={p.uid} value={p.uid}>
+                          {p.displayName}
+                          {p.serverId ? ` (S${p.serverId})` : ""}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+
+                {/* Placeholder for compare results */}
+                {selectedPlayerUid && (
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4">
+                    <p className="text-sm text-slate-100 mb-2">
+                      Preparing comparison with:
+                    </p>
+                    <p className="text-base text-sky-400 font-semibold">
+                      {
+                        (directPlayers.find(
+                          (p: any) => p.uid === selectedPlayerUid
+                        ) || { displayName: "" }).displayName
+                      }
+                    </p>
+
+                    <p className="mt-3 text-xs text-slate-500">
+                      Data will be loaded when Direct Compare API is added.
+                    </p>
+                  </div>
+                )}
               </div>
             )}
           </div>
