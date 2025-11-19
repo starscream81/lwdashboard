@@ -1490,9 +1490,9 @@ export default function DashboardPage() {
               description="Plan your research path."
             />
             <QuickLinkCard
-              href="/group-dashboard"
-              title="Group Dashboard"
-              description="View shared stats for 977 and 982."
+              href="/compare"
+              title="Compare Center"
+              description="View shared stats and comparisons."
             />
           </div>
         </section>
