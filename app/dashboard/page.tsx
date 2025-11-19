@@ -236,6 +236,47 @@ function normalizeBuildingKey(name: string): string {
   return name.trim().toLowerCase();
 }
 
+function getMaxLevelForGroup(
+  group: HqRequirementGroup,
+  buildingLevels: BuildingLevelsMap
+): number {
+  // Build a set of normalized search tokens:
+  //   - the group label
+  //   - each building name listed in the group
+  const searchTokens = new Set<string>();
+
+  searchTokens.add(normalizeBuildingKey(group.label));
+
+  if (Array.isArray(group.buildings)) {
+    for (const name of group.buildings) {
+      if (!name) continue;
+      searchTokens.add(normalizeBuildingKey(name));
+    }
+  }
+
+  let currentLevel = 0;
+
+  // Scan all building level entries and take the max level
+  // for any key that contains at least one of the tokens.
+  for (const [rawKey, level] of Object.entries(buildingLevels)) {
+    const key = normalizeBuildingKey(rawKey);
+
+    for (const token of searchTokens) {
+      if (!token) continue;
+
+      if (key.includes(token)) {
+        if (level > currentLevel) {
+          currentLevel = level;
+        }
+        // No need to check other tokens for this key
+        break;
+      }
+    }
+  }
+
+  return currentLevel;
+}
+
 function resolveHqRequirementsForNextLevel(
   currentHqLevel: number | null | undefined,
   buildingLevels: BuildingLevelsMap
@@ -256,48 +297,29 @@ function resolveHqRequirementsForNextLevel(
   const groupIds = HQ_REQUIREMENTS[key] ?? [];
 
   const rows: ResolvedRequirement[] = groupIds.map((groupId) => {
-    const group = HQ_REQUIREMENT_GROUPS[groupId];
-    if (!group) {
-      return {
-        id: groupId,
-        label: groupId,
-        requiredLevel,
-        currentLevel: 0,
-        met: false,
-      };
-    }
-
-    let currentLevel = 0;
-
-    // First pass: try exact building names from the group definition
-    for (const buildingName of group.buildings) {
-      const normalized = normalizeBuildingKey(buildingName);
-      const directLevel = buildingLevels[normalized] ?? 0;
-      if (directLevel > currentLevel) {
-        currentLevel = directLevel;
-      }
-    }
-
-    // Fallback: if still zero, try any building whose key contains the group label
-    if (currentLevel === 0) {
-      const labelKey = normalizeBuildingKey(group.label);
-      for (const [key, level] of Object.entries(buildingLevels)) {
-        if (key.includes(labelKey) && level > currentLevel) {
-          currentLevel = level;
-        }
-      }
-    }
-
-    const met = currentLevel >= requiredLevel;
-
+  const group = HQ_REQUIREMENT_GROUPS[groupId];
+  if (!group) {
     return {
       id: groupId,
-      label: group.label,
+      label: groupId,
       requiredLevel,
-      currentLevel,
-      met,
+      currentLevel: 0,
+      met: false,
     };
-  });
+  }
+
+  const currentLevel = getMaxLevelForGroup(group, buildingLevels);
+  const met = currentLevel >= requiredLevel;
+
+  return {
+    id: groupId,
+    label: group.label,
+    requiredLevel,
+    currentLevel,
+    met,
+  };
+});
+
 
   const metCount = rows.filter((r) => r.met).length;
   const totalCount = rows.length;
@@ -1490,9 +1512,9 @@ export default function DashboardPage() {
               description="Plan your research path."
             />
             <QuickLinkCard
-              href="/compare"
-              title="Compare Center"
-              description="View shared stats and comparisons."
+              href="/group-dashboard"
+              title="Group Dashboard"
+              description="View shared stats for 977 and 982."
             />
           </div>
         </section>
