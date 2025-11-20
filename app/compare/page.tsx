@@ -270,40 +270,68 @@ export default function CompareCenterPage() {
     loadTeams();
   }, [user]);
 
-  // Load aggregated compare data from API
+  // Load aggregated compare data directly from Firestore (client side)
   useEffect(() => {
     if (!user) return;
 
-    const loadAggregated = async () => {
+    const loadAggregatedFromFirestore = async () => {
       setLoadingAggregated(true);
       setAggregatedError(null);
 
       try {
-        const token = await user.getIdToken();
+        // Get all users so we can read their dashboard_meta/teams docs
+        const usersCol = collection(db, "users");
+        const usersSnap = await getDocs(usersCol);
 
-        const res = await fetch("/api/compare/aggregated", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const teamStats: AggregatedStats["teams"] = {
+          team1Power: { average: null, count: 0, values: [] },
+          team2Power: { average: null, count: 0, values: [] },
+          team3Power: { average: null, count: 0, values: [] },
+          team4Power: { average: null, count: 0, values: [] },
+        };
+
+        const teamDocPromises = usersSnap.docs.map(async (userDoc) => {
+          const uid = userDoc.id;
+          const teamsRef = doc(
+            db,
+            "users",
+            uid,
+            "dashboard_meta",
+            "teams"
+          );
+          const teamsSnap = await getDoc(teamsRef);
+          if (!teamsSnap.exists()) return;
+
+          const data = teamsSnap.data() as Record<string, unknown>;
+
+          TEAM_KEYS.forEach((key) => {
+            const value = parsePower(data[key]);
+            if (value !== null) {
+              const stats = teamStats[key];
+              stats.values.push(value);
+              stats.count += 1;
+            }
+          });
         });
 
-        if (!res.ok) {
-          let errorMessage = `Request failed with status ${res.status}`;
-          try {
-            const data = await res.json();
-            if (data && typeof data.error === "string") {
-              errorMessage = data.error;
-            }
-          } catch {
-            // ignore json parse errors
-          }
-          throw new Error(errorMessage);
-        }
+        await Promise.all(teamDocPromises);
 
-        const data = (await res.json()) as AggregatedStats;
-        setAggregated(data);
+        TEAM_KEYS.forEach((key) => {
+          const stats = teamStats[key];
+          if (stats.values.length > 0) {
+            const sum = stats.values.reduce((acc, v) => acc + v, 0);
+            stats.average = sum / stats.values.length;
+          } else {
+            stats.average = null;
+          }
+        });
+
+        setAggregated({ teams: teamStats });
       } catch (err: any) {
-        console.error("Failed loading aggregated compare:", err);
+        console.error(
+          "[AggregatedCompare] Failed to load from Firestore",
+          err
+        );
         setAggregatedError(
           err?.message || "Failed to load aggregated compare."
         );
@@ -313,7 +341,7 @@ export default function CompareCenterPage() {
       }
     };
 
-    loadAggregated();
+    loadAggregatedFromFirestore();
   }, [user]);
 
   // Load players eligible for Direct Compare
@@ -464,7 +492,7 @@ export default function CompareCenterPage() {
         team3Power: [],
         team4Power: [],
       });
-    setMyHeroesError(null);
+      setMyHeroesError(null);
       return;
     }
 
@@ -582,7 +610,9 @@ export default function CompareCenterPage() {
   }, [user, selectedPlayerUid, activeMode]);
 
   // Helper to aggregate research for a given user from users/{uid}/research_tracking/*
-  async function aggregateResearchForUser(uid: string): Promise<ResearchSummary | null> {
+  async function aggregateResearchForUser(
+    uid: string
+  ): Promise<ResearchSummary | null> {
     const colRef = collection(db, "users", uid, "research_tracking");
     const snap = await getDocs(colRef);
 
@@ -591,10 +621,7 @@ export default function CompareCenterPage() {
     }
 
     // category -> { current, max }
-    const accum = new Map<
-      string,
-      { current: number; max: number }
-    >();
+    const accum = new Map<string, { current: number; max: number }>();
 
     snap.forEach((docSnap) => {
       const data = docSnap.data() as {
@@ -1046,7 +1073,7 @@ export default function CompareCenterPage() {
                     {!loadingOtherTeams && !otherTeamsError && (
                       <>
                         <p className="mt-3 text-xs text-slate-500">
-                          Team data loaded from last saved synced data
+                          Team data loaded from Firestore.
                         </p>
 
                         {teamsData && otherTeamsData ? (
@@ -1055,7 +1082,7 @@ export default function CompareCenterPage() {
                             <div>
                               <div className="mb-2 flex items-center justify-between">
                                 <span className="text-sm font-semibold text-slate-100">
-                                  Teams Side-By-Side
+                                  Teams Side-by-Side
                                 </span>
                               </div>
 
@@ -1143,7 +1170,7 @@ export default function CompareCenterPage() {
                             <div className="mt-6">
                               <div className="mb-2 flex items-center justify-between">
                                 <span className="text-sm font-semibold text-slate-100">
-                                  Team Compositions - Click on tile for detailed view
+                                  Team Compositions - Click On the Tile For Full Team Comparison
                                 </span>
                                 {(loadingMyHeroes || loadingOtherHeroes) && (
                                   <span className="text-[11px] text-slate-500">

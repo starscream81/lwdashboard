@@ -9,7 +9,6 @@ import {
   signInAnonymously,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { ensureUserInitialized } from "@/lib/userSetup";
 
 type Mode = "login" | "signup" | "reset";
 
@@ -60,8 +59,7 @@ export default function LoginPage() {
 
     try {
       if (mode === "login") {
-        const cred = await signInWithEmailAndPassword(auth, email, password);
-        await ensureUserInitialized(cred.user);
+        await signInWithEmailAndPassword(auth, email, password);
         router.push("/dashboard");
         return;
       }
@@ -71,12 +69,7 @@ export default function LoginPage() {
           setError("Passwords do not match.");
           return;
         }
-        const cred = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        await ensureUserInitialized(cred.user);
+        await createUserWithEmailAndPassword(auth, email, password);
         router.push("/dashboard");
         return;
       }
@@ -100,8 +93,7 @@ export default function LoginPage() {
     setInfo(null);
     setGuestLoading(true);
     try {
-      const cred = await signInAnonymously(auth);
-      await ensureUserInitialized(cred.user);
+      await signInAnonymously(auth);
       setGuestDialogOpen(false);
       router.push("/dashboard");
     } catch (err: any) {
