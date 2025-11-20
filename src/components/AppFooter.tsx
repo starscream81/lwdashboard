@@ -11,7 +11,7 @@ export default function AppFooter() {
   return (
     <footer className="mt-10 py-8 text-center text-xs text-slate-500 border-t border-slate-800">
       <p className="text-slate-400 font-medium tracking-wide">
-        Last War Command Center
+        Last War Command Center created by Shōckwave (977)
       </p>
 
       <div className="mt-3 flex flex-col items-center gap-2 text-slate-500">
