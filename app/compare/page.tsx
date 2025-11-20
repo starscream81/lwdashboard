@@ -175,6 +175,52 @@ export default function CompareCenterPage() {
     loadTeams();
   }, [user]);
 
+  // Load aggregated compare data from API (admin side, uses token)
+  useEffect(() => {
+    if (!user) return;
+
+    const loadAggregated = async () => {
+      setLoadingAggregated(true);
+      setAggregatedError(null);
+
+      try {
+        const token = await user.getIdToken();
+
+        const res = await fetch("/api/compare/aggregated", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          let errorMessage = `Request failed with status ${res.status}`;
+          try {
+            const data = await res.json();
+            if (data && typeof data.error === "string") {
+              errorMessage = data.error;
+            }
+          } catch {
+            // ignore json parse errors
+          }
+          throw new Error(errorMessage);
+        }
+
+        const data = (await res.json()) as AggregatedStats;
+        setAggregated(data);
+      } catch (err: any) {
+        console.error("Failed loading aggregated compare:", err);
+        setAggregatedError(
+          err?.message || "Failed to load aggregated compare."
+        );
+        setAggregated(null);
+      } finally {
+        setLoadingAggregated(false);
+      }
+    };
+
+    loadAggregated();
+  }, [user]);
+
   // Load players eligible for Direct Compare (client side via Firestore)
   useEffect(() => {
     if (!user || activeMode !== "direct") return;
@@ -188,17 +234,36 @@ export default function CompareCenterPage() {
         const usersCol = collection(db, "users");
         const usersSnap = await getDocs(usersCol);
 
+        console.log("[DirectCompare] usersSnap size:", usersSnap.size);
+
         const players: DirectComparePlayer[] = [];
 
         for (const userDoc of usersSnap.docs) {
           const uid = userDoc.id;
+          console.log("[DirectCompare] checking user", uid);
 
           // skip current user
-          if (uid === user.uid) continue;
+          if (uid === user.uid) {
+            console.log("[DirectCompare] skipping current user", uid);
+            continue;
+          }
 
           // 2. Read privacy doc: users/{uid}/dashboard_meta/privacy
-          const privacyRef = doc(db, "users", uid, "dashboard_meta", "privacy");
+          const privacyRef = doc(
+            db,
+            "users",
+            uid,
+            "dashboard_meta",
+            "privacy"
+          );
           const privacySnap = await getDoc(privacyRef);
+
+          console.log(
+            "[DirectCompare] privacy exists?",
+            privacySnap.exists(),
+            "data:",
+            privacySnap.data()
+          );
 
           if (!privacySnap.exists()) {
             continue;
@@ -207,7 +272,14 @@ export default function CompareCenterPage() {
           const privacyData = privacySnap.data() as
             | { canCompare?: boolean }
             | undefined;
+
           if (!privacyData?.canCompare) {
+            console.log(
+              "[DirectCompare] canCompare is not true for",
+              uid,
+              "->",
+              privacyData
+            );
             continue;
           }
 
@@ -218,6 +290,13 @@ export default function CompareCenterPage() {
           try {
             const profilesCol = collection(db, "users", uid, "profiles");
             const profilesSnap = await getDocs(profilesCol);
+
+            console.log(
+              "[DirectCompare] profilesSnap size for",
+              uid,
+              ":",
+              profilesSnap.size
+            );
 
             if (!profilesSnap.empty) {
               const pdata = profilesSnap.docs[0].data() as {
@@ -233,11 +312,22 @@ export default function CompareCenterPage() {
               serverId = pdata.serverId ?? pdata.server;
             }
           } catch (err) {
-            console.warn(`Profile lookup failed for user ${uid}`, err);
+            console.warn(
+              `[DirectCompare] Profile lookup failed for ${uid}`,
+              err
+            );
           }
+
+          console.log("[DirectCompare] adding player", {
+            uid,
+            displayName,
+            serverId,
+          });
 
           players.push({ uid, displayName, serverId });
         }
+
+        console.log("[DirectCompare] final players:", players);
 
         // optional sort
         players.sort((a, b) => {
