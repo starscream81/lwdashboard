@@ -1512,9 +1512,9 @@ export default function DashboardPage() {
               description="Plan your research path."
             />
             <QuickLinkCard
-              href="/group-dashboard"
-              title="Group Dashboard"
-              description="View shared stats for 977 and 982."
+              href="/compare"
+              title="Compare Dashboard"
+              description="Compare your stats against other players."
             />
           </div>
         </section>
