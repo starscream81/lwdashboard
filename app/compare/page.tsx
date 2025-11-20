@@ -3,9 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-
-import { collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 
 import { auth, db } from "@/lib/firebase";
 
@@ -36,6 +34,12 @@ function formatPowerM(value: unknown): string {
 }
 
 type TeamKey = "team1Power" | "team2Power" | "team3Power" | "team4Power";
+
+type DirectComparePlayer = {
+  uid: string;
+  displayName: string;
+  serverId?: string | number;
+};
 
 type AggregatedTeamStats = {
   average: number | null;
@@ -93,13 +97,14 @@ export default function CompareCenterPage() {
   const [loadingAggregated, setLoadingAggregated] = useState(true);
   const [aggregatedError, setAggregatedError] = useState<string | null>(null);
 
-    // Direct Compare states
-  const [directPlayers, setDirectPlayers] = useState([]);
+  // Direct Compare states
+  const [directPlayers, setDirectPlayers] =
+    useState<DirectComparePlayer[]>([]);
   const [directPlayersLoading, setDirectPlayersLoading] = useState(false);
-  const [directPlayersError, setDirectPlayersError] = useState<string | null>(null);
-
+  const [directPlayersError, setDirectPlayersError] = useState<string | null>(
+    null
+  );
   const [selectedPlayerUid, setSelectedPlayerUid] = useState("");
-
 
   // Auth guard
   useEffect(() => {
@@ -170,87 +175,92 @@ export default function CompareCenterPage() {
     loadTeams();
   }, [user]);
 
-// Load players eligible for Direct Compare (client-side via Firestore)
-useEffect(() => {
-  if (!user || activeMode !== "direct") return;
+  // Load players eligible for Direct Compare (client side via Firestore)
+  useEffect(() => {
+    if (!user || activeMode !== "direct") return;
 
-  const loadPlayers = async () => {
-    setDirectPlayersLoading(true);
-    setDirectPlayersError(null);
+    const loadPlayers = async () => {
+      setDirectPlayersLoading(true);
+      setDirectPlayersError(null);
 
-    try {
-      // 1. Get all users
-      const usersCol = collection(db, "users");
-      const usersSnap = await getDocs(usersCol);
+      try {
+        // 1. Get all users
+        const usersCol = collection(db, "users");
+        const usersSnap = await getDocs(usersCol);
 
-      const players: any[] = [];
+        const players: DirectComparePlayer[] = [];
 
-      for (const userDoc of usersSnap.docs) {
-        const uid = userDoc.id;
+        for (const userDoc of usersSnap.docs) {
+          const uid = userDoc.id;
 
-        // skip current user
-        if (uid === user.uid) continue;
+          // skip current user
+          if (uid === user.uid) continue;
 
-        const userRef = userDoc.ref;
+          // 2. Read privacy doc: users/{uid}/dashboard_meta/privacy
+          const privacyRef = doc(db, "users", uid, "dashboard_meta", "privacy");
+          const privacySnap = await getDoc(privacyRef);
 
-        // 2. Read privacy doc: users/{uid}/dashboard_meta/privacy
-        const privacyRef = doc(db, "users", uid, "dashboard_meta", "privacy");
-        const privacySnap = await getDoc(privacyRef);
-
-        if (!privacySnap.exists()) {
-          continue;
-        }
-
-        const privacyData = privacySnap.data() as { canCompare?: boolean } | undefined;
-        if (!privacyData?.canCompare) {
-          continue;
-        }
-
-        // 3. Read a profile doc for name + server
-        let displayName = `Player ${uid.slice(0, 6)}`;
-        let serverId: string | number | undefined = undefined;
-
-        try {
-          const profilesCol = collection(db, "users", uid, "profiles");
-          const profilesSnap = await getDocs(profilesCol);
-
-          if (!profilesSnap.empty) {
-            const pdata = profilesSnap.docs[0].data() as any;
-            displayName =
-              pdata.displayName ||
-              pdata.name ||
-              `Player ${uid.slice(0, 6)}`;
-            serverId = pdata.serverId ?? pdata.server;
+          if (!privacySnap.exists()) {
+            continue;
           }
-        } catch (err) {
-          console.warn(`Profile lookup failed for user ${uid}`, err);
+
+          const privacyData = privacySnap.data() as
+            | { canCompare?: boolean }
+            | undefined;
+          if (!privacyData?.canCompare) {
+            continue;
+          }
+
+          // 3. Read a profile doc for name + server
+          let displayName = `Player ${uid.slice(0, 6)}`;
+          let serverId: string | number | undefined = undefined;
+
+          try {
+            const profilesCol = collection(db, "users", uid, "profiles");
+            const profilesSnap = await getDocs(profilesCol);
+
+            if (!profilesSnap.empty) {
+              const pdata = profilesSnap.docs[0].data() as {
+                displayName?: string;
+                name?: string;
+                serverId?: string | number;
+                server?: string | number;
+              };
+              displayName =
+                pdata.displayName ||
+                pdata.name ||
+                `Player ${uid.slice(0, 6)}`;
+              serverId = pdata.serverId ?? pdata.server;
+            }
+          } catch (err) {
+            console.warn(`Profile lookup failed for user ${uid}`, err);
+          }
+
+          players.push({ uid, displayName, serverId });
         }
 
-        players.push({ uid, displayName, serverId });
+        // optional sort
+        players.sort((a, b) => {
+          const sA = String(a.serverId ?? "");
+          const sB = String(b.serverId ?? "");
+          if (sA !== sB) return sA.localeCompare(sB);
+          return a.displayName.localeCompare(b.displayName);
+        });
+
+        setDirectPlayers(players);
+      } catch (err: any) {
+        console.error("Failed loading direct compare players:", err);
+        setDirectPlayersError(
+          err?.message || "Failed to load players for direct compare."
+        );
+        setDirectPlayers([]);
+      } finally {
+        setDirectPlayersLoading(false);
       }
+    };
 
-      // optional sort
-      players.sort((a, b) => {
-        const sA = String(a.serverId ?? "");
-        const sB = String(b.serverId ?? "");
-        if (sA !== sB) return sA.localeCompare(sB);
-        return a.displayName.localeCompare(b.displayName);
-      });
-
-      setDirectPlayers(players);
-    } catch (err: any) {
-      console.error("Failed loading direct compare players:", err);
-      setDirectPlayersError(err?.message || "Failed to load players for direct compare.");
-      setDirectPlayers([]);
-    } finally {
-      setDirectPlayersLoading(false);
-    }
-  };
-
-  loadPlayers();
-}, [user, activeMode]);
-
-
+    loadPlayers();
+  }, [user, activeMode]);
 
   const handleToggleCompare = async () => {
     if (!user || canCompare === null) return;
@@ -543,7 +553,9 @@ useEffect(() => {
                   )}
 
                   {directPlayersError && (
-                    <p className="text-xs text-red-400">{directPlayersError}</p>
+                    <p className="text-xs text-red-400">
+                      {directPlayersError}
+                    </p>
                   )}
 
                   {!directPlayersLoading && directPlayers.length === 0 && (
@@ -559,7 +571,7 @@ useEffect(() => {
                       onChange={(e) => setSelectedPlayerUid(e.target.value)}
                     >
                       <option value="">Select a player…</option>
-                      {directPlayers.map((p: any) => (
+                      {directPlayers.map((p) => (
                         <option key={p.uid} value={p.uid}>
                           {p.displayName}
                           {p.serverId ? ` (S${p.serverId})` : ""}
@@ -576,11 +588,11 @@ useEffect(() => {
                       Preparing comparison with:
                     </p>
                     <p className="text-base text-sky-400 font-semibold">
-                      {
-                        (directPlayers.find(
-                          (p: any) => p.uid === selectedPlayerUid
-                        ) || { displayName: "" }).displayName
-                      }
+                      {(
+                        directPlayers.find(
+                          (p) => p.uid === selectedPlayerUid
+                        ) ?? { displayName: "" }
+                      ).displayName}
                     </p>
 
                     <p className="mt-3 text-xs text-slate-500">
