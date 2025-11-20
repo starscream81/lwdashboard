@@ -1274,29 +1274,44 @@ export default function CompareCenterPage() {
                                   {/* Expanded team details panel */}
                                   {expandedTeamKey && (() => {
                                     const teamLabel =
-                                      TEAM_LABELS[expandedTeamKey] ??
-                                      expandedTeamKey;
-                                    const myHeroes =
-                                      myHeroesByTeam[expandedTeamKey] || [];
-                                    const theirHeroes =
-                                      otherHeroesByTeam[expandedTeamKey] ||
-                                      [];
+                                      TEAM_LABELS[expandedTeamKey] ?? expandedTeamKey;
+                                    const myHeroesRaw = myHeroesByTeam[expandedTeamKey] || [];
+                                    const theirHeroesRaw = otherHeroesByTeam[expandedTeamKey] || [];
 
-                                    if (
-                                      myHeroes.length === 0 &&
-                                      theirHeroes.length === 0
-                                    ) {
+                                    if (myHeroesRaw.length === 0 && theirHeroesRaw.length === 0) {
                                       return null;
                                     }
 
-                                    const renderHeroDetails = (hero: any) => {
-                                      const title =
-                                        hero.displayName ||
-                                        hero.name ||
-                                        hero.id;
+                                    // Role priority: Defense -> Attack -> Support -> everything else
+                                    const ROLE_PRIORITY: Record<string, number> = {
+                                      defense: 0,
+                                      attack: 1,
+                                      support: 2,
+                                    };
 
-                                      const getVal = (key: string) =>
-                                        formatHeroFieldValue(hero[key]);
+                                    const getHeroName = (hero: any): string =>
+                                      (hero.displayName || hero.name || hero.id || "").toString();
+
+                                    const getHeroRoleKey = (hero: any): number => {
+                                      const raw = (hero.role || "").toString().toLowerCase().trim();
+                                      return ROLE_PRIORITY[raw] ?? 99;
+                                    };
+
+                                    const sortHeroesForCompare = (list: any[]): any[] =>
+                                      [...list].sort((a, b) => {
+                                        const ra = getHeroRoleKey(a);
+                                        const rb = getHeroRoleKey(b);
+                                        if (ra !== rb) return ra - rb;
+                                        return getHeroName(a).localeCompare(getHeroName(b));
+                                      });
+
+                                    // Sort and cap to 5 heroes per side
+                                    const myHeroes = sortHeroesForCompare(myHeroesRaw).slice(0, 5);
+                                    const theirHeroes = sortHeroesForCompare(theirHeroesRaw).slice(0, 5);
+
+                                    const renderHeroDetails = (hero: any) => {
+                                      const title = getHeroName(hero);
+                                      const getVal = (key: string) => formatHeroFieldValue(hero[key]);
 
                                       return (
                                         <div
@@ -1405,9 +1420,7 @@ export default function CompareCenterPage() {
                                                   Exclusive Weapon Owned
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
-                                                  {getVal(
-                                                    "exclusive_weapon_owned"
-                                                  )}
+                                                  {getVal("exclusive_weapon_owned")}
                                                 </span>
                                               </div>
                                               <div className="flex items-baseline justify-between gap-2">
@@ -1415,9 +1428,7 @@ export default function CompareCenterPage() {
                                                   Exclusive Weapon Level
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
-                                                  {getVal(
-                                                    "exclusive_weapon_level"
-                                                  )}
+                                                  {getVal("exclusive_weapon_level")}
                                                 </span>
                                               </div>
                                             </div>
@@ -1464,16 +1475,13 @@ export default function CompareCenterPage() {
                                               {teamLabel} details
                                             </p>
                                             <p className="text-xs text-slate-500">
-                                              Showing full hero stats for this
-                                              team. Click the team tile again to
+                                              Showing full hero stats for this team. Click the team tile again to
                                               close.
                                             </p>
                                           </div>
                                           <button
                                             type="button"
-                                            onClick={() =>
-                                              setExpandedTeamKey(null)
-                                            }
+                                            onClick={() => setExpandedTeamKey(null)}
                                             className="text-xs text-slate-400 hover:text-slate-200"
                                           >
                                             Close
@@ -1492,9 +1500,7 @@ export default function CompareCenterPage() {
                                               </p>
                                             ) : (
                                               <div className="space-y-3">
-                                                {myHeroes.map(
-                                                  renderHeroDetails
-                                                )}
+                                                {myHeroes.map(renderHeroDetails)}
                                               </div>
                                             )}
                                           </div>
@@ -1506,14 +1512,11 @@ export default function CompareCenterPage() {
                                             </p>
                                             {theirHeroes.length === 0 ? (
                                               <p className="text-xs text-slate-500">
-                                                No heroes on this team for the
-                                                selected player.
+                                                No heroes on this team for the selected player.
                                               </p>
                                             ) : (
                                               <div className="space-y-3">
-                                                {theirHeroes.map(
-                                                  renderHeroDetails
-                                                )}
+                                                {theirHeroes.map(renderHeroDetails)}
                                               </div>
                                             )}
                                           </div>
