@@ -15,12 +15,29 @@ type UserPrivacy = {
 
 type TeamsData = Record<string, unknown>;
 
+type HeroDoc = {
+  id: string;
+  name?: string;
+  displayName?: string;
+  [key: string]: unknown;
+};
+
+type HeroesByTeam = Record<TeamKey, HeroDoc[]>;
+
 const TEAM_LABELS: Record<string, string> = {
   team1Power: "Team 1 Power",
   team2Power: "Team 2 Power",
   team3Power: "Team 3 Power",
   team4Power: "Team 4 Power",
 };
+
+function formatHeroFieldValue(value: unknown): string {
+  if (value === null || value === undefined) return "—";
+  if (typeof value === "number") return String(value);
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  if (Array.isArray(value)) return value.join(", ");
+  return String(value);
+}
 
 function formatPowerM(value: unknown): string {
   const num =
@@ -79,6 +96,25 @@ function computePercentileRank(values: number[], userValue: number): number {
   return Math.round(percentile);
 }
 
+function getTeamKeyForHero(hero: Record<string, unknown>): TeamKey | null {
+  const rawTeam = hero.team ?? hero.assignedTeam ?? hero.teamKey;
+
+  if (rawTeam === 1 || rawTeam === "team1" || rawTeam === "Team 1") {
+    return "team1Power";
+  }
+  if (rawTeam === 2 || rawTeam === "team2" || rawTeam === "Team 2") {
+    return "team2Power";
+  }
+  if (rawTeam === 3 || rawTeam === "team3" || rawTeam === "Team 3") {
+    return "team3Power";
+  }
+  if (rawTeam === 4 || rawTeam === "team4" || rawTeam === "Team 4") {
+    return "team4Power";
+  }
+
+  return null;
+}
+
 export default function CompareCenterPage() {
   const router = useRouter();
 
@@ -105,6 +141,34 @@ export default function CompareCenterPage() {
     null
   );
   const [selectedPlayerUid, setSelectedPlayerUid] = useState("");
+
+  // Direct Compare: your heroes grouped by team
+  const [myHeroesByTeam, setMyHeroesByTeam] = useState<HeroesByTeam>({
+    team1Power: [],
+    team2Power: [],
+    team3Power: [],
+    team4Power: [],
+  });
+  const [loadingMyHeroes, setLoadingMyHeroes] = useState(false);
+  const [myHeroesError, setMyHeroesError] = useState<string | null>(null);
+
+  // Direct Compare: their heroes grouped by team
+  const [otherHeroesByTeam, setOtherHeroesByTeam] = useState<HeroesByTeam>({
+    team1Power: [],
+    team2Power: [],
+    team3Power: [],
+    team4Power: [],
+  });
+  const [loadingOtherHeroes, setLoadingOtherHeroes] = useState(false);
+  const [otherHeroesError, setOtherHeroesError] = useState<string | null>(null);
+
+  // Direct Compare: other player teams
+  const [otherTeamsData, setOtherTeamsData] = useState<TeamsData | null>(null);
+  const [loadingOtherTeams, setLoadingOtherTeams] = useState(false);
+  const [otherTeamsError, setOtherTeamsError] = useState<string | null>(null);
+
+  // Direct Compare: which team card is expanded for details
+  const [expandedTeamKey, setExpandedTeamKey] = useState<TeamKey | null>(null);
 
   // Auth guard
   useEffect(() => {
@@ -230,7 +294,6 @@ export default function CompareCenterPage() {
       setDirectPlayersError(null);
 
       try {
-        // 1. Get all users
         const usersCol = collection(db, "users");
         const usersSnap = await getDocs(usersCol);
 
@@ -242,13 +305,11 @@ export default function CompareCenterPage() {
           const uid = userDoc.id;
           console.log("[DirectCompare] checking user", uid);
 
-          // skip current user
           if (uid === user.uid) {
             console.log("[DirectCompare] skipping current user", uid);
             continue;
           }
 
-          // 2. Read privacy doc: users/{uid}/dashboard_meta/privacy
           const privacyRef = doc(
             db,
             "users",
@@ -283,7 +344,6 @@ export default function CompareCenterPage() {
             continue;
           }
 
-          // 3. Read a profile doc for name + server
           let displayName = `Player ${uid.slice(0, 6)}`;
           let serverId: string | number | undefined = undefined;
 
@@ -329,7 +389,6 @@ export default function CompareCenterPage() {
 
         console.log("[DirectCompare] final players:", players);
 
-        // optional sort
         players.sort((a, b) => {
           const sA = String(a.serverId ?? "");
           const sB = String(b.serverId ?? "");
@@ -351,6 +410,192 @@ export default function CompareCenterPage() {
 
     loadPlayers();
   }, [user, activeMode]);
+
+  // Load teams for the selected player in Direct Compare
+  useEffect(() => {
+    if (!user || !selectedPlayerUid || activeMode !== "direct") {
+      setOtherTeamsData(null);
+      setOtherTeamsError(null);
+      return;
+    }
+
+    const loadOtherTeams = async () => {
+      setLoadingOtherTeams(true);
+      setOtherTeamsError(null);
+
+      try {
+        const teamsRef = doc(
+          db,
+          "users",
+          selectedPlayerUid,
+          "dashboard_meta",
+          "teams"
+        );
+        const snap = await getDoc(teamsRef);
+
+        if (snap.exists()) {
+          const data = snap.data() as TeamsData;
+          console.log("[DirectCompare] Loaded other player teams", {
+            selectedPlayerUid,
+            data,
+          });
+          setOtherTeamsData(data);
+        } else {
+          console.log(
+            "[DirectCompare] No teams data found for selected player",
+            selectedPlayerUid
+          );
+          setOtherTeamsData(null);
+        }
+      } catch (err) {
+        console.error(
+          "[DirectCompare] Error loading other player teams",
+          err
+        );
+        setOtherTeamsError(
+          "Failed to load teams for the selected player."
+        );
+        setOtherTeamsData(null);
+      } finally {
+        setLoadingOtherTeams(false);
+      }
+    };
+
+    loadOtherTeams();
+  }, [user, selectedPlayerUid, activeMode]);
+
+  // Load your heroes and group them by team
+  useEffect(() => {
+    if (!user || activeMode !== "direct") {
+      setMyHeroesByTeam({
+        team1Power: [],
+        team2Power: [],
+        team3Power: [],
+        team4Power: [],
+      });
+      setMyHeroesError(null);
+      return;
+    }
+
+    const loadMyHeroes = async () => {
+      setLoadingMyHeroes(true);
+      setMyHeroesError(null);
+
+      try {
+        const heroesCol = collection(db, "users", user.uid, "heroes");
+        const heroesSnap = await getDocs(heroesCol);
+
+        const grouped: HeroesByTeam = {
+          team1Power: [],
+          team2Power: [],
+          team3Power: [],
+          team4Power: [],
+        };
+
+        heroesSnap.forEach((docSnap) => {
+          const data = docSnap.data() as Record<string, unknown>;
+          const teamKey = getTeamKeyForHero(data);
+          if (!teamKey) {
+            return;
+          }
+
+          const hero: HeroDoc = {
+            id: docSnap.id,
+            name: (data.name as string | undefined) ?? undefined,
+            displayName: (data.displayName as string | undefined) ?? undefined,
+            ...data,
+          };
+
+          grouped[teamKey].push(hero);
+        });
+
+        console.log("[DirectCompare][Heroes] Grouped my heroes by team", grouped);
+
+        setMyHeroesByTeam(grouped);
+      } catch (err) {
+        console.error("[DirectCompare][Heroes] Error loading my heroes", err);
+        setMyHeroesError(
+          "Failed to load your heroes for team composition."
+        );
+      } finally {
+        setLoadingMyHeroes(false);
+      }
+    };
+
+    loadMyHeroes();
+  }, [user, activeMode]);
+
+  // Load selected player heroes and group them by team
+  useEffect(() => {
+    if (!user || !selectedPlayerUid || activeMode !== "direct") {
+      setOtherHeroesByTeam({
+        team1Power: [],
+        team2Power: [],
+        team3Power: [],
+        team4Power: [],
+      });
+      setOtherHeroesError(null);
+      return;
+    }
+
+    const loadOtherHeroes = async () => {
+      setLoadingOtherHeroes(true);
+      setOtherHeroesError(null);
+
+      try {
+        const heroesCol = collection(
+          db,
+          "users",
+          selectedPlayerUid,
+          "heroes"
+        );
+        const heroesSnap = await getDocs(heroesCol);
+
+        const grouped: HeroesByTeam = {
+          team1Power: [],
+          team2Power: [],
+          team3Power: [],
+          team4Power: [],
+        };
+
+        heroesSnap.forEach((docSnap) => {
+          const data = docSnap.data() as Record<string, unknown>;
+          const teamKey = getTeamKeyForHero(data);
+          if (!teamKey) {
+            return;
+          }
+
+          const hero: HeroDoc = {
+            id: docSnap.id,
+            name: (data.name as string | undefined) ?? undefined,
+            displayName: (data.displayName as string | undefined) ?? undefined,
+            ...data,
+          };
+
+          grouped[teamKey].push(hero);
+        });
+
+        console.log("[DirectCompare][Heroes] Grouped other player heroes", {
+          selectedPlayerUid,
+          grouped,
+        });
+
+        setOtherHeroesByTeam(grouped);
+      } catch (err) {
+        console.error(
+          "[DirectCompare][Heroes] Error loading other player heroes",
+          err
+        );
+        setOtherHeroesError(
+          "Failed to load heroes for the selected player."
+        );
+      } finally {
+        setLoadingOtherHeroes(false);
+      }
+    };
+
+    loadOtherHeroes();
+  }, [user, selectedPlayerUid, activeMode]);
 
   const handleToggleCompare = async () => {
     if (!user || canCompare === null) return;
@@ -671,7 +916,7 @@ export default function CompareCenterPage() {
                   )}
                 </div>
 
-                {/* Placeholder for compare results */}
+                {/* Direct compare results */}
                 {selectedPlayerUid && (
                   <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4">
                     <p className="text-sm text-slate-100 mb-2">
@@ -685,9 +930,471 @@ export default function CompareCenterPage() {
                       ).displayName}
                     </p>
 
-                    <p className="mt-3 text-xs text-slate-500">
-                      Data will be loaded when Direct Compare API is added.
-                    </p>
+                    {loadingOtherTeams && (
+                      <p className="mt-3 text-xs text-slate-500">
+                        Loading team data for this player…
+                      </p>
+                    )}
+
+                    {otherTeamsError && !loadingOtherTeams && (
+                      <p className="mt-3 text-xs text-red-400">
+                        {otherTeamsError}
+                      </p>
+                    )}
+
+                    {!loadingOtherTeams && !otherTeamsError && (
+                      <>
+                        <p className="mt-3 text-xs text-slate-500">
+                          Team data loaded from Firestore.
+                        </p>
+
+                        {teamsData && otherTeamsData ? (
+                          <div className="mt-4 space-y-4">
+                            {/* Teams table */}
+                            <div>
+                              <div className="mb-2 flex items-center justify-between">
+                                <span className="text-sm font-semibold text-slate-100">
+                                  Teams side by side
+                                </span>
+                              </div>
+
+                              <div className="overflow-x-auto">
+                                <table className="min-w-full text-xs sm:text-sm">
+                                  <thead>
+                                    <tr className="border-b border-slate-800">
+                                      <th className="py-2 pr-3 text-left text-slate-400">
+                                        Team
+                                      </th>
+                                      <th className="py-2 px-3 text-left text-slate-400">
+                                        You
+                                      </th>
+                                      <th className="py-2 px-3 text-left text-slate-400">
+                                        Them
+                                      </th>
+                                      <th className="py-2 pl-3 text-left text-slate-400">
+                                        Difference
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {TEAM_KEYS.map((key) => {
+                                      const label = TEAM_LABELS[key] ?? key;
+
+                                      const meRaw = (teamsData as Record<
+                                        string,
+                                        unknown
+                                      >)[key];
+                                      const themRaw = (otherTeamsData as Record<
+                                        string,
+                                        unknown
+                                      >)[key];
+
+                                      const meValue = parsePower(meRaw);
+                                      const themValue = parsePower(themRaw);
+
+                                      if (meValue === null && themValue === null) {
+                                        return null;
+                                      }
+
+                                      let diffDisplay = "n/a";
+                                      if (meValue !== null && themValue !== null) {
+                                        const diff = meValue - themValue;
+                                        const mag = Math.abs(diff);
+                                        if (diff === 0) {
+                                          diffDisplay = "Equal";
+                                        } else {
+                                          const formatted = formatPowerM(mag);
+                                          diffDisplay =
+                                            diff > 0 ? `+${formatted}` : `-${formatted}`;
+                                        }
+                                      }
+
+                                      return (
+                                        <tr
+                                          key={key}
+                                          className="border-b border-slate-900/60 last:border-0"
+                                        >
+                                          <td className="py-2 pr-3 text-slate-200">
+                                            {label}
+                                          </td>
+                                          <td className="py-2 px-3 text-slate-100">
+                                            {meValue !== null
+                                              ? formatPowerM(meValue)
+                                              : "No data"}
+                                          </td>
+                                          <td className="py-2 px-3 text-slate-100">
+                                            {themValue !== null
+                                              ? formatPowerM(themValue)
+                                              : "No data"}
+                                          </td>
+                                          <td className="py-2 pl-3 text-slate-100">
+                                            {diffDisplay}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+
+                            {/* Team compositions: You vs Them */}
+                            <div className="mt-6">
+                              <div className="mb-2 flex items-center justify-between">
+                                <span className="text-sm font-semibold text-slate-100">
+                                  Team compositions
+                                </span>
+                                {(loadingMyHeroes || loadingOtherHeroes) && (
+                                  <span className="text-[11px] text-slate-500">
+                                    Loading heroes…
+                                  </span>
+                                )}
+                              </div>
+
+                              {(myHeroesError || otherHeroesError) && (
+                                <p className="text-xs text-red-400">
+                                  {myHeroesError || otherHeroesError}
+                                </p>
+                              )}
+
+                              {!myHeroesError && !otherHeroesError && (
+                                <>
+                                  {/* Grid of team cards */}
+                                  <div className="grid gap-3 sm:grid-cols-2">
+                                    {TEAM_KEYS.map((key) => {
+                                      const myHeroes = myHeroesByTeam[key] || [];
+                                      const theirHeroes =
+                                        otherHeroesByTeam[key] || [];
+
+                                      if (
+                                        myHeroes.length === 0 &&
+                                        theirHeroes.length === 0
+                                      ) {
+                                        return null;
+                                      }
+
+                                      const label = TEAM_LABELS[key] ?? key;
+
+                                      return (
+                                        <div
+                                          key={key}
+                                          onClick={() =>
+                                            setExpandedTeamKey((prev) =>
+                                              prev === key ? null : key
+                                            )
+                                          }
+                                          className={`rounded-lg border px-3 py-2 bg-slate-950/60 cursor-pointer transition ${
+                                            expandedTeamKey === key
+                                              ? "border-sky-500/80 shadow-sm"
+                                              : "border-slate-800 hover:border-slate-700"
+                                          }`}
+                                        >
+                                          <div className="text-xs font-semibold text-slate-200 mb-2">
+                                            {label}
+                                          </div>
+
+                                          <div className="grid grid-cols-2 gap-3 text-[11px] text-slate-300">
+                                            {/* YOU */}
+                                            <div>
+                                              <div className="mb-1 text-[10px] font-semibold text-slate-400 uppercase">
+                                                You
+                                              </div>
+                                              {myHeroes.length === 0 ? (
+                                                <p className="text-slate-500">
+                                                  No heroes
+                                                </p>
+                                              ) : (
+                                                <ul className="space-y-0.5">
+                                                  {myHeroes.map((h) => (
+                                                    <li
+                                                      key={h.id}
+                                                    >
+                                                      {h.displayName ||
+                                                        h.name ||
+                                                        h.id}
+                                                    </li>
+                                                  ))}
+                                                </ul>
+                                              )}
+                                            </div>
+
+                                            {/* THEM */}
+                                            <div>
+                                              <div className="mb-1 text-[10px] font-semibold text-slate-400 uppercase">
+                                                Them
+                                              </div>
+                                              {theirHeroes.length === 0 ? (
+                                                <p className="text-slate-500">
+                                                  No heroes
+                                                </p>
+                                              ) : (
+                                                <ul className="space-y-0.5">
+                                                  {theirHeroes.map((h) => (
+                                                    <li
+                                                      key={h.id}
+                                                    >
+                                                      {h.displayName ||
+                                                        h.name ||
+                                                        h.id}
+                                                    </li>
+                                                  ))}
+                                                </ul>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+
+                                  {/* Expanded team details panel */}
+                                  {expandedTeamKey && (() => {
+                                    const teamLabel =
+                                      TEAM_LABELS[expandedTeamKey] ??
+                                      expandedTeamKey;
+                                    const myHeroes =
+                                      myHeroesByTeam[expandedTeamKey] || [];
+                                    const theirHeroes =
+                                      otherHeroesByTeam[expandedTeamKey] || [];
+
+                                    if (
+                                      myHeroes.length === 0 &&
+                                      theirHeroes.length === 0
+                                    ) {
+                                      return null;
+                                    }
+
+                                    const renderHeroDetails = (hero: any) => {
+                                      const title =
+                                        hero.displayName ||
+                                        hero.name ||
+                                        hero.id;
+
+                                      const getVal = (key: string) =>
+                                        formatHeroFieldValue(hero[key]);
+
+                                      return (
+                                        <div
+                                          key={hero.id}
+                                          className="rounded-lg border border-slate-800 bg-slate-950 p-3"
+                                        >
+                                          <p className="text-xs font-semibold text-slate-100">
+                                            {title}
+                                          </p>
+
+                                          <div className="mt-2 space-y-2 text-[11px] text-slate-300">
+                                            {/* Power */}
+                                            <div className="flex items-baseline justify-between gap-4">
+                                              <span className="text-[10px] uppercase text-slate-500">
+                                                Power
+                                              </span>
+                                              <span className="text-[11px] text-slate-200">
+                                                {getVal("power")}
+                                              </span>
+                                            </div>
+
+                                            {/* Rail Gun / Rail Gun Stars */}
+                                            <div className="grid grid-cols-2 gap-4">
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Rail Gun
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("rail_gun")}
+                                                </span>
+                                              </div>
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Rail Gun Stars
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("rail_gun_stars")}
+                                                </span>
+                                              </div>
+                                            </div>
+
+                                            {/* Armor / Armor Stars */}
+                                            <div className="grid grid-cols-2 gap-4">
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Armor
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("armor")}
+                                                </span>
+                                              </div>
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Armor Stars
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("armor_stars")}
+                                                </span>
+                                              </div>
+                                            </div>
+
+                                            {/* Data Chip / Data Chip Stars */}
+                                            <div className="grid grid-cols-2 gap-4">
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Data Chip
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("data_chip")}
+                                                </span>
+                                              </div>
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Data Chip Stars
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("data_chip_stars")}
+                                                </span>
+                                              </div>
+                                            </div>
+
+                                            {/* Radar / Radar Stars */}
+                                            <div className="grid grid-cols-2 gap-4">
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Radar
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("radar")}
+                                                </span>
+                                              </div>
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Radar Stars
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("radar_stars")}
+                                                </span>
+                                              </div>
+                                            </div>
+
+                                            {/* Exclusive Weapon Owned / Level */}
+                                            <div className="grid grid-cols-2 gap-4">
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Exclusive Weapon Owned
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("exclusive_weapon_owned")}
+                                                </span>
+                                              </div>
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Exclusive Weapon Level
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("exclusive_weapon_level")}
+                                                </span>
+                                              </div>
+                                            </div>
+
+                                            {/* Skill 1 / Skill 2 */}
+                                            <div className="grid grid-cols-2 gap-4">
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Skill 1
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("skill1")}
+                                                </span>
+                                              </div>
+                                              <div className="flex items-baseline justify-between gap-2">
+                                                <span className="text-[10px] uppercase text-slate-500">
+                                                  Skill 2
+                                                </span>
+                                                <span className="text-[11px] text-slate-200">
+                                                  {getVal("skill2")}
+                                                </span>
+                                              </div>
+                                            </div>
+
+                                            {/* Skill 3 */}
+                                            <div className="flex items-baseline justify-between gap-4">
+                                              <span className="text-[10px] uppercase text-slate-500">
+                                                Skill 3
+                                              </span>
+                                              <span className="text-[11px] text-slate-200">
+                                                {getVal("skill3")}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      );
+                                    };
+
+                                    return (
+                                      <div className="mt-4 rounded-xl border border-slate-800 bg-slate-950/80 p-4">
+                                        <div className="flex items-center justify-between gap-2">
+                                          <div>
+                                            <p className="text-sm font-semibold text-slate-100">
+                                              {teamLabel} details
+                                            </p>
+                                            <p className="text-xs text-slate-500">
+                                              Showing full hero stats for this team. Click the
+                                              team tile again to close.
+                                            </p>
+                                          </div>
+                                          <button
+                                            type="button"
+                                            onClick={() => setExpandedTeamKey(null)}
+                                            className="text-xs text-slate-400 hover:text-slate-200"
+                                          >
+                                            Close
+                                          </button>
+                                        </div>
+
+                                        <div className="mt-4 grid gap-4 md:grid-cols-2">
+                                          {/* YOU SIDE */}
+                                          <div>
+                                            <p className="mb-2 text-xs font-semibold uppercase text-slate-400">
+                                              You
+                                            </p>
+                                            {myHeroes.length === 0 ? (
+                                              <p className="text-xs text-slate-500">
+                                                No heroes on this team.
+                                              </p>
+                                            ) : (
+                                              <div className="space-y-3">
+                                                {myHeroes.map(renderHeroDetails)}
+                                              </div>
+                                            )}
+                                          </div>
+
+                                          {/* THEM SIDE */}
+                                          <div>
+                                            <p className="mb-2 text-xs font-semibold uppercase text-slate-400">
+                                              Them
+                                            </p>
+                                            {theirHeroes.length === 0 ? (
+                                              <p className="text-xs text-slate-500">
+                                                No heroes on this team for the selected player.
+                                              </p>
+                                            ) : (
+                                              <div className="space-y-3">
+                                                {theirHeroes.map(renderHeroDetails)}
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    );
+                                  })()}
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="mt-3 text-xs text-slate-500">
+                            Waiting for both your teams and their teams to be available.
+                          </p>
+                        )}
+                      </>
+                    )}
                   </div>
                 )}
               </div>
