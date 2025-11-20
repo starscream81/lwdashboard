@@ -24,6 +24,21 @@ type HeroDoc = {
 
 type HeroesByTeam = Record<TeamKey, HeroDoc[]>;
 
+// Research: we will use category names exactly as stored in researchTrackingDoc.category
+// and focus on these eight canonical labels. Adjust if your category strings differ.
+const RESEARCH_CATEGORY_ORDER: string[] = [
+  "Units",
+  "Hero",
+  "Special Forces",
+  "Siege to Seize",
+  "Defense Fortifications",
+  "Tank Mastery",
+  "Air Mastery",
+  "Missile Mastery",
+];
+
+type ResearchSummary = Map<string, number>; // category -> percent complete (0–100)
+
 const TEAM_LABELS: Record<string, string> = {
   team1Power: "Team 1 Power",
   team2Power: "Team 2 Power",
@@ -48,6 +63,11 @@ function formatPowerM(value: unknown): string {
   }
 
   return `${num.toFixed(2)} M`;
+}
+
+function formatPercent(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "No data";
+  return `${value.toFixed(1)} %`;
 }
 
 type TeamKey = "team1Power" | "team2Power" | "team3Power" | "team4Power";
@@ -97,6 +117,7 @@ function computePercentileRank(values: number[], userValue: number): number {
 }
 
 function getTeamKeyForHero(hero: Record<string, unknown>): TeamKey | null {
+  // Adjust this if your schema uses different properties
   const rawTeam = hero.team ?? hero.assignedTeam ?? hero.teamKey;
 
   if (rawTeam === 1 || rawTeam === "team1" || rawTeam === "Team 1") {
@@ -170,6 +191,16 @@ export default function CompareCenterPage() {
   // Direct Compare: which team card is expanded for details
   const [expandedTeamKey, setExpandedTeamKey] = useState<TeamKey | null>(null);
 
+  // Direct Compare: research summaries (aggregated from research_tracking rows)
+  const [myResearch, setMyResearch] = useState<ResearchSummary | null>(null);
+  const [otherResearch, setOtherResearch] =
+    useState<ResearchSummary | null>(null);
+  const [loadingMyResearch, setLoadingMyResearch] = useState(false);
+  const [loadingOtherResearch, setLoadingOtherResearch] = useState(false);
+  const [myResearchError, setMyResearchError] = useState<string | null>(null);
+  const [otherResearchError, setOtherResearchError] =
+    useState<string | null>(null);
+
   // Auth guard
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -239,7 +270,7 @@ export default function CompareCenterPage() {
     loadTeams();
   }, [user]);
 
-  // Load aggregated compare data from API (admin side, uses token)
+  // Load aggregated compare data from API
   useEffect(() => {
     if (!user) return;
 
@@ -285,7 +316,7 @@ export default function CompareCenterPage() {
     loadAggregated();
   }, [user]);
 
-  // Load players eligible for Direct Compare (client side via Firestore)
+  // Load players eligible for Direct Compare
   useEffect(() => {
     if (!user || activeMode !== "direct") return;
 
@@ -297,16 +328,12 @@ export default function CompareCenterPage() {
         const usersCol = collection(db, "users");
         const usersSnap = await getDocs(usersCol);
 
-        console.log("[DirectCompare] usersSnap size:", usersSnap.size);
-
         const players: DirectComparePlayer[] = [];
 
         for (const userDoc of usersSnap.docs) {
           const uid = userDoc.id;
-          console.log("[DirectCompare] checking user", uid);
 
           if (uid === user.uid) {
-            console.log("[DirectCompare] skipping current user", uid);
             continue;
           }
 
@@ -319,13 +346,6 @@ export default function CompareCenterPage() {
           );
           const privacySnap = await getDoc(privacyRef);
 
-          console.log(
-            "[DirectCompare] privacy exists?",
-            privacySnap.exists(),
-            "data:",
-            privacySnap.data()
-          );
-
           if (!privacySnap.exists()) {
             continue;
           }
@@ -335,12 +355,6 @@ export default function CompareCenterPage() {
             | undefined;
 
           if (!privacyData?.canCompare) {
-            console.log(
-              "[DirectCompare] canCompare is not true for",
-              uid,
-              "->",
-              privacyData
-            );
             continue;
           }
 
@@ -350,13 +364,6 @@ export default function CompareCenterPage() {
           try {
             const profilesCol = collection(db, "users", uid, "profiles");
             const profilesSnap = await getDocs(profilesCol);
-
-            console.log(
-              "[DirectCompare] profilesSnap size for",
-              uid,
-              ":",
-              profilesSnap.size
-            );
 
             if (!profilesSnap.empty) {
               const pdata = profilesSnap.docs[0].data() as {
@@ -378,16 +385,8 @@ export default function CompareCenterPage() {
             );
           }
 
-          console.log("[DirectCompare] adding player", {
-            uid,
-            displayName,
-            serverId,
-          });
-
           players.push({ uid, displayName, serverId });
         }
-
-        console.log("[DirectCompare] final players:", players);
 
         players.sort((a, b) => {
           const sA = String(a.serverId ?? "");
@@ -435,16 +434,8 @@ export default function CompareCenterPage() {
 
         if (snap.exists()) {
           const data = snap.data() as TeamsData;
-          console.log("[DirectCompare] Loaded other player teams", {
-            selectedPlayerUid,
-            data,
-          });
           setOtherTeamsData(data);
         } else {
-          console.log(
-            "[DirectCompare] No teams data found for selected player",
-            selectedPlayerUid
-          );
           setOtherTeamsData(null);
         }
       } catch (err) {
@@ -473,7 +464,7 @@ export default function CompareCenterPage() {
         team3Power: [],
         team4Power: [],
       });
-      setMyHeroesError(null);
+    setMyHeroesError(null);
       return;
     }
 
@@ -508,8 +499,6 @@ export default function CompareCenterPage() {
 
           grouped[teamKey].push(hero);
         });
-
-        console.log("[DirectCompare][Heroes] Grouped my heroes by team", grouped);
 
         setMyHeroesByTeam(grouped);
       } catch (err) {
@@ -575,11 +564,6 @@ export default function CompareCenterPage() {
           grouped[teamKey].push(hero);
         });
 
-        console.log("[DirectCompare][Heroes] Grouped other player heroes", {
-          selectedPlayerUid,
-          grouped,
-        });
-
         setOtherHeroesByTeam(grouped);
       } catch (err) {
         console.error(
@@ -595,6 +579,120 @@ export default function CompareCenterPage() {
     };
 
     loadOtherHeroes();
+  }, [user, selectedPlayerUid, activeMode]);
+
+  // Helper to aggregate research for a given user from users/{uid}/research_tracking/*
+  async function aggregateResearchForUser(uid: string): Promise<ResearchSummary | null> {
+    const colRef = collection(db, "users", uid, "research_tracking");
+    const snap = await getDocs(colRef);
+
+    if (snap.empty) {
+      return null;
+    }
+
+    // category -> { current, max }
+    const accum = new Map<
+      string,
+      { current: number; max: number }
+    >();
+
+    snap.forEach((docSnap) => {
+      const data = docSnap.data() as {
+        category?: string;
+        currentLevel?: number;
+        maxLevel?: number;
+      };
+
+      const category = data.category;
+      if (!category) return;
+
+      const current = data.currentLevel ?? 0;
+      const max = data.maxLevel ?? 0;
+
+      const entry = accum.get(category) ?? { current: 0, max: 0 };
+      entry.current += current;
+      entry.max += max;
+      accum.set(category, entry);
+    });
+
+    if (accum.size === 0) {
+      return null;
+    }
+
+    const result: ResearchSummary = new Map();
+
+    accum.forEach((value, category) => {
+      if (value.max > 0) {
+        const percent = (value.current / value.max) * 100;
+        result.set(category, percent);
+      } else {
+        result.set(category, 0);
+      }
+    });
+
+    return result;
+  }
+
+  // Load your research completion summary
+  useEffect(() => {
+    if (!user || activeMode !== "direct") {
+      setMyResearch(null);
+      setMyResearchError(null);
+      return;
+    }
+
+    const load = async () => {
+      setLoadingMyResearch(true);
+      setMyResearchError(null);
+
+      try {
+        const summary = await aggregateResearchForUser(user.uid);
+        setMyResearch(summary);
+      } catch (err) {
+        console.error(
+          "[DirectCompare][Research] Error loading my research",
+          err
+        );
+        setMyResearchError("Failed to load your research summary.");
+        setMyResearch(null);
+      } finally {
+        setLoadingMyResearch(false);
+      }
+    };
+
+    load();
+  }, [user, activeMode]);
+
+  // Load selected player's research completion summary
+  useEffect(() => {
+    if (!user || !selectedPlayerUid || activeMode !== "direct") {
+      setOtherResearch(null);
+      setOtherResearchError(null);
+      return;
+    }
+
+    const load = async () => {
+      setLoadingOtherResearch(true);
+      setOtherResearchError(null);
+
+      try {
+        const summary = await aggregateResearchForUser(selectedPlayerUid);
+        setOtherResearch(summary);
+      } catch (err) {
+        console.error(
+          "[DirectCompare][Research] Error loading other player research",
+          err
+        );
+        setOtherResearchError(
+          "Failed to load research for the selected player."
+        );
+        setOtherResearch(null);
+      } finally {
+        setLoadingOtherResearch(false);
+      }
+    };
+
+    load();
   }, [user, selectedPlayerUid, activeMode]);
 
   const handleToggleCompare = async () => {
@@ -903,7 +1001,10 @@ export default function CompareCenterPage() {
                     <select
                       className="mt-1 block w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100"
                       value={selectedPlayerUid}
-                      onChange={(e) => setSelectedPlayerUid(e.target.value)}
+                      onChange={(e) => {
+                        setSelectedPlayerUid(e.target.value);
+                        setExpandedTeamKey(null);
+                      }}
                     >
                       <option value="">Select a player…</option>
                       {directPlayers.map((p) => (
@@ -945,7 +1046,7 @@ export default function CompareCenterPage() {
                     {!loadingOtherTeams && !otherTeamsError && (
                       <>
                         <p className="mt-3 text-xs text-slate-500">
-                          Team data loaded from Firestore.
+                          Team data loaded from last saved synced data
                         </p>
 
                         {teamsData && otherTeamsData ? (
@@ -954,7 +1055,7 @@ export default function CompareCenterPage() {
                             <div>
                               <div className="mb-2 flex items-center justify-between">
                                 <span className="text-sm font-semibold text-slate-100">
-                                  Teams side by side
+                                  Teams Side-By-Side
                                 </span>
                               </div>
 
@@ -1042,7 +1143,7 @@ export default function CompareCenterPage() {
                             <div className="mt-6">
                               <div className="mb-2 flex items-center justify-between">
                                 <span className="text-sm font-semibold text-slate-100">
-                                  Team compositions
+                                  Team Compositions - Click on tile for detailed view
                                 </span>
                                 {(loadingMyHeroes || loadingOtherHeroes) && (
                                   <span className="text-[11px] text-slate-500">
@@ -1106,9 +1207,7 @@ export default function CompareCenterPage() {
                                               ) : (
                                                 <ul className="space-y-0.5">
                                                   {myHeroes.map((h) => (
-                                                    <li
-                                                      key={h.id}
-                                                    >
+                                                    <li key={h.id}>
                                                       {h.displayName ||
                                                         h.name ||
                                                         h.id}
@@ -1130,9 +1229,7 @@ export default function CompareCenterPage() {
                                               ) : (
                                                 <ul className="space-y-0.5">
                                                   {theirHeroes.map((h) => (
-                                                    <li
-                                                      key={h.id}
-                                                    >
+                                                    <li key={h.id}>
                                                       {h.displayName ||
                                                         h.name ||
                                                         h.id}
@@ -1155,7 +1252,8 @@ export default function CompareCenterPage() {
                                     const myHeroes =
                                       myHeroesByTeam[expandedTeamKey] || [];
                                     const theirHeroes =
-                                      otherHeroesByTeam[expandedTeamKey] || [];
+                                      otherHeroesByTeam[expandedTeamKey] ||
+                                      [];
 
                                     if (
                                       myHeroes.length === 0 &&
@@ -1280,7 +1378,9 @@ export default function CompareCenterPage() {
                                                   Exclusive Weapon Owned
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
-                                                  {getVal("exclusive_weapon_owned")}
+                                                  {getVal(
+                                                    "exclusive_weapon_owned"
+                                                  )}
                                                 </span>
                                               </div>
                                               <div className="flex items-baseline justify-between gap-2">
@@ -1288,7 +1388,9 @@ export default function CompareCenterPage() {
                                                   Exclusive Weapon Level
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
-                                                  {getVal("exclusive_weapon_level")}
+                                                  {getVal(
+                                                    "exclusive_weapon_level"
+                                                  )}
                                                 </span>
                                               </div>
                                             </div>
@@ -1335,13 +1437,16 @@ export default function CompareCenterPage() {
                                               {teamLabel} details
                                             </p>
                                             <p className="text-xs text-slate-500">
-                                              Showing full hero stats for this team. Click the
-                                              team tile again to close.
+                                              Showing full hero stats for this
+                                              team. Click the team tile again to
+                                              close.
                                             </p>
                                           </div>
                                           <button
                                             type="button"
-                                            onClick={() => setExpandedTeamKey(null)}
+                                            onClick={() =>
+                                              setExpandedTeamKey(null)
+                                            }
                                             className="text-xs text-slate-400 hover:text-slate-200"
                                           >
                                             Close
@@ -1360,7 +1465,9 @@ export default function CompareCenterPage() {
                                               </p>
                                             ) : (
                                               <div className="space-y-3">
-                                                {myHeroes.map(renderHeroDetails)}
+                                                {myHeroes.map(
+                                                  renderHeroDetails
+                                                )}
                                               </div>
                                             )}
                                           </div>
@@ -1372,11 +1479,14 @@ export default function CompareCenterPage() {
                                             </p>
                                             {theirHeroes.length === 0 ? (
                                               <p className="text-xs text-slate-500">
-                                                No heroes on this team for the selected player.
+                                                No heroes on this team for the
+                                                selected player.
                                               </p>
                                             ) : (
                                               <div className="space-y-3">
-                                                {theirHeroes.map(renderHeroDetails)}
+                                                {theirHeroes.map(
+                                                  renderHeroDetails
+                                                )}
                                               </div>
                                             )}
                                           </div>
@@ -1387,10 +1497,122 @@ export default function CompareCenterPage() {
                                 </>
                               )}
                             </div>
+
+                            {/* Research comparison */}
+                            <div className="mt-8 border-t border-slate-800 pt-4">
+                              <div className="mb-2 flex items-center justify-between">
+                                <span className="text-sm font-semibold text-slate-100">
+                                  Research Comparison
+                                </span>
+                                {(loadingMyResearch || loadingOtherResearch) && (
+                                  <span className="text-[11px] text-slate-500">
+                                    Loading research…
+                                  </span>
+                                )}
+                              </div>
+
+                              {(myResearchError || otherResearchError) && (
+                                <p className="text-xs text-red-400">
+                                  {myResearchError || otherResearchError}
+                                </p>
+                              )}
+
+                              {myResearch === null && !loadingMyResearch && (
+                                <p className="text-xs text-slate-500">
+                                  No research summary found for your account
+                                  yet.
+                                </p>
+                              )}
+
+                              {myResearch &&
+                                otherResearch === null &&
+                                !loadingOtherResearch && (
+                                  <p className="text-xs text-slate-500">
+                                    Research summary not available for the
+                                    selected player.
+                                  </p>
+                                )}
+
+                              {myResearch && otherResearch && (
+                                <div className="mt-2 overflow-x-auto">
+                                  <table className="min-w-full text-xs sm:text-sm">
+                                    <thead>
+                                      <tr className="border-b border-slate-800">
+                                        <th className="py-2 pr-3 text-left text-slate-400">
+                                          Category
+                                        </th>
+                                        <th className="py-2 px-3 text-left text-slate-400">
+                                          You
+                                        </th>
+                                        <th className="py-2 px-3 text-left text-slate-400">
+                                          Them
+                                        </th>
+                                        <th className="py-2 pl-3 text-left text-slate-400">
+                                          Difference
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {RESEARCH_CATEGORY_ORDER.map((catName) => {
+                                        const meVal = myResearch.get(catName);
+                                        const themVal =
+                                          otherResearch.get(catName);
+
+                                        if (
+                                          meVal === undefined &&
+                                          themVal === undefined
+                                        ) {
+                                          return null;
+                                        }
+
+                                        let diffDisplay = "n/a";
+                                        if (
+                                          meVal !== undefined &&
+                                          themVal !== undefined
+                                        ) {
+                                          const diff = meVal - themVal;
+                                          const mag = Math.abs(diff);
+                                          if (Math.abs(diff) < 0.05) {
+                                            diffDisplay = "Equal";
+                                          } else {
+                                            const sign =
+                                              diff > 0 ? "+" : "-";
+                                            diffDisplay = `${sign}${mag.toFixed(
+                                              1
+                                            )} %`;
+                                          }
+                                        }
+
+                                        return (
+                                          <tr
+                                            key={catName}
+                                            className="border-b border-slate-900/60 last:border-0"
+                                          >
+                                            <td className="py-2 pr-3 text-slate-200">
+                                              {catName}
+                                            </td>
+                                            <td className="py-2 px-3 text-slate-100">
+                                              {formatPercent(meVal)}
+                                            </td>
+                                            <td className="py-2 px-3 text-slate-100">
+                                              {formatPercent(themVal)}
+                                            </td>
+                                            <td className="py-2 pl-3 text-slate-100">
+                                              {diffDisplay}
+                                            </td>
+                                          </tr>
+                                        );
+                                      })}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         ) : (
                           <p className="mt-3 text-xs text-slate-500">
-                            Waiting for both your teams and their teams to be available.
+                            Waiting for both your teams and their teams to be
+                            available.
                           </p>
                         )}
                       </>
