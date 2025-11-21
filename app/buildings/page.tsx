@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { auth, db } from "@/lib/firebase";
-import AppHeader from "@/components/AppHeader";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type BuildingKvDoc = {
   name?: string;
@@ -182,26 +182,16 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
   },
   { key: "Iron Warehouse", displayName: "Iron Warehouse" },
   {
-    key: "Light House",
-    displayName: "Light House",
+    key: "Library",
+    displayName: "Library",
     seasonGroups: [SEASON_4],
   },
+  { key: "Market", displayName: "Market" },
   {
-    key: "Material Workshop",
-    displayName: "Material Workshop",
+    key: "Metal Warehouse",
+    displayName: "Metal Warehouse",
     multiInstance: true,
-    maxInstances: 5,
-  },
-  { key: "Missile Center", displayName: "Missile Center" },
-  {
-    key: "Missile Vehicle Base",
-    displayName: "Missile Vehicle Base",
-    seasonGroups: [SEASON_1, SEASON_2],
-  },
-  {
-    key: "Missileer Bar",
-    displayName: "Missileer Bar",
-    seasonGroups: [SEASON_5],
+    maxInstances: 3,
   },
   {
     key: "Oil Well",
@@ -210,30 +200,26 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
     maxInstances: 5,
   },
   {
-    key: "Opto-Electronic Lab",
-    displayName: "Opto-Electronic Lab",
-    seasonGroups: [SEASON_4],
-  },
-  {
-    key: "Pilot Bar",
-    displayName: "Pilot Bar",
-    seasonGroups: [SEASON_5],
-  },
-  {
-    key: "Protector Field",
-    displayName: "Protector Field",
-    seasonGroups: [SEASON_3, SEASON_4, SEASON_5],
-  },
-  {
-    key: "Protein Farm",
-    displayName: "Protein Farm",
+    key: "Oil Warehouse",
+    displayName: "Oil Warehouse",
     multiInstance: true,
-    maxInstances: 5,
-    seasonGroups: [SEASON_1],
+    maxInstances: 3,
   },
   {
-    key: "Quartz Workshop",
-    displayName: "Quartz Workshop",
+    key: "Outpost",
+    displayName: "Outpost",
+    seasonGroups: [SEASON_1, SEASON_2, SEASON_3, SEASON_4, SEASON_5],
+  },
+  {
+    key: "Power Plant",
+    displayName: "Power Plant",
+    multiInstance: true,
+    maxInstances: 3,
+  },
+  { key: "Radar Station", displayName: "Radar Station" },
+  {
+    key: "Reactor",
+    displayName: "Reactor",
     multiInstance: true,
     maxInstances: 5,
     seasonGroups: [SEASON_4],
@@ -363,6 +349,8 @@ function buildDefaultTracking(
 
 export default function BuildingsPage() {
   const router = useRouter();
+  const { t } = useLanguage();
+
   const [user, setUser] = useState<User | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -390,7 +378,7 @@ export default function BuildingsPage() {
     return () => unsubscribe();
   }, [router]);
 
-  // Load profile for header
+  // Load profile (currently only used for header in other pages; safe to keep)
   useEffect(() => {
     if (!user) return;
 
@@ -646,7 +634,8 @@ export default function BuildingsPage() {
 
             const hasTracked = uiInstances.some(
               (inst) =>
-                inst.tracking.tracked || inst.tracking.upgrading
+                inst.tracking.tracked ||
+                inst.tracking.upgrading
             );
 
             uiGroupMap.set(coreGroup.groupKey, {
@@ -705,14 +694,14 @@ export default function BuildingsPage() {
         setGroups(builtGroups);
       } catch (err: unknown) {
         console.error(err);
-        setError("Something went wrong while loading buildings.");
+        setError(t("buildings.error.loadFailed"));
       } finally {
         setLoading(false);
       }
     }
 
     load();
-  }, [user]);
+  }, [user, t]);
 
   const selectedGroup = useMemo(
     () =>
@@ -854,7 +843,7 @@ export default function BuildingsPage() {
     if (!user) return;
 
     const confirmed = window.confirm(
-      "Delete this building instance? Core buildings may be re created automatically on a future reload."
+      t("buildings.detail.deleteConfirm")
     );
     if (!confirmed) return;
 
@@ -905,7 +894,7 @@ export default function BuildingsPage() {
     return (
       <main className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
         <div className="text-sm text-slate-400">
-          Checking authentication…
+          {t("common.loading")}
         </div>
       </main>
     );
@@ -916,60 +905,35 @@ export default function BuildingsPage() {
       <main className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
         <div className="text-center space-y-4">
           <p className="text-sm text-slate-400">
-            You need to be signed in to view your buildings.
+            {t("auth.loginRequired.message")}
           </p>
           <Link
             href="/login"
             className="inline-flex items-center rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium text-slate-100 hover:bg-slate-800"
           >
-            Go to login
+            {t("auth.loginRequired.goToLogin")}
           </Link>
         </div>
       </main>
     );
   }
 
-  const isGuest = user.isAnonymous ?? false;
-
-  const profileAlliance =
-    isGuest
-      ? "GUEST"
-      : (profile as any)?.alliance != null &&
-        (profile as any)?.alliance !== ""
-      ? String((profile as any).alliance)
-      : null;
-
-  const baseDisplayName = isGuest
-    ? "Guest Commander"
-    : profile?.displayName ?? "Commander";
-
-  const combinedDisplayNameWithAlliance = profileAlliance
-    ? `${baseDisplayName} [${profileAlliance}]`
-    : baseDisplayName;
-
-  const combinedDisplayName = isGuest
-    ? `${combinedDisplayNameWithAlliance} (Guest)`
-    : combinedDisplayNameWithAlliance;
-
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      <AppHeader userName={combinedDisplayName} />
-
       <div className="mx-auto max-w-6xl px-4 py-8">
         <section className="mb-6 space-y-1">
           <h1 className="text-2xl font-semibold text-slate-50">
-            Buildings
+            {t("buildings.title")}
           </h1>
           <p className="text-sm text-slate-400">
-            Manage building levels and tracking flags that feed your
-            command center dashboard. Seasonal buildings are grouped by season.
+            {t("buildings.subtitle")}
           </p>
         </section>
 
         {loading && (
           <div className="mt-10 flex justify-center">
             <div className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300">
-              Loading buildings…
+              {t("buildings.loading")}
             </div>
           </div>
         )}
@@ -985,8 +949,7 @@ export default function BuildingsPage() {
         {!loading && !error && groups.length === 0 && (
           <div className="mt-10 flex justify-center">
             <div className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300">
-              No buildings found yet. Data will appear here after your
-              first save.
+              {t("buildings.empty.none")}
             </div>
           </div>
         )}
@@ -1027,12 +990,15 @@ type BuildingCardProps = {
 };
 
 function BuildingCard({ group, onClick }: BuildingCardProps) {
+  const { t } = useLanguage();
   const hasInstances = group.instances.length > 0;
   const levels = group.instances
     .map((instance) => instance.level)
     .filter((level) => typeof level === "number");
   const levelsText =
-    levels.length > 0 ? levels.join(", ") : "none yet";
+    levels.length > 0
+      ? levels.join(", ")
+      : t("buildings.card.levels.none");
 
   const anyUpgrading = group.instances.some(
     (instance) => instance.tracking.upgrading
@@ -1058,20 +1024,22 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
           <p className="mt-1 text-xs text-slate-400">
             {hasInstances
               ? multiple
-                ? `Entries: ${group.instances.length}`
-                : "Single instance"
-              : "No buildings created yet"}
+                ? t("buildings.card.entries", {
+                    count: group.instances.length,
+                  })
+                : t("buildings.card.singleInstance")
+              : t("buildings.card.noneCreated")}
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">
           {anyTracked && (
             <span className="inline-flex items-center rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-semibold text-emerald-300 ring-1 ring-emerald-500/40">
-              Tracked
+              {t("buildings.status.tracked")}
             </span>
           )}
           {anyUpgrading && (
             <span className="inline-flex items-center rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold text-amber-300 ring-1 ring-amber-500/40">
-              Upgrading
+              {t("buildings.status.upgrading")}
             </span>
           )}
         </div>
@@ -1079,17 +1047,19 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
 
       <div className="mt-4 flex items-center justify-between text-xs text-slate-300">
         <span className="text-slate-400">
-          {group.isSeasonGroup ? "Season levels" : "Levels"}
+          {group.isSeasonGroup
+            ? t("buildings.card.seasonLevels")
+            : t("buildings.card.levels")}
         </span>
         <span className="font-medium text-slate-100">
-          {hasInstances ? levelsText : "none"}
+          {hasInstances ? levelsText : t("buildings.card.levels.none")}
         </span>
       </div>
 
       <div className="mt-3 text-[11px] text-slate-500">
         {group.isSeasonGroup
-          ? "Click to view and edit all buildings unlocked in this season."
-          : "Click to edit levels, tracking, and delete instances for this building group."}
+          ? t("buildings.card.hint.season")
+          : t("buildings.card.hint.normal")}
       </div>
     </button>
   );
@@ -1110,6 +1080,7 @@ function BuildingDetailPanel({
   onTrackingToggle,
   onDeleteInstance,
 }: BuildingDetailPanelProps) {
+  const { t } = useLanguage();
   const hasInstances = group.instances.length > 0;
 
   return (
@@ -1126,8 +1097,8 @@ function BuildingDetailPanel({
             </h2>
             <p className="text-xs text-slate-400">
               {group.isSeasonGroup
-                ? "Season bucket showing all buildings associated with this season. Adjust levels, tracking flags, or delete old entries."
-                : "Update building levels plus tracked and upgrading flags. Delete instances to clean up old or seasonal data."}
+                ? t("buildings.detail.header.season")
+                : t("buildings.detail.header.normal")}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -1147,12 +1118,24 @@ function BuildingDetailPanel({
               <div className="rounded-2xl border border-slate-800 bg-slate-900/70">
                 <div className="grid grid-cols-[minmax(0,2.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.8fr)] gap-3 border-b border-slate-800 px-4 py-3 text-[11px] font-semibold text-slate-400">
                   <div>
-                    {group.isSeasonGroup ? "Building / Instance" : "Instance"}
+                    {group.isSeasonGroup
+                      ? t(
+                          "buildings.detail.table.instanceSeason"
+                        )
+                      : t("buildings.detail.table.instance")}
                   </div>
-                  <div className="text-center">Level</div>
-                  <div className="text-center">Tracked</div>
-                  <div className="text-center">Upgrading</div>
-                  <div className="text-center">Delete</div>
+                  <div className="text-center">
+                    {t("buildings.detail.table.level")}
+                  </div>
+                  <div className="text-center">
+                    {t("buildings.detail.table.tracked")}
+                  </div>
+                  <div className="text-center">
+                    {t("buildings.detail.table.upgrading")}
+                  </div>
+                  <div className="text-center">
+                    {t("buildings.detail.table.delete")}
+                  </div>
                 </div>
 
                 {group.instances.map((instance) => (
@@ -1162,12 +1145,15 @@ function BuildingDetailPanel({
                   >
                     <div className="pr-2">
                       <div className="font-medium text-slate-50">
-                        {group.isSeasonGroup && instance.baseDisplayName
+                        {group.isSeasonGroup &&
+                        instance.baseDisplayName
                           ? `${instance.baseDisplayName} — ${instance.instanceLabel}`
                           : instance.instanceLabel}
                       </div>
                       <div className="text-[11px] text-slate-500">
-                        Document id: {instance.id}
+                        {t("buildings.detail.instance.docId", {
+                          id: instance.id,
+                        })}
                       </div>
                     </div>
 
@@ -1248,19 +1234,12 @@ function BuildingDetailPanel({
               </div>
 
               <p className="mt-3 text-[11px] text-slate-500">
-                Changes save automatically when you edit a level or
-                toggle a checkbox. Delete instances to clean up old,
-                duplicate, or seasonal buildings. Required core buildings
-                may be re created on a future page load if they are missing.
+                {t("buildings.detail.footer.hint")}
               </p>
             </>
           ) : (
             <div className="rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-4 text-xs text-slate-200">
-              <p>
-                No buildings created for this group yet. Core buildings
-                are auto created when needed. Seasonal buildings appear
-                here once they exist in your data.
-              </p>
+              <p>{t("buildings.detail.empty")}</p>
             </div>
           )}
         </div>

@@ -30,6 +30,7 @@ import enTeams from "./en/teams.json";
 import enLinks from "./en/links.json";
 import enAuth from "./en/auth.json";
 import enStatus from "./en/status.json";
+import enHeroes from "./en/heroes.json";
 
 // DE
 import deCommon from "./de/common.json";
@@ -44,6 +45,7 @@ import deTeams from "./de/teams.json";
 import deLinks from "./de/links.json";
 import deAuth from "./de/auth.json";
 import deStatus from "./de/status.json";
+import deHeroes from "./de/heroes.json";
 
 // IT
 import itCommon from "./it/common.json";
@@ -58,6 +60,7 @@ import itTeams from "./it/teams.json";
 import itLinks from "./it/links.json";
 import itAuth from "./it/auth.json";
 import itStatus from "./it/status.json";
+import itHeroes from "./it/heroes.json";
 
 // FR
 import frCommon from "./fr/common.json";
@@ -72,6 +75,7 @@ import frTeams from "./fr/teams.json";
 import frLinks from "./fr/links.json";
 import frAuth from "./fr/auth.json";
 import frStatus from "./fr/status.json";
+import frHeroes from "./fr/heroes.json";
 
 // AR
 import arCommon from "./ar/common.json";
@@ -86,6 +90,13 @@ import arTeams from "./ar/teams.json";
 import arLinks from "./ar/links.json";
 import arAuth from "./ar/auth.json";
 import arStatus from "./ar/status.json";
+import arHeroes from "./ar/heroes.json";
+import enBuildings from "./en/buildings.json";
+import deBuildings from "./de/buildings.json";
+import itBuildings from "./it/buildings.json";
+import frBuildings from "./fr/buildings.json";
+import arBuildings from "./ar/buildings.json";
+
 
 export const messages: AllMessages = {
   en: mergeMessages(
@@ -100,7 +111,9 @@ export const messages: AllMessages = {
     enTeams,
     enLinks,
     enAuth,
-    enStatus
+    enStatus,    
+    enHeroes,
+    enBuildings
   ),
   de: mergeMessages(
     deCommon,
@@ -114,7 +127,9 @@ export const messages: AllMessages = {
     deTeams,
     deLinks,
     deAuth,
-    deStatus
+    deStatus,
+    deHeroes,
+    deBuildings
   ),
   it: mergeMessages(
     itCommon,
@@ -128,7 +143,9 @@ export const messages: AllMessages = {
     itTeams,
     itLinks,
     itAuth,
-    itStatus
+    itStatus,
+    itHeroes,
+    itBuildings
   ),
   fr: mergeMessages(
     frCommon,
@@ -142,7 +159,9 @@ export const messages: AllMessages = {
     frTeams,
     frLinks,
     frAuth,
-    frStatus
+    frStatus,
+    frHeroes,
+    frBuildings
   ),
   ar: mergeMessages(
     arCommon,
@@ -156,6 +175,8 @@ export const messages: AllMessages = {
     arTeams,
     arLinks,
     arAuth,
-    arStatus
+    arStatus,
+    arHeroes,
+    arBuildings
   ),
 };

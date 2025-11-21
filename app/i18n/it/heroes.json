@@ -1,0 +1,64 @@
+{
+  "heroes.title": "Heroes",
+  "heroes.subtitle": "Manage your squads, power, gear, and skills.",
+
+  "heroes.filter.hero.label": "Hero",
+  "heroes.filter.hero.allOption": "All heroes",
+
+  "heroes.filter.role.label": "Role",
+  "heroes.filter.role.all": "All",
+  "heroes.filter.role.attack": "Attack",
+  "heroes.filter.role.defense": "Defense",
+  "heroes.filter.role.support": "Support",
+
+  "heroes.filter.sort.label": "Sort by",
+  "heroes.filter.sort.power": "Power",
+  "heroes.filter.sort.name": "Name",
+  "heroes.filter.sort.team": "Team",
+
+  "heroes.filter.team.all": "All",
+  "heroes.filter.team.team1": "Team 1",
+  "heroes.filter.team.team2": "Team 2",
+  "heroes.filter.team.team3": "Team 3",
+  "heroes.filter.team.team4": "Team 4",
+  "heroes.filter.team.unassigned": "Unassigned",
+
+  "heroes.loading": "Loading heroes...",
+  "heroes.empty.noMatch": "No heroes match your filters.",
+  "heroes.empty.noHeroInRoster": "You do not have {heroName} in your roster yet.",
+
+  "heroes.actions.addHero.loading": "Adding hero...",
+  "heroes.actions.addHero.label": "Add {heroName} to your roster",
+
+  "heroes.team.unassigned": "Unassigned",
+  "heroes.team.teamWithNumber": "Team {team}",
+  "heroes.team.label": "Team",
+
+  "heroes.type.label": "Type",
+  "heroes.type.unknown": "Unknown",
+
+  "heroes.role.label": "Role",
+  "heroes.role.unknown": "Unknown",
+  "heroes.role.attack": "Attack",
+  "heroes.role.defense": "Defense",
+  "heroes.role.support": "Support",
+
+  "heroes.power.label": "Power",
+
+  "heroes.detail.close": "Close",
+  "heroes.detail.coreStats.title": "Core stats",
+
+  "heroes.detail.gear.title": "Gear and bonuses",
+  "heroes.detail.gear.description": "Role important gear is highlighted. Set base gear to 40 to unlock stars.",
+  "heroes.detail.gear.selectStarLevel": "Select star level",
+  "heroes.detail.gear.unlockStars": "Set {gearName} to 40 to unlock stars.",
+
+  "heroes.detail.exclusive.hasWeapon": "Has exclusive weapon",
+  "heroes.detail.exclusive.levelLabel": "Exclusive weapon level",
+
+  "heroes.detail.skills.title": "Skills",
+  "heroes.detail.skills.maxSkillLabel": "Max skill level",
+  "heroes.detail.skills.skill1": "Skill 1",
+  "heroes.detail.skills.skill2": "Skill 2",
+  "heroes.detail.skills.skill3": "Skill 3"
+}
