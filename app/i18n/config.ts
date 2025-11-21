@@ -29,6 +29,7 @@ import enNextUp from "./en/nextUp.json";
 import enTeams from "./en/teams.json";
 import enLinks from "./en/links.json";
 import enAuth from "./en/auth.json";
+import enStatus from "./en/status.json";
 
 // DE
 import deCommon from "./de/common.json";
@@ -42,6 +43,7 @@ import deNextUp from "./de/nextUp.json";
 import deTeams from "./de/teams.json";
 import deLinks from "./de/links.json";
 import deAuth from "./de/auth.json";
+import deStatus from "./de/status.json";
 
 // IT
 import itCommon from "./it/common.json";
@@ -55,6 +57,7 @@ import itNextUp from "./it/nextUp.json";
 import itTeams from "./it/teams.json";
 import itLinks from "./it/links.json";
 import itAuth from "./it/auth.json";
+import itStatus from "./it/status.json";
 
 // FR
 import frCommon from "./fr/common.json";
@@ -68,6 +71,7 @@ import frNextUp from "./fr/nextUp.json";
 import frTeams from "./fr/teams.json";
 import frLinks from "./fr/links.json";
 import frAuth from "./fr/auth.json";
+import frStatus from "./fr/status.json";
 
 // AR
 import arCommon from "./ar/common.json";
@@ -81,6 +85,7 @@ import arNextUp from "./ar/nextUp.json";
 import arTeams from "./ar/teams.json";
 import arLinks from "./ar/links.json";
 import arAuth from "./ar/auth.json";
+import arStatus from "./ar/status.json";
 
 export const messages: AllMessages = {
   en: mergeMessages(
@@ -94,7 +99,8 @@ export const messages: AllMessages = {
     enNextUp,
     enTeams,
     enLinks,
-    enAuth
+    enAuth,
+    enStatus
   ),
   de: mergeMessages(
     deCommon,
@@ -107,7 +113,8 @@ export const messages: AllMessages = {
     deNextUp,
     deTeams,
     deLinks,
-    deAuth
+    deAuth,
+    deStatus
   ),
   it: mergeMessages(
     itCommon,
@@ -120,7 +127,8 @@ export const messages: AllMessages = {
     itNextUp,
     itTeams,
     itLinks,
-    itAuth
+    itAuth,
+    itStatus
   ),
   fr: mergeMessages(
     frCommon,
@@ -133,7 +141,8 @@ export const messages: AllMessages = {
     frNextUp,
     frTeams,
     frLinks,
-    frAuth
+    frAuth,
+    frStatus
   ),
   ar: mergeMessages(
     arCommon,
@@ -146,6 +155,7 @@ export const messages: AllMessages = {
     arNextUp,
     arTeams,
     arLinks,
-    arAuth
+    arAuth,
+    arStatus
   ),
 };

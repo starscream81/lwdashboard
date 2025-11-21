@@ -10,11 +10,14 @@ import {
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { ensureUserInitialized } from "@/lib/userSetup";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type Mode = "login" | "signup" | "reset";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t } = useLanguage();
+
   const [mode, setMode] = useState<Mode>("login");
 
   const [email, setEmail] = useState("");
@@ -28,29 +31,29 @@ export default function LoginPage() {
   const [guestDialogOpen, setGuestDialogOpen] = useState(false);
   const [guestLoading, setGuestLoading] = useState(false);
 
-  function mapAuthError(err: any): string {
+  const mapAuthError = (err: any): string => {
     const code = err?.code as string | undefined;
 
     if (!code) {
-      return "Something went wrong. Please try again.";
+      return t("auth.error.generic");
     }
 
     switch (code) {
       case "auth/invalid-email":
-        return "Please enter a valid email address.";
+        return t("auth.error.invalidEmail");
       case "auth/user-not-found":
       case "auth/wrong-password":
-        return "Email or password did not match any account.";
+        return t("auth.error.userNotFoundOrWrongPassword");
       case "auth/too-many-requests":
-        return "Too many attempts. Please wait a moment and try again.";
+        return t("auth.error.tooManyRequests");
       case "auth/email-already-in-use":
-        return "That email is already in use. Please sign in instead.";
+        return t("auth.error.emailInUse");
       case "auth/weak-password":
-        return "Please choose a stronger password.";
+        return t("auth.error.weakPassword");
       default:
-        return "Something went wrong. Please try again.";
+        return t("auth.error.generic");
     }
-  }
+  };
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -68,7 +71,7 @@ export default function LoginPage() {
 
       if (mode === "signup") {
         if (password !== confirmPassword) {
-          setError("Passwords do not match.");
+          setError(t("auth.error.passwordMismatch"));
           return;
         }
         const cred = await createUserWithEmailAndPassword(
@@ -83,9 +86,7 @@ export default function LoginPage() {
 
       if (mode === "reset") {
         await sendPasswordResetEmail(auth, email);
-        setInfo(
-          "If there is an account with that email, you will receive a reset link shortly."
-        );
+        setInfo(t("auth.info.resetSent"));
         return;
       }
     } catch (err: any) {
@@ -105,7 +106,7 @@ export default function LoginPage() {
       setGuestDialogOpen(false);
       router.push("/dashboard");
     } catch (err: any) {
-      setError("Could not start guest session. Please try again.");
+      setError(t("guest.error.couldNotStart"));
     } finally {
       setGuestLoading(false);
     }
@@ -117,26 +118,30 @@ export default function LoginPage() {
     setInfo(null);
   }
 
-  const title =
+  const titleKey =
     mode === "login"
-      ? "Sign in"
+      ? "auth.mode.login.title"
       : mode === "signup"
-      ? "Create account"
-      : "Reset password";
+      ? "auth.mode.signup.title"
+      : "auth.mode.reset.title";
 
-  const subtitle =
+  const subtitleKey =
     mode === "login"
-      ? "Sign in to your Command Center profile."
+      ? "auth.mode.login.subtitle"
       : mode === "signup"
-      ? "Create a Command Center profile to keep your progress in one place."
-      : "Enter your email to receive a password reset link.";
+      ? "auth.mode.signup.subtitle"
+      : "auth.mode.reset.subtitle";
 
-  const primaryButtonLabel =
+  const primaryButtonKey =
     mode === "login"
-      ? "Sign in"
+      ? "auth.button.primary.login"
       : mode === "signup"
-      ? "Create account"
-      : "Send reset link";
+      ? "auth.button.primary.signup"
+      : "auth.button.primary.reset";
+
+  const title = t(titleKey);
+  const subtitle = t(subtitleKey);
+  const primaryButtonLabel = t(primaryButtonKey);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-50 px-4">
@@ -147,20 +152,18 @@ export default function LoginPage() {
             <div className="hidden md:flex flex-col justify-between bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 border-r border-slate-800">
               <div className="space-y-4">
                 <span className="inline-flex items-center rounded-full border border-slate-700 px-3 py-1 text-xs font-medium tracking-wide text-slate-200 bg-slate-950/60">
-                  Last War Command Center
+                  {t("app.name")}
                 </span>
                 <h2 className="text-xl font-semibold leading-snug text-slate-50">
-                  Track your heroes, buildings, and research in one place.
+                  {t("auth.brand.tagline")}
                 </h2>
                 <p className="text-sm text-slate-400">
-                  This Command Center is a fan made helper tool. It does not
-                  connect to the game servers and never asks for your game
-                  login. You only use an email and password for this site.
+                  {t("auth.brand.description")}
                 </p>
               </div>
               <div className="mt-6 space-y-1 text-xs text-slate-500">
-                <p>Sign in to keep your progress.</p>
-                <p>Or try a guest session to explore without a full profile.</p>
+                <p>{t("auth.brand.signInHint")}</p>
+                <p>{t("auth.brand.guestHint")}</p>
               </div>
             </div>
 
@@ -168,7 +171,7 @@ export default function LoginPage() {
             <div className="p-6 md:p-8">
               <div className="mb-6 flex items-center justify-between md:hidden">
                 <span className="inline-flex items-center rounded-full border border-slate-700 px-3 py-1 text-xs font-medium tracking-wide text-slate-200 bg-slate-950/60">
-                  Last War Command Center
+                  {t("app.name")}
                 </span>
               </div>
 
@@ -190,7 +193,7 @@ export default function LoginPage() {
                       : "text-slate-400 hover:text-slate-100"
                   }`}
                 >
-                  Sign in
+                  {t("auth.toggle.login")}
                 </button>
                 <button
                   type="button"
@@ -201,7 +204,7 @@ export default function LoginPage() {
                       : "text-slate-400 hover:text-slate-100"
                   }`}
                 >
-                  Create account
+                  {t("auth.toggle.signup")}
                 </button>
                 <button
                   type="button"
@@ -212,13 +215,15 @@ export default function LoginPage() {
                       : "text-slate-400 hover:text-slate-100"
                   }`}
                 >
-                  Reset password
+                  {t("auth.toggle.reset")}
                 </button>
               </div>
 
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="space-y-1">
-                  <label className="text-sm text-slate-300">Email</label>
+                  <label className="text-sm text-slate-300">
+                    {t("auth.field.email.label")}
+                  </label>
                   <input
                     type="email"
                     required
@@ -233,7 +238,7 @@ export default function LoginPage() {
                   <>
                     <div className="space-y-1">
                       <label className="text-sm text-slate-300">
-                        Password
+                        {t("auth.field.password.label")}
                       </label>
                       <input
                         type="password"
@@ -242,7 +247,9 @@ export default function LoginPage() {
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
                         autoComplete={
-                          mode === "login" ? "current-password" : "new-password"
+                          mode === "login"
+                            ? "current-password"
+                            : "new-password"
                         }
                       />
                     </div>
@@ -250,7 +257,7 @@ export default function LoginPage() {
                     {mode === "signup" && (
                       <div className="space-y-1">
                         <label className="text-sm text-slate-300">
-                          Confirm password
+                          {t("auth.field.confirmPassword.label")}
                         </label>
                         <input
                           type="password"
@@ -283,7 +290,9 @@ export default function LoginPage() {
                   disabled={loading}
                   className="w-full rounded-xl bg-sky-600 hover:bg-sky-500 disabled:opacity-60 px-3 py-2 text-sm font-medium mt-2"
                 >
-                  {loading ? "Working..." : primaryButtonLabel}
+                  {loading
+                    ? t("auth.button.primary.working")
+                    : primaryButtonLabel}
                 </button>
               </form>
 
@@ -294,20 +303,17 @@ export default function LoginPage() {
                   onClick={() => setGuestDialogOpen(true)}
                   className="w-full rounded-xl border border-slate-700 bg-slate-950/60 px-3 py-2 text-sm font-medium text-slate-100 hover:bg-slate-900/80"
                 >
-                  Continue as guest
+                  {t("guest.button.openDialog")}
                 </button>
                 <p className="text-xs text-slate-500 text-center">
-                  Guest sessions are meant for quick tests. You can look around
-                  and try things, but nothing is guaranteed to be kept after you
-                  close your browser.
+                  {t("guest.info.blurb")}
                 </p>
               </div>
 
               {/* Bottom helper text on mobile */}
               <div className="mt-6 md:hidden">
                 <p className="text-xs text-slate-500 text-center">
-                  This Command Center is a fan made helper tool. It does not
-                  connect to the game servers or use your game login.
+                  {t("auth.mobile.footer")}
                 </p>
               </div>
             </div>
@@ -319,17 +325,13 @@ export default function LoginPage() {
           <div className="fixed inset-0 z-30 flex items-center justify-center bg-black/70">
             <div className="w-full max-w-md rounded-2xl bg-slate-900 border border-slate-700 p-6 shadow-2xl">
               <h3 className="text-lg font-semibold text-slate-50 mb-2">
-                Continue as guest
+                {t("guest.dialog.title")}
               </h3>
               <p className="text-sm text-slate-300 mb-3">
-                In guest mode you can explore the Command Center and enter
-                sample data. This is a temporary session. Data from guest
-                sessions may not be kept after you close the browser window and
-                cannot be recovered or linked to an email later.
+                {t("guest.dialog.body")}
               </p>
               <p className="text-xs text-slate-500 mb-4">
-                If you want a stable record of your heroes, buildings, and
-                research, create a free profile instead.
+                {t("guest.dialog.note")}
               </p>
               <div className="flex justify-end gap-3">
                 <button
@@ -338,7 +340,7 @@ export default function LoginPage() {
                   disabled={guestLoading}
                   className="rounded-xl border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800"
                 >
-                  Go back
+                  {t("guest.dialog.back")}
                 </button>
                 <button
                   type="button"
@@ -346,7 +348,9 @@ export default function LoginPage() {
                   disabled={guestLoading}
                   className="rounded-xl bg-sky-600 hover:bg-sky-500 disabled:opacity-60 px-3 py-2 text-xs font-medium text-slate-50"
                 >
-                  {guestLoading ? "Starting guest session..." : "Continue as guest"}
+                  {guestLoading
+                    ? t("guest.dialog.starting")
+                    : t("guest.dialog.continue")}
                 </button>
               </div>
             </div>

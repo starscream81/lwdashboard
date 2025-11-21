@@ -14,7 +14,8 @@ import {
 
 import Link from "next/link";
 import { auth, db } from "@/lib/firebase";
-import AppHeader from "@/components/AppHeader";
+import { useLanguage } from "../i18n/LanguageProvider";
+
 import hqRequirementsGroups from "@/config/dashboard/hq_requirements_groups.json";
 import serverArmsRaceState from "@/config/dashboard/server_arms_race_state.json";
 import shinyTasksRotation from "@/config/dashboard/shiny_tasks_rotation.json";
@@ -60,10 +61,15 @@ type ArmsRacePhaseDisplay = {
   isCurrent: boolean;
 };
 
+type ArmsRaceReasonCode =
+  | "noServerConfigured"
+  | "noDayForServer"
+  | "noPhasesToday"
+  | "notConfigured";
+
 type ArmsRaceToday = {
-  title: string;
   phases: ArmsRacePhaseDisplay[];
-  reason: string | null;
+  reasonCode: ArmsRaceReasonCode | null;
 };
 
 type ShinyRotationConfig = {
@@ -73,7 +79,7 @@ type ShinyRotationConfig = {
 };
 
 type ShinyToday = {
-  groupLabel: string | null;
+  groupKey: string | null;
   serversDisplay: string | null;
 };
 
@@ -82,11 +88,14 @@ type ResearchStatusCategory = {
   percent: number;
 };
 
+type UpgradeStatus = "inProgress" | "priority" | "tracked" | "upgrading";
+
 type UpgradeSummary = {
   id: string;
   name: string;
   type: "research" | "building";
-  status: string;
+  status: UpgradeStatus;
+  priority?: number | null;
   currentLevel?: number | null;
   nextLevel?: number | null;
 };
@@ -116,6 +125,9 @@ type TrackingItem = {
   id: string;
   kind?: string;
   name?: string;
+  type?: "research" | "building";
+  priority?: number | null;
+  orderIndex?: number | null;
   [key: string]: any;
 };
 
@@ -297,29 +309,28 @@ function resolveHqRequirementsForNextLevel(
   const groupIds = HQ_REQUIREMENTS[key] ?? [];
 
   const rows: ResolvedRequirement[] = groupIds.map((groupId) => {
-  const group = HQ_REQUIREMENT_GROUPS[groupId];
-  if (!group) {
+    const group = HQ_REQUIREMENT_GROUPS[groupId];
+    if (!group) {
+      return {
+        id: groupId,
+        label: groupId,
+        requiredLevel,
+        currentLevel: 0,
+        met: false,
+      };
+    }
+
+    const currentLevel = getMaxLevelForGroup(group, buildingLevels);
+    const met = currentLevel >= requiredLevel;
+
     return {
       id: groupId,
-      label: groupId,
+      label: group.label,
       requiredLevel,
-      currentLevel: 0,
-      met: false,
+      currentLevel,
+      met,
     };
-  }
-
-  const currentLevel = getMaxLevelForGroup(group, buildingLevels);
-  const met = currentLevel >= requiredLevel;
-
-  return {
-    id: groupId,
-    label: group.label,
-    requiredLevel,
-    currentLevel,
-    met,
-  };
-});
-
+  });
 
   const metCount = rows.filter((r) => r.met).length;
   const totalCount = rows.length;
@@ -333,6 +344,8 @@ function resolveHqRequirementsForNextLevel(
 }
 
 export default function DashboardPage() {
+  const { t } = useLanguage();
+
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [hqLevel, setHqLevel] = useState<number | null>(null);
@@ -353,22 +366,22 @@ export default function DashboardPage() {
   const isGuest = user?.isAnonymous ?? false;
 
   const profileAlliance = isGuest
-    ? "GUEST"
+    ? t("profile.alliance.guestTag")
     : (profile as any)?.alliance != null &&
       (profile as any)?.alliance !== ""
     ? String((profile as any).alliance)
     : null;
 
   const baseDisplayName = isGuest
-    ? "Guest Commander"
-    : profile?.displayName ?? "Commander";
+    ? t("profile.role.guestCommander")
+    : profile?.displayName ?? t("profile.role.commander");
 
   const combinedDisplayNameWithAlliance = profileAlliance
     ? `${baseDisplayName} [${profileAlliance}]`
     : baseDisplayName;
 
   const combinedDisplayName = isGuest
-    ? `${combinedDisplayNameWithAlliance} (Guest)`
+    ? `${combinedDisplayNameWithAlliance} ${t("profile.badge.guestSuffix")}`
     : combinedDisplayNameWithAlliance;
 
   const profileServerId =
@@ -667,15 +680,18 @@ export default function DashboardPage() {
               }
             }
 
+            const status: UpgradeStatus = row.inProgress
+              ? "inProgress"
+              : row.priority != null && row.priority > 0
+              ? "priority"
+              : "tracked";
+
             return {
               id: row.id,
               name: row.name,
               type: "research",
-              status: row.inProgress
-                ? "In progress"
-                : row.priority != null && row.priority > 0
-                ? `Priority ${row.priority}`
-                : "Tracked",
+              status,
+              priority: row.priority,
               currentLevel,
               nextLevel,
             };
@@ -689,15 +705,18 @@ export default function DashboardPage() {
             const nextLevel =
               currentLevel > 0 ? currentLevel + 1 : null;
 
+            const status: UpgradeStatus = row.upgrading
+              ? "upgrading"
+              : row.priority != null && row.priority > 0
+              ? "priority"
+              : "tracked";
+
             return {
               id: row.id,
               name: row.name,
               type: "building",
-              status: row.upgrading
-                ? "Upgrading"
-                : row.priority != null && row.priority > 0
-                ? `Priority ${row.priority}`
-                : "Tracked",
+              status,
+              priority: row.priority,
               currentLevel,
               nextLevel,
             };
@@ -720,7 +739,7 @@ export default function DashboardPage() {
 
     setLoading(true);
     loadData();
-  }, [user]);
+  }, [user, t]);
 
   const {
     nextLevel,
@@ -758,9 +777,8 @@ export default function DashboardPage() {
 
     if (!serverId) {
       return {
-        title: "Today’s Arms Race",
         phases: [],
-        reason: "Server is not configured in your profile.",
+        reasonCode: "noServerConfigured",
       };
     }
 
@@ -773,9 +791,8 @@ export default function DashboardPage() {
         serversMap,
       });
       return {
-        title: "Today’s Arms Race",
         phases: [],
-        reason: `No Arms Race day found for server ${serverId}.`,
+        reasonCode: "noDayForServer",
       };
     }
 
@@ -810,9 +827,8 @@ export default function DashboardPage() {
         rawEntry,
       });
       return {
-        title: "Today’s Arms Race",
         phases: [],
-        reason: `No Arms Race day found for server ${serverId}.`,
+        reasonCode: "noDayForServer",
       };
     }
 
@@ -864,9 +880,8 @@ export default function DashboardPage() {
         dayConfig,
       });
       return {
-        title: "Today’s Arms Race",
         phases: [],
-        reason: "No Arms Race phases found for today.",
+        reasonCode: "noPhasesToday",
       };
     }
 
@@ -931,12 +946,8 @@ export default function DashboardPage() {
     );
 
     return {
-      title: "Today’s Arms Race",
       phases,
-      reason:
-        phases.length === 0
-          ? "No Arms Race phases found for today."
-          : null,
+      reasonCode: phases.length === 0 ? "noPhasesToday" : null,
     };
   }, [profileServerId]);
 
@@ -950,7 +961,7 @@ export default function DashboardPage() {
       !cfg.groups
     ) {
       return {
-        groupLabel: null,
+        groupKey: null,
         serversDisplay: null,
       };
     }
@@ -975,13 +986,13 @@ export default function DashboardPage() {
 
     if (!servers || servers.length === 0) {
       return {
-        groupLabel: `Group ${groupKey}`,
+        groupKey,
         serversDisplay: null,
       };
     }
 
     return {
-      groupLabel: `Group ${groupKey}`,
+      groupKey,
       serversDisplay: groupServerIds(servers),
     };
   }, []);
@@ -1046,22 +1057,37 @@ export default function DashboardPage() {
     }
   };
 
+  const getUpgradeStatusLabel = (u: UpgradeSummary) => {
+    switch (u.status) {
+      case "inProgress":
+        return t("status.upgrade.inProgress");
+      case "upgrading":
+        return t("status.upgrade.upgrading");
+      case "priority":
+        return t("status.upgrade.priority", {
+          priority: u.priority ?? "",
+        });
+      default:
+        return t("status.upgrade.tracked");
+    }
+  };
+
   if (!user) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-slate-50">
         <h1 className="text-3xl font-semibold tracking-tight">
-          Last War Command Center
+          {t("app.name")}
         </h1>
 
         <p className="mt-3 text-sm text-slate-300">
-          Please sign in to view your command center.
+          {t("auth.loginRequired.message")}
         </p>
 
         <Link
           href="/login"
           className="mt-6 inline-flex items-center rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 shadow"
         >
-          Go to login
+          {t("auth.loginRequired.cta")}
         </Link>
       </main>
     );
@@ -1069,8 +1095,6 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
-      <AppHeader />
-
 
       <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
         {/* Dashboard title and overlapping profile card */}
@@ -1078,22 +1102,24 @@ export default function DashboardPage() {
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-xl space-y-2">
               <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-                Last War Dashboard
+                {t("dashboard.title")}
               </h1>
               <p className="text-sm text-slate-300">
-                Track your base, squads, and upgrades in one place.
+                {t("dashboard.subtitle")}
               </p>
             </div>
 
-              <div className="mt-4 md:mt-0 flex justify-end md:justify-between md:min-w-[260px]">
-                <div className="relative md:-translate-y-10">
-
-                <div className="flex items-center gap-3 rounded-xl bg-slate-900/80 px-4 py-3 border border-slate-700/70 shadow-lg shadow-slate-900/80">
+            <div className="mt-4 md:mt-0 flex justify-end md:justify-between md:min-w-[260px]">
+              <div className="relative md:-translate-y-10">
+                <div className="flex itemsCenter gap-3 rounded-xl bg-slate-900/80 px-4 py-3 border border-slate-700/70 shadow-lg shadow-slate-900/80">
                   <div className="relative">
                     {profile?.avatarUrl ? (
                       <img
                         src={profile.avatarUrl}
-                        alt={profile.displayName ?? "Commander avatar"}
+                        alt={
+                          profile.displayName ??
+                          t("profile.avatar.alt")
+                        }
                         className="h-12 w-12 rounded-full object-cover border border-slate-700"
                       />
                     ) : (
@@ -1120,15 +1146,16 @@ export default function DashboardPage() {
 
                       <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
                         <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-                        HQ:{" "}
+                        {t("profile.badge.hq.label")}:{" "}
                         {hqLevel != null && !isNaN(hqLevel)
                           ? hqLevel
-                          : "not set"}
+                          : t("profile.badge.hq.notSet")}
                       </span>
 
                       <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                        Total Hero Power: {formattedTotalHeroPower}
+                        {t("profile.badge.totalHeroPower")}:{" "}
+                        {formattedTotalHeroPower}
                       </span>
                     </div>
                   </div>
@@ -1143,12 +1170,12 @@ export default function DashboardPage() {
           {/* VS Today */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
             <h2 className="text-sm font-semibold text-slate-100">
-              {vsToday?.title ?? "VS Today"}
+              {vsToday?.title ?? t("tiles.vsToday.title")}
             </h2>
 
             {!vsToday && (
               <p className="text-xs text-slate-300">
-                VS tasks are not configured for today.
+                {t("tiles.vsToday.empty")}
               </p>
             )}
 
@@ -1167,13 +1194,17 @@ export default function DashboardPage() {
           {/* Arms Race */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
             <h2 className="text-sm font-semibold text-slate-100">
-              {armsRaceToday.title}
+              {t("tiles.armsRace.title")}
             </h2>
 
             {armsRaceToday.phases.length === 0 && (
               <p className="text-xs text-slate-300">
-                {armsRaceToday.reason ??
-                  "Arms Race schedule is not configured yet."}
+                {armsRaceToday.reasonCode
+                  ? t(
+                      `tiles.armsRace.reason.${armsRaceToday.reasonCode}`,
+                      { serverId: profileServerId ?? "" }
+                    )
+                  : t("tiles.armsRace.reason.notConfigured")}
               </p>
             )}
 
@@ -1214,19 +1245,21 @@ export default function DashboardPage() {
           {/* Shiny Tasks */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
             <h2 className="text-sm font-semibold text-slate-100">
-              Today&apos;s Shiny Tasks
+              {t("tiles.shinyTasks.title")}
             </h2>
 
-            {!shinyToday.groupLabel && (
+            {!shinyToday.groupKey && (
               <p className="text-xs text-slate-300">
-                Shiny rotation is not configured.
+                {t("tiles.shinyTasks.notConfigured")}
               </p>
             )}
 
-            {shinyToday.groupLabel && (
+            {shinyToday.groupKey && (
               <div className="space-y-1">
                 <p className="text-xs text-slate-400">
-                  {shinyToday.groupLabel}
+                  {t("tiles.shinyTasks.groupLabel", {
+                    groupKey: shinyToday.groupKey,
+                  })}
                 </p>
                 {shinyToday.serversDisplay && (
                   <p className="text-xs text-slate-200">
@@ -1239,7 +1272,6 @@ export default function DashboardPage() {
         </section>
 
         {/* Summary chips */}
-        {/* (everything from here down is unchanged from your existing layout) */}
 
         {/* HQ Requirements */}
         <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -1247,8 +1279,10 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between">
               <p className="text-xs text-slate-400">
                 {nextLevel != null
-                  ? `HQ ${nextLevel} Requirements`
-                  : "HQ Requirements"}
+                  ? t("tiles.hqRequirements.title", {
+                      level: nextLevel,
+                    })
+                  : t("tiles.hqRequirements.titleFallback")}
               </p>
               {nextLevel != null && (
                 <span className="text-xs text-slate-300">
@@ -1258,49 +1292,60 @@ export default function DashboardPage() {
             </div>
 
             {hqLevel == null && (
-              <p className="text-xs text-slate-400">HQ level not set.</p>
-            )}
-
-            {hqLevel != null && nextLevel != null && totalCount === 0 && (
               <p className="text-xs text-slate-400">
-                No requirement data found.
+                {t("tiles.hqRequirements.hqNotSet")}
               </p>
             )}
 
-            {hqLevel != null && nextLevel != null && totalCount > 0 && (
-              <ul className="space-y-1 text-xs">
-                {hqRequirementRows.map((req) => (
-                  <li
-                    key={req.id}
-                    className="flex items-center justify-between"
-                  >
-                    <span>{req.label}</span>
-                    <span
-                      className={
-                        req.met
-                          ? "font-medium text-green-500"
-                          : "font-medium text-red-500"
-                      }
+            {hqLevel != null &&
+              nextLevel != null &&
+              totalCount === 0 && (
+                <p className="text-xs text-slate-400">
+                  {t("tiles.hqRequirements.noData")}
+                </p>
+              )}
+
+            {hqLevel != null &&
+              nextLevel != null &&
+              totalCount > 0 && (
+                <ul className="space-y-1 text-xs">
+                  {hqRequirementRows.map((req) => (
+                    <li
+                      key={req.id}
+                      className="flex items-center justify-between"
                     >
-                      {req.met
-                        ? "Met"
-                        : `${req.currentLevel} / ${req.requiredLevel}`}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+                      <span>{req.label}</span>
+                      <span
+                        className={
+                          req.met
+                            ? "font-medium text-green-500"
+                            : "font-medium text-red-500"
+                        }
+                      >
+                        {req.met
+                          ? t("tiles.hqRequirements.metLabel")
+                          : t("tiles.hqRequirements.progress", {
+                              current: req.currentLevel,
+                              required: req.requiredLevel,
+                            })}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
           </div>
 
           {/* Research Status */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-slate-400">Research Status</p>
+              <p className="text-xs text-slate-400">
+                {t("tiles.researchStatus.title")}
+              </p>
             </div>
 
             {researchStatus.length === 0 && (
               <p className="text-xs text-slate-400">
-                No tracked research categories yet.
+                {t("tiles.researchStatus.empty")}
               </p>
             )}
 
@@ -1324,11 +1369,9 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs text-slate-400">
-                  Currently Upgrading
+                  {t("tiles.currentlyUpgrading.title")}
                 </p>
-                <p className="text-[11px] text-slate-400 mt-1">
-
-                </p>
+                <p className="text-[11px] text-slate-400 mt-1" />
               </div>
             </div>
 
@@ -1352,13 +1395,19 @@ export default function DashboardPage() {
                       </span>
                     </div>
                     <span className="ml-2 inline-flex items-center rounded-full px-2 py-0.5 border border-slate-600/80 text-[10px] text-slate-200">
-                      {u.type === "research" ? "R" : "B"} · {u.status}
+                      {u.type === "research"
+                        ? t("status.research.short")
+                        : t("status.building.short")}
+                      {" · "}
+                      {getUpgradeStatusLabel(u)}
                     </span>
                   </li>
                 ))}
                 {trackedUpgrades.length > 7 && (
                   <li className="text-[10px] text-slate-400">
-                    +{trackedUpgrades.length - 4} more
+                    {t("tiles.currentlyUpgrading.more", {
+                      count: trackedUpgrades.length - 4,
+                    })}
                   </li>
                 )}
               </ul>
@@ -1366,21 +1415,19 @@ export default function DashboardPage() {
 
             {trackedUpgrades.length === 0 && (
               <p className="mt-1 text-[11px] text-slate-400">
-                Nothing upgrading yet. Start research or mark buildings as
-                upgrading or add priority to see them here.
+                {t("tiles.currentlyUpgrading.empty")}
               </p>
             )}
           </div>
         </section>
 
         {/* Teams and Next Up */}
-        {/* unchanged */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Teams section */}
           <section className="lg:col-span-2 space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-slate-100">
-                Teams
+                {t("teams.sectionTitle")}
               </h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4">
@@ -1404,12 +1451,12 @@ export default function DashboardPage() {
                     <div className="relative space-y-3">
                       <div className="flex items-center justify-between">
                         <h3 className="text-sm font-semibold">
-                          Team {team}
+                          {t("teams.card.title", { number: team })}
                         </h3>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="text-xs text-slate-300">
-                          Team Power
+                          {t("teams.card.powerLabel")}
                         </div>
                         <div className="flex items-center gap-1">
                           <input
@@ -1424,20 +1471,22 @@ export default function DashboardPage() {
                             }
                             onBlur={() => saveTeamPower(team)}
                             className="w-20 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
-                            placeholder="0.00"
+                            placeholder={t(
+                              "teams.card.powerPlaceholder"
+                            )}
                           />
                           <span className="text-sm text-slate-200">
-                            M
+                            {t("teams.card.powerUnitMillions")}
                           </span>
                           {savingTeam === team && (
                             <span className="text-xs text-sky-300">
-                              saving
+                              {t("teams.card.saving")}
                             </span>
                           )}
                         </div>
                       </div>
                       <p className="text-xs text-slate-300">
-                        {heroNames || "No heroes"}
+                        {heroNames || t("teams.card.noHeroes")}
                       </p>
                     </div>
                   </div>
@@ -1450,14 +1499,13 @@ export default function DashboardPage() {
           <section className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-slate-100">
-                Next Up
+                {t("nextUp.sectionTitle")}
               </h2>
             </div>
             <div className="rounded-xl border border-slate-700/80 bg-slate-900/80 max-h-80 overflow-hidden flex flex-col">
               {trackingItems.length === 0 ? (
                 <div className="flex-1 flex items-center justify-center px-4 py-6 text-sm text-slate-400">
-                  Nothing on deck yet. Set tracked or priority on research
-                  or buildings to see them here.
+                  {t("nextUp.empty")}
                 </div>
               ) : (
                 <div className="flex-1 overflow-y-auto divide-y divide-slate-800/80">
@@ -1479,8 +1527,8 @@ export default function DashboardPage() {
                         }`}
                       >
                         {item.type === "research"
-                          ? "Research"
-                          : "Building"}
+                          ? t("nextUp.badge.research")
+                          : t("nextUp.badge.building")}
                       </span>
                     </div>
                   ))}
@@ -1493,28 +1541,32 @@ export default function DashboardPage() {
         {/* Quick links */}
         <section className="space-y-3">
           <h2 className="text-sm font-semibold text-slate-100">
-            Command Center Links
+            {t("links.sectionTitle")}
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <QuickLinkCard
               href="/heroes"
-              title="Heroes"
-              description="Manage squads, power, and gear."
+              title={t("links.heroes.title")}
+              description={t("links.heroes.description")}
+              openLabel={t("links.card.open")}
             />
             <QuickLinkCard
               href="/buildings"
-              title="Buildings"
-              description="Tune your base and upgrades."
+              title={t("links.buildings.title")}
+              description={t("links.buildings.description")}
+              openLabel={t("links.card.open")}
             />
             <QuickLinkCard
               href="/research"
-              title="Research"
-              description="Plan your research path."
+              title={t("links.research.title")}
+              description={t("links.research.description")}
+              openLabel={t("links.card.open")}
             />
             <QuickLinkCard
               href="/compare"
-              title="Compare Dashboard"
-              description="Compare your stats against other players."
+              title={t("links.compareCenter.title")}
+              description={t("links.compareCenter.description")}
+              openLabel={t("links.card.open")}
             />
           </div>
         </section>
@@ -1527,6 +1579,7 @@ function QuickLinkCard(props: {
   href: string;
   title: string;
   description: string;
+  openLabel: string;
 }) {
   return (
     <Link
@@ -1540,7 +1593,7 @@ function QuickLinkCard(props: {
         <p className="text-xs text-slate-300">{props.description}</p>
       </div>
       <div className="mt-3 text-xs text-sky-300 group-hover:text-sky-200">
-        Open
+        {props.openLabel}
       </div>
     </Link>
   );
