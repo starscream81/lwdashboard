@@ -1,0 +1,12 @@
+{
+  "profile.role.commander": "Commander",
+  "profile.role.guestCommander": "Guest Commander",
+  "profile.alliance.guestTag": "GUEST",
+  "profile.badge.guestSuffix": "(Guest)",
+
+  "profile.badge.hq.label": "HQ",
+  "profile.badge.hq.notSet": "not set",
+  "profile.badge.totalHeroPower": "Total Hero Power",
+
+  "profile.avatar.alt": "Commander avatar"
+}

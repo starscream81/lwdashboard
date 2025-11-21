@@ -1,0 +1,11 @@
+{
+    "links.sectionTitle": "Command Center Links",
+    "links.heroes.title": "Heroes",
+    "links.heroes.description": "Manage squads, power, and gear.",
+    "links.buildings.title": "Buildings",
+    "links.buildings.description": "Tune your base and upgrades.",
+    "links.research.title": "Plan your research path",
+    "links.comparecenter.title": "Compare you stats against other players.",
+
+    "links.card.open": "Open"
+}

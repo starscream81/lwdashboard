@@ -1,0 +1,53 @@
+{
+  "vsTasks.mon_01": "Use Stamina",
+  "vsTasks.mon_02": "Complete Radar Tasks",
+  "vsTasks.mon_03": "Upgrade Hero EXP",
+  "vsTasks.mon_04": "Use Drone Battle Points",
+  "vsTasks.mon_05": "Use Drone Parts",
+  "vsTasks.mon_06": "Gather Resources",
+  "vsTasks.mon_07": "Open Drone Chip Chests",
+  "vsTasks.mon_08": "Buy Packs Containing Diamonds",
+
+  "vsTasks.tue_01": "Use Construction Speed-ups",
+  "vsTasks.tue_02": "Increase Building Power",
+  "vsTasks.tue_03": "Dispatch UR Truck",
+  "vsTasks.tue_04": "Perform UR Secret Tasks",
+  "vsTasks.tue_05": "Recruit Survivors",
+  "vsTasks.tue_06": "Buy Packs Containing Diamonds",
+
+  "vsTasks.wed_01": "Use Research Speed-ups",
+  "vsTasks.wed_02": "Increase Tech Power",
+  "vsTasks.wed_03": "Use Valor Badges",
+  "vsTasks.wed_04": "Complete Radar Tasks",
+  "vsTasks.wed_05": "Open Drone Component Chests",
+  "vsTasks.wed_06": "Buy Packs Containing Diamonds",
+
+  "vsTasks.thu_01": "Recruit Heroes",
+  "vsTasks.thu_02": "Upgrade Hero EXP",
+  "vsTasks.thu_03": "Use Hero Shards",
+  "vsTasks.thu_04": "Use Hero Skill Medals",
+  "vsTasks.thu_05": "Use Hero Exclusive Weapon Shards",
+  "vsTasks.thu_06": "Buy Packs Containing Diamonds",
+
+  "vsTasks.fri_01": "Complete Radar Tasks",
+  "vsTasks.fri_02": "Train Units",
+  "vsTasks.fri_03": "Use Construction Speed-ups",
+  "vsTasks.fri_04": "Use Research Speed-ups",
+  "vsTasks.fri_05": "Use Training Speed-ups",
+  "vsTasks.fri_06": "Increase Building Power",
+  "vsTasks.fri_07": "Increase Tech Power",
+  "vsTasks.fri_08": "Upgrade Overlord",
+  "vsTasks.fri_09": "Buy Packs Containing Diamonds",
+
+  "vsTasks.sat_01": "Dispatch UR Truck",
+  "vsTasks.sat_02": "Perform UR Secret Tasks",
+  "vsTasks.sat_03": "Use Construction Speed-ups",
+  "vsTasks.sat_04": "Use Research Speed-ups",
+  "vsTasks.sat_05": "Use Training Speed-ups",
+  "vsTasks.sat_06": "Use Healing Speed-ups",
+  "vsTasks.sat_07": "Kill Enemy Units",
+  "vsTasks.sat_08": "Lose Units in PvP",
+  "vsTasks.sat_09": "Buy Packs Containing Diamonds",
+
+  "vsTasks.sun_01": "Don't forget to send squads to gather in mines before closing for the day!"
+}

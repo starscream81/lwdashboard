@@ -1,0 +1,10 @@
+{
+    "teams.sectionTitle": "Teams",
+    
+    "teams.card.title": "Team {number}",
+    "teams.card.powerLabel": "Team Power",
+    "teams.card.powerPlaceholder": "0.00",
+    "teams.card.powerUnitMillions": "M",
+    "teams.card.saving": "saving",
+    "teams.card.noHeroes": "No heroes"
+}

@@ -5,22 +5,29 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { useLanguage } from "../../app/i18n/LanguageProvider";
 
 type AppHeaderProps = {
   userName?: string | null;
 };
 
-const NAV_ITEMS = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/heroes", label: "Heroes" },
-  { href: "/research", label: "Research" },
-  { href: "/buildings", label: "Buildings" },
+type NavItem = {
+  href: string;
+  labelKey: string;
+};
+
+const NAV_ITEMS: NavItem[] = [
+  { href: "/dashboard", labelKey: "nav.dashboard" },
+  { href: "/heroes", labelKey: "nav.heroes" },
+  { href: "/research", labelKey: "nav.research" },
+  { href: "/buildings", labelKey: "nav.buildings" },
 ];
 
 export default function AppHeader({ userName }: AppHeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
+  const { t } = useLanguage();
 
   const handleLogout = async () => {
     if (loggingOut) return;
@@ -46,7 +53,7 @@ export default function AppHeader({ userName }: AppHeaderProps) {
       <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-4 min-w-0">
           <span className="text-sm font-semibold tracking-wide text-slate-100 whitespace-nowrap">
-            Last War Command Center
+            {t("app.name")}
           </span>
 
           {/* Desktop nav with Extras */}
@@ -64,7 +71,7 @@ export default function AppHeader({ userName }: AppHeaderProps) {
                       : "border-slate-700 bg-slate-900 text-slate-200 hover:border-sky-500 hover:text-sky-100",
                   ].join(" ")}
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               );
             })}
@@ -74,7 +81,7 @@ export default function AppHeader({ userName }: AppHeaderProps) {
               type="button"
               className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border border-slate-700 bg-slate-900 text-slate-300 hover:border-sky-400 hover:text-sky-100"
             >
-              Extras
+              {t("nav.extras")}
             </button>
           </nav>
         </div>
@@ -92,7 +99,7 @@ export default function AppHeader({ userName }: AppHeaderProps) {
             disabled={loggingOut}
             className="text-xs px-3 py-1.5 rounded-md border border-rose-500/80 text-rose-100 hover:bg-rose-500/10 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {loggingOut ? "Logging out…" : "Logout"}
+            {loggingOut ? t("auth.logout.loading") : t("auth.logout.button")}
           </button>
         </div>
       </div>
@@ -113,7 +120,7 @@ export default function AppHeader({ userName }: AppHeaderProps) {
                     : "border-slate-700 bg-slate-900 text-slate-200 hover:border-sky-500 hover:text-sky-100",
                 ].join(" ")}
               >
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             );
           })}
@@ -122,7 +129,7 @@ export default function AppHeader({ userName }: AppHeaderProps) {
             type="button"
             className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border border-slate-700 bg-slate-900 text-slate-300 whitespace-nowrap"
           >
-            Extras
+            {t("nav.extras")}
           </button>
         </div>
       </div>

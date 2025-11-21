@@ -61,8 +61,14 @@ export function LanguageProvider(props: { children: React.ReactNode }) {
 
   const t = useCallback(
     (key: string, vars?: Record<string, string | number>) => {
-      const table = messages[locale] || messages[DEFAULT_LOCALE];
-      let template = table[key] || key;
+      const localeTable = messages[locale] || {};
+      const defaultTable = messages[DEFAULT_LOCALE] || {};
+
+      let template =
+        (localeTable[key] as string | undefined) ??
+        (defaultTable[key] as string | undefined) ??
+        key;
+
       if (vars) {
         Object.entries(vars).forEach(([name, value]) => {
           template = template.replace(
@@ -71,6 +77,7 @@ export function LanguageProvider(props: { children: React.ReactNode }) {
           );
         });
       }
+
       return template;
     },
     [locale]
