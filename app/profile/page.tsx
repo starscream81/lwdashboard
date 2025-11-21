@@ -6,6 +6,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import Link from "next/link";
 import { auth, db, storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type ProfileForm = {
   displayName: string;
@@ -25,6 +26,8 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+
+  const { t } = useLanguage();
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
@@ -106,10 +109,10 @@ export default function ProfilePage() {
       }
 
       await setDoc(refDoc, payload, { merge: true });
-      setSaveMessage("Profile saved.");
+      setSaveMessage(t("profile.save.message.success"));
     } catch (err) {
       console.error("Failed to save profile", err);
-      setSaveMessage("Failed to save profile.");
+      setSaveMessage(t("profile.save.message.error"));
     } finally {
       setSaving(false);
     }
@@ -141,10 +144,10 @@ export default function ProfilePage() {
         { merge: true }
       );
 
-      setSaveMessage("Avatar updated.");
+      setSaveMessage(t("profile.avatar.message.success"));
     } catch (err) {
       console.error("Failed to upload avatar", err);
-      setSaveMessage("Failed to upload avatar.");
+      setSaveMessage(t("profile.avatar.message.error"));
     } finally {
       setUploadingAvatar(false);
       // clear file input selection so same file can be reselected
@@ -156,16 +159,16 @@ export default function ProfilePage() {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-slate-50">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Profile
+          {t("profile.title")}
         </h1>
         <p className="mt-3 text-sm text-slate-300">
-          Please sign in to edit your profile.
+          {t("profile.loginRequired")}
         </p>
         <Link
           href="/login"
           className="mt-6 inline-flex items-center rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 shadow"
         >
-          Go to login
+          {t("auth.loginRequired.goToLogin")}
         </Link>
       </main>
     );
@@ -177,23 +180,25 @@ export default function ProfilePage() {
         <header className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">
-              Commander Profile
+              {t("profile.title")}
             </h1>
             <p className="text-sm text-slate-300">
-              Update your name, alliance, avatar, and server.
+              {t("profile.subtitle")}
             </p>
           </div>
           <Link
             href="/"
             className="text-xs text-sky-300 hover:text-sky-200"
           >
-            ← Back to Dashboard
+            {t("profile.backToDashboard")}
           </Link>
         </header>
 
         <section className="rounded-xl border border-slate-700/70 bg-slate-900/80 px-4 py-4 space-y-6">
           {loading ? (
-            <p className="text-sm text-slate-300">Loading profile…</p>
+            <p className="text-sm text-slate-300">
+              {t("profile.loading")}
+            </p>
           ) : (
             <>
               {/* Avatar */}
@@ -202,7 +207,7 @@ export default function ProfilePage() {
                   {avatarUrl ? (
                     <img
                       src={avatarUrl}
-                      alt="Avatar"
+                      alt={t("profile.avatar.label")}
                       className="h-16 w-16 rounded-full object-cover border border-slate-700"
                     />
                   ) : (
@@ -213,7 +218,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="space-y-1">
                   <label className="block text-xs font-medium text-slate-300">
-                    Avatar
+                    {t("profile.avatar.label")}
                   </label>
                   <input
                     type="file"
@@ -222,11 +227,11 @@ export default function ProfilePage() {
                     className="block text-xs text-slate-200"
                   />
                   <p className="text-[11px] text-slate-400">
-                    Square images work best. Avatar updates immediately after upload.
+                    {t("profile.avatar.hint")}
                   </p>
                   {uploadingAvatar && (
                     <p className="text-[11px] text-sky-300">
-                      Uploading avatar…
+                      {t("profile.avatar.uploading")}
                     </p>
                   )}
                 </div>
@@ -235,7 +240,7 @@ export default function ProfilePage() {
               {/* Display name */}
               <div className="space-y-1">
                 <label className="block text-xs font-medium text-slate-300">
-                  Display name
+                  {t("profile.displayName.label")}
                 </label>
                 <input
                   type="text"
@@ -244,17 +249,17 @@ export default function ProfilePage() {
                     handleChange("displayName", e.target.value)
                   }
                   className="w-full rounded-md bg-slate-950/60 border border-slate-600/80 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
-                  placeholder="Commander name"
+                  placeholder={t("profile.displayName.placeholder")}
                 />
                 <p className="text-[11px] text-slate-400">
-                  Shown in the dashboard header.
+                  {t("profile.displayName.hint")}
                 </p>
               </div>
 
               {/* Alliance */}
               <div className="space-y-1">
                 <label className="block text-xs font-medium text-slate-300">
-                  Alliance
+                  {t("profile.alliance.label")}
                 </label>
                 <input
                   type="text"
@@ -263,17 +268,17 @@ export default function ProfilePage() {
                     handleChange("alliance", e.target.value)
                   }
                   className="w-full rounded-md bg-slate-950/60 border border-slate-600/80 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
-                  placeholder="Example: FER"
+                  placeholder={t("profile.alliance.placeholder")}
                 />
                 <p className="text-[11px] text-slate-400">
-                  Displayed as Shōckwave [FER] on the dashboard.
+                  {t("profile.alliance.hint")}
                 </p>
               </div>
 
               {/* Server */}
               <div className="space-y-1">
                 <label className="block text-xs font-medium text-slate-300">
-                  Server
+                  {t("profile.server.label")}
                 </label>
                 <input
                   type="text"
@@ -283,10 +288,10 @@ export default function ProfilePage() {
                     handleChange("serverId", e.target.value)
                   }
                   className="w-full max-w-xs rounded-md bg-slate-950/60 border border-slate-600/80 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
-                  placeholder="Example: 977"
+                  placeholder={t("profile.server.placeholder")}
                 />
                 <p className="text-[11px] text-slate-400">
-                  Used for Arms Race and Shiny tasks.
+                  {t("profile.server.hint")}
                 </p>
               </div>
 
@@ -300,7 +305,9 @@ export default function ProfilePage() {
                   disabled={saving}
                   className="inline-flex items-center rounded-md bg-sky-500 px-4 py-1.5 text-sm font-medium text-slate-950 hover:bg-sky-400 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {saving ? "Saving…" : "Save changes"}
+                  {saving
+                    ? t("profile.save.button.saving")
+                    : t("profile.save.button.label")}
                 </button>
               </div>
             </>

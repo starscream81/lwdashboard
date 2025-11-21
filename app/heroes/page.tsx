@@ -13,7 +13,6 @@ import {
 } from "firebase/firestore";
 import Link from "next/link";
 import { auth, db } from "@/lib/firebase";
-import AppHeader from "@/components/AppHeader";
 
 type HeroRole = "Attack" | "Defense" | "Support" | string;
 
@@ -520,7 +519,6 @@ export default function HeroesPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
-      <AppHeader userName={combinedDisplayName} />
       <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
         {/* Header */}
         <section className="space-y-2">

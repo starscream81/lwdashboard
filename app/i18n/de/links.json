@@ -5,7 +5,9 @@
     "links.buildings.title": "Buildings",
     "links.buildings.description": "Tune your base and upgrades.",
     "links.research.title": "Plan your research path",
-    "links.comparecenter.title": "Compare you stats against other players.",
+    "links.research.description": "Plan your research.",
+    "links.compareCenter.title": "Compare Center",
+    "links.compareCenter.description": "Compare you stats against other players.",
 
     "links.card.open": "Open"
 }

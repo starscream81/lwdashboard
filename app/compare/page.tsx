@@ -6,6 +6,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 
 import { auth, db } from "@/lib/firebase";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type CompareMode = "aggregated" | "direct";
 
@@ -138,6 +139,7 @@ function getTeamKeyForHero(hero: Record<string, unknown>): TeamKey | null {
 
 export default function CompareCenterPage() {
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [user, setUser] = useState<User | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
@@ -472,7 +474,8 @@ export default function CompareCenterPage() {
           err
         );
         setOtherTeamsError(
-          "Failed to load teams for the selected player."
+          t("compare.direct.errorTeams") ||
+            "Failed to load teams for the selected player."
         );
         setOtherTeamsData(null);
       } finally {
@@ -481,7 +484,7 @@ export default function CompareCenterPage() {
     };
 
     loadOtherTeams();
-  }, [user, selectedPlayerUid, activeMode]);
+  }, [user, selectedPlayerUid, activeMode, t]);
 
   // Load your heroes and group them by team
   useEffect(() => {
@@ -532,7 +535,8 @@ export default function CompareCenterPage() {
       } catch (err) {
         console.error("[DirectCompare][Heroes] Error loading my heroes", err);
         setMyHeroesError(
-          "Failed to load your heroes for team composition."
+          t("compare.direct.heroes.errorMe") ||
+            "Failed to load your heroes for team composition."
         );
       } finally {
         setLoadingMyHeroes(false);
@@ -540,7 +544,7 @@ export default function CompareCenterPage() {
     };
 
     loadMyHeroes();
-  }, [user, activeMode]);
+  }, [user, activeMode, t]);
 
   // Load selected player heroes and group them by team
   useEffect(() => {
@@ -599,7 +603,8 @@ export default function CompareCenterPage() {
           err
         );
         setOtherHeroesError(
-          "Failed to load heroes for the selected player."
+          t("compare.direct.heroes.errorThem") ||
+            "Failed to load heroes for the selected player."
         );
       } finally {
         setLoadingOtherHeroes(false);
@@ -607,7 +612,7 @@ export default function CompareCenterPage() {
     };
 
     loadOtherHeroes();
-  }, [user, selectedPlayerUid, activeMode]);
+  }, [user, selectedPlayerUid, activeMode, t]);
 
   // Helper to aggregate research for a given user from users/{uid}/research_tracking/*
   async function aggregateResearchForUser(
@@ -680,7 +685,10 @@ export default function CompareCenterPage() {
           "[DirectCompare][Research] Error loading my research",
           err
         );
-        setMyResearchError("Failed to load your research summary.");
+        setMyResearchError(
+          t("compare.direct.research.errorMe") ||
+            "Failed to load your research summary."
+        );
         setMyResearch(null);
       } finally {
         setLoadingMyResearch(false);
@@ -688,7 +696,7 @@ export default function CompareCenterPage() {
     };
 
     load();
-  }, [user, activeMode]);
+  }, [user, activeMode, t]);
 
   // Load selected player's research completion summary
   useEffect(() => {
@@ -711,7 +719,8 @@ export default function CompareCenterPage() {
           err
         );
         setOtherResearchError(
-          "Failed to load research for the selected player."
+          t("compare.direct.research.errorThem") ||
+            "Failed to load research for the selected player."
         );
         setOtherResearch(null);
       } finally {
@@ -720,7 +729,7 @@ export default function CompareCenterPage() {
     };
 
     load();
-  }, [user, selectedPlayerUid, activeMode]);
+  }, [user, selectedPlayerUid, activeMode, t]);
 
   const handleToggleCompare = async () => {
     if (!user || canCompare === null) return;
@@ -771,18 +780,17 @@ export default function CompareCenterPage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">
-              Compare Center
+              {t("compare.title")}
             </h1>
             <p className="mt-1 text-sm text-slate-400">
-              Control how your stats are used in comparisons, then choose how
-              you want to view results.
+              {t("compare.subtitle")}
             </p>
           </div>
           <button
             onClick={() => router.push("/dashboard")}
             className="inline-flex items-center justify-center rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-100 hover:bg-slate-800"
           >
-            Back To Dashboard
+            {t("compare.backToDashboard")}
           </button>
         </div>
 
@@ -791,19 +799,18 @@ export default function CompareCenterPage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h2 className="text-base font-semibold text-slate-100">
-                Direct Compare Visibility
+                {t("compare.privacy.title")}
               </h2>
               <p className="mt-1 text-sm text-slate-400 max-w-xl">
-                Anonymous averages and percentiles always use every player&apos;s
-                stats. Turn this on if you want to appear in direct, side by
-                side comparisons with other players. Your raw data is never
-                exposed, only comparison views.
+                {t("compare.privacy.description")}
               </p>
             </div>
 
             <div className="flex items-center gap-3">
               {canCompare === null ? (
-                <span className="text-sm text-slate-500">Loading…</span>
+                <span className="text-sm text-slate-500">
+                  {t("common.loading")}
+                </span>
               ) : (
                 <>
                   <button
@@ -825,12 +832,12 @@ export default function CompareCenterPage() {
                   <div className="flex flex-col">
                     <span className="text-xs font-medium text-slate-200">
                       {canCompare
-                        ? "Included In Direct Comparisons"
-                        : "Excluded From Direct Comparisons"}
+                        ? t("compare.privacy.included")
+                        : t("compare.privacy.excluded")}
                     </span>
                     {savingPrivacy && (
                       <span className="text-[11px] text-slate-500">
-                        Saving…
+                        {t("compare.privacy.saving")}
                       </span>
                     )}
                   </div>
@@ -845,11 +852,10 @@ export default function CompareCenterPage() {
           <div className="flex flex-col gap-4">
             <div>
               <h2 className="text-base font-semibold text-slate-100">
-                Compare Modes
+                {t("compare.modes.title")}
               </h2>
               <p className="mt-1 text-sm text-slate-400">
-                Choose how you want compare results to be presented. Modes
-                always respect privacy settings.
+                {t("compare.modes.description")}
               </p>
             </div>
 
@@ -863,7 +869,7 @@ export default function CompareCenterPage() {
                     : "border border-slate-700 bg-slate-900 text-slate-100 hover:bg-slate-800"
                 }`}
               >
-                Aggregated Compare
+                {t("compare.modes.aggregated")}
               </button>
 
               <button
@@ -875,38 +881,34 @@ export default function CompareCenterPage() {
                     : "border border-slate-700 bg-slate-900 text-slate-100 hover:bg-slate-800"
                 }`}
               >
-                Direct Player Compare
+                {t("compare.modes.direct")}
               </button>
             </div>
 
             {activeMode === "aggregated" && (
               <div className="mt-1 space-y-4">
                 <div className="text-sm text-slate-300 space-y-2">
-                  <p>
-                    Aggregated Compare shows how your team powers stack up
-                    against group averages and percentiles, using stats from
-                    every player who has saved their dashboard meta.
-                  </p>
+                  <p>{t("compare.aggregated.description")}</p>
                 </div>
 
                 <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4">
                   {loadingTeams ? (
                     <p className="text-sm text-slate-500">
-                      Loading Your Team Data…
+                      {t("compare.aggregated.loadingTeams")}
                     </p>
                   ) : !teamsData ? (
                     <p className="text-sm text-slate-500">
-                      No team data found in your dashboard meta.
+                      {t("compare.aggregated.noTeams")}
                     </p>
                   ) : loadingAggregated ? (
                     <p className="text-sm text-slate-500">
-                      Loading Group Averages…
+                      {t("compare.aggregated.loadingGroup")}
                     </p>
                   ) : aggregatedError ? (
                     <p className="text-sm text-red-400">{aggregatedError}</p>
                   ) : !aggregated ? (
                     <p className="text-sm text-slate-500">
-                      No group data available yet.
+                      {t("compare.aggregated.noGroup")}
                     </p>
                   ) : (
                     <div className="space-y-3 text-sm">
@@ -945,37 +947,45 @@ export default function CompareCenterPage() {
                               </span>
                               {groupStats.count > 0 && (
                                 <span className="text-[11px] text-slate-500">
-                                  Based On {groupStats.count} Players
+                                  {t("compare.aggregated.basedOn", {
+                                    count: groupStats.count,
+                                  })}
                                 </span>
                               )}
                             </div>
                             <div className="flex flex-wrap gap-4 text-xs sm:text-sm">
                               <div className="flex items-center gap-1">
-                                <span className="text-slate-400">You</span>
+                                <span className="text-slate-400">
+                                  {t("compare.table.you")}
+                                </span>
                                 <span className="text-slate-200">
                                   {userValue !== null
                                     ? formatPowerM(userValue)
-                                    : "No Data"}
+                                    : t("compare.table.noData")}
                                 </span>
                               </div>
                               <div className="flex items-center gap-1">
                                 <span className="text-slate-400">
-                                  Group Average
+                                  {t("compare.aggregated.groupAverage")}
                                 </span>
                                 <span className="text-slate-200">
                                   {groupStats.average !== null
                                     ? formatPowerM(groupStats.average)
-                                    : "No Data"}
+                                    : t("compare.table.noData")}
                                 </span>
                               </div>
                               {percentile !== null && (
                                 <div className="flex items-center gap-1">
                                   <span className="text-slate-400">
-                                    Percentile Rank
+                                    {t(
+                                      "compare.aggregated.percentileRank"
+                                    )}
                                   </span>
                                   <span className="text-slate-200">
-                                    {percentile}
-                                    th Percentile
+                                    {t(
+                                      "compare.aggregated.percentileRankValue",
+                                      { value: percentile }
+                                    )}
                                   </span>
                                 </div>
                               )}
@@ -985,9 +995,7 @@ export default function CompareCenterPage() {
                       })}
 
                       <p className="mt-2 text-xs text-slate-500">
-                        Aggregated Compare uses team power from every player who
-                        has saved their dashboard meta, without identifying
-                        anyone directly.
+                        {t("compare.aggregated.explainer")}
                       </p>
                     </div>
                   )}
@@ -998,18 +1006,19 @@ export default function CompareCenterPage() {
             {activeMode === "direct" && (
               <div className="mt-1 space-y-6 text-sm text-slate-300">
                 <p className="text-slate-300">
-                  Choose a player who has also enabled Direct Compare to view
-                  side by side statistics.
+                  {t("compare.direct.description")}
                 </p>
 
                 {/* Player Picker */}
                 <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4 space-y-3">
                   <h3 className="text-base font-semibold text-slate-100">
-                    Select Player To Compare With
+                    {t("compare.direct.playerPicker.title")}
                   </h3>
 
                   {directPlayersLoading && (
-                    <p className="text-xs text-slate-400">Loading players…</p>
+                    <p className="text-xs text-slate-400">
+                      {t("compare.direct.playerPicker.loading")}
+                    </p>
                   )}
 
                   {directPlayersError && (
@@ -1020,7 +1029,7 @@ export default function CompareCenterPage() {
 
                   {!directPlayersLoading && directPlayers.length === 0 && (
                     <p className="text-xs text-slate-500">
-                      No players are currently eligible for direct compare.
+                      {t("compare.direct.playerPicker.none")}
                     </p>
                   )}
 
@@ -1033,7 +1042,9 @@ export default function CompareCenterPage() {
                         setExpandedTeamKey(null);
                       }}
                     >
-                      <option value="">Select a player…</option>
+                      <option value="">
+                        {t("compare.direct.playerPicker.placeholder")}
+                      </option>
                       {directPlayers.map((p) => (
                         <option key={p.uid} value={p.uid}>
                           {p.displayName}
@@ -1048,7 +1059,7 @@ export default function CompareCenterPage() {
                 {selectedPlayerUid && (
                   <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4">
                     <p className="text-sm text-slate-100 mb-2">
-                      Preparing comparison with:
+                      {t("compare.direct.preparing")}
                     </p>
                     <p className="text-base text-sky-400 font-semibold">
                       {(
@@ -1060,7 +1071,7 @@ export default function CompareCenterPage() {
 
                     {loadingOtherTeams && (
                       <p className="mt-3 text-xs text-slate-500">
-                        Loading team data for this player…
+                        {t("compare.direct.loadingTeams")}
                       </p>
                     )}
 
@@ -1073,7 +1084,7 @@ export default function CompareCenterPage() {
                     {!loadingOtherTeams && !otherTeamsError && (
                       <>
                         <p className="mt-3 text-xs text-slate-500">
-                          Team data loaded from Firestore.
+                          {t("compare.direct.teamDataLoaded")}
                         </p>
 
                         {teamsData && otherTeamsData ? (
@@ -1082,7 +1093,7 @@ export default function CompareCenterPage() {
                             <div>
                               <div className="mb-2 flex items-center justify-between">
                                 <span className="text-sm font-semibold text-slate-100">
-                                  Teams Side-by-Side
+                                  {t("compare.direct.sxs.title")}
                                 </span>
                               </div>
 
@@ -1091,16 +1102,16 @@ export default function CompareCenterPage() {
                                   <thead>
                                     <tr className="border-b border-slate-800">
                                       <th className="py-2 pr-3 text-left text-slate-400">
-                                        Team
+                                        {t("compare.table.team")}
                                       </th>
                                       <th className="py-2 px-3 text-left text-slate-400">
-                                        You
+                                        {t("compare.table.you")}
                                       </th>
                                       <th className="py-2 px-3 text-left text-slate-400">
-                                        Them
+                                        {t("compare.table.them")}
                                       </th>
                                       <th className="py-2 pl-3 text-left text-slate-400">
-                                        Difference
+                                        {t("compare.table.difference")}
                                       </th>
                                     </tr>
                                   </thead>
@@ -1124,16 +1135,22 @@ export default function CompareCenterPage() {
                                         return null;
                                       }
 
-                                      let diffDisplay = "n/a";
+                                      let diffDisplay = t(
+                                        "compare.table.notAvailable"
+                                      );
                                       if (meValue !== null && themValue !== null) {
                                         const diff = meValue - themValue;
                                         const mag = Math.abs(diff);
                                         if (diff === 0) {
-                                          diffDisplay = "Equal";
+                                          diffDisplay = t(
+                                            "compare.table.equal"
+                                          );
                                         } else {
                                           const formatted = formatPowerM(mag);
                                           diffDisplay =
-                                            diff > 0 ? `+${formatted}` : `-${formatted}`;
+                                            diff > 0
+                                              ? `+${formatted}`
+                                              : `-${formatted}`;
                                         }
                                       }
 
@@ -1148,12 +1165,12 @@ export default function CompareCenterPage() {
                                           <td className="py-2 px-3 text-slate-100">
                                             {meValue !== null
                                               ? formatPowerM(meValue)
-                                              : "No data"}
+                                              : t("compare.table.noData")}
                                           </td>
                                           <td className="py-2 px-3 text-slate-100">
                                             {themValue !== null
                                               ? formatPowerM(themValue)
-                                              : "No data"}
+                                              : t("compare.table.noData")}
                                           </td>
                                           <td className="py-2 pl-3 text-slate-100">
                                             {diffDisplay}
@@ -1170,11 +1187,11 @@ export default function CompareCenterPage() {
                             <div className="mt-6">
                               <div className="mb-2 flex items-center justify-between">
                                 <span className="text-sm font-semibold text-slate-100">
-                                  Team Compositions - Click On the Tile For Full Team Comparison
+                                  {t("compare.direct.teamComps.title")}
                                 </span>
                                 {(loadingMyHeroes || loadingOtherHeroes) && (
                                   <span className="text-[11px] text-slate-500">
-                                    Loading heroes…
+                                    {t("common.loading")}
                                   </span>
                                 )}
                               </div>
@@ -1225,11 +1242,15 @@ export default function CompareCenterPage() {
                                             {/* YOU */}
                                             <div>
                                               <div className="mb-1 text-[10px] font-semibold text-slate-400 uppercase">
-                                                You
+                                                {t(
+                                                  "compare.direct.heroes.you"
+                                                )}
                                               </div>
                                               {myHeroes.length === 0 ? (
                                                 <p className="text-slate-500">
-                                                  No heroes
+                                                  {t(
+                                                    "compare.direct.hero.none"
+                                                  )}
                                                 </p>
                                               ) : (
                                                 <ul className="space-y-0.5">
@@ -1247,11 +1268,15 @@ export default function CompareCenterPage() {
                                             {/* THEM */}
                                             <div>
                                               <div className="mb-1 text-[10px] font-semibold text-slate-400 uppercase">
-                                                Them
+                                                {t(
+                                                  "compare.direct.heroes.them"
+                                                )}
                                               </div>
                                               {theirHeroes.length === 0 ? (
                                                 <p className="text-slate-500">
-                                                  No heroes
+                                                  {t(
+                                                    "compare.direct.hero.none"
+                                                  )}
                                                 </p>
                                               ) : (
                                                 <ul className="space-y-0.5">
@@ -1274,26 +1299,42 @@ export default function CompareCenterPage() {
                                   {/* Expanded team details panel */}
                                   {expandedTeamKey && (() => {
                                     const teamLabel =
-                                      TEAM_LABELS[expandedTeamKey] ?? expandedTeamKey;
-                                    const myHeroesRaw = myHeroesByTeam[expandedTeamKey] || [];
-                                    const theirHeroesRaw = otherHeroesByTeam[expandedTeamKey] || [];
+                                      TEAM_LABELS[expandedTeamKey] ??
+                                      expandedTeamKey;
+                                    const myHeroesRaw =
+                                      myHeroesByTeam[expandedTeamKey] || [];
+                                    const theirHeroesRaw =
+                                      otherHeroesByTeam[expandedTeamKey] || [];
 
-                                    if (myHeroesRaw.length === 0 && theirHeroesRaw.length === 0) {
+                                    if (
+                                      myHeroesRaw.length === 0 &&
+                                      theirHeroesRaw.length === 0
+                                    ) {
                                       return null;
                                     }
 
                                     // Role priority: Defense -> Attack -> Support -> everything else
-                                    const ROLE_PRIORITY: Record<string, number> = {
-                                      defense: 0,
-                                      attack: 1,
-                                      support: 2,
-                                    };
+                                    const ROLE_PRIORITY: Record<string, number> =
+                                      {
+                                        defense: 0,
+                                        attack: 1,
+                                        support: 2,
+                                      };
 
                                     const getHeroName = (hero: any): string =>
-                                      (hero.displayName || hero.name || hero.id || "").toString();
+                                      (hero.displayName ||
+                                        hero.name ||
+                                        hero.id ||
+                                        ""
+                                      ).toString();
 
                                     const getHeroRoleKey = (hero: any): number => {
-                                      const raw = (hero.role || "").toString().toLowerCase().trim();
+                                      const raw = (
+                                        hero.role || ""
+                                      )
+                                        .toString()
+                                        .toLowerCase()
+                                        .trim();
                                       return ROLE_PRIORITY[raw] ?? 99;
                                     };
 
@@ -1302,16 +1343,25 @@ export default function CompareCenterPage() {
                                         const ra = getHeroRoleKey(a);
                                         const rb = getHeroRoleKey(b);
                                         if (ra !== rb) return ra - rb;
-                                        return getHeroName(a).localeCompare(getHeroName(b));
+                                        return getHeroName(a).localeCompare(
+                                          getHeroName(b)
+                                        );
                                       });
 
                                     // Sort and cap to 5 heroes per side
-                                    const myHeroes = sortHeroesForCompare(myHeroesRaw).slice(0, 5);
-                                    const theirHeroes = sortHeroesForCompare(theirHeroesRaw).slice(0, 5);
+                                    const myHeroes =
+                                      sortHeroesForCompare(
+                                        myHeroesRaw
+                                      ).slice(0, 5);
+                                    const theirHeroes =
+                                      sortHeroesForCompare(
+                                        theirHeroesRaw
+                                      ).slice(0, 5);
 
                                     const renderHeroDetails = (hero: any) => {
                                       const title = getHeroName(hero);
-                                      const getVal = (key: string) => formatHeroFieldValue(hero[key]);
+                                      const getVal = (key: string) =>
+                                        formatHeroFieldValue(hero[key]);
 
                                       return (
                                         <div
@@ -1326,7 +1376,7 @@ export default function CompareCenterPage() {
                                             {/* Power */}
                                             <div className="flex items-baseline justify-between gap-4">
                                               <span className="text-[10px] uppercase text-slate-500">
-                                                Power
+                                                {t("compare.direct.hero.power")}
                                               </span>
                                               <span className="text-[11px] text-slate-200">
                                                 {getVal("power")}
@@ -1337,7 +1387,9 @@ export default function CompareCenterPage() {
                                             <div className="grid grid-cols-2 gap-4">
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Rail Gun
+                                                  {t(
+                                                    "compare.direct.hero.railGun"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("rail_gun")}
@@ -1345,7 +1397,9 @@ export default function CompareCenterPage() {
                                               </div>
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Rail Gun Stars
+                                                  {t(
+                                                    "compare.direct.hero.railGunStars"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("rail_gun_stars")}
@@ -1357,7 +1411,9 @@ export default function CompareCenterPage() {
                                             <div className="grid grid-cols-2 gap-4">
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Armor
+                                                  {t(
+                                                    "compare.direct.hero.armor"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("armor")}
@@ -1365,7 +1421,9 @@ export default function CompareCenterPage() {
                                               </div>
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Armor Stars
+                                                  {t(
+                                                    "compare.direct.hero.armorStars"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("armor_stars")}
@@ -1377,7 +1435,9 @@ export default function CompareCenterPage() {
                                             <div className="grid grid-cols-2 gap-4">
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Data Chip
+                                                  {t(
+                                                    "compare.direct.hero.dataChip"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("data_chip")}
@@ -1385,7 +1445,9 @@ export default function CompareCenterPage() {
                                               </div>
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Data Chip Stars
+                                                  {t(
+                                                    "compare.direct.hero.dataChipStars"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("data_chip_stars")}
@@ -1397,7 +1459,9 @@ export default function CompareCenterPage() {
                                             <div className="grid grid-cols-2 gap-4">
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Radar
+                                                  {t(
+                                                    "compare.direct.hero.radar"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("radar")}
@@ -1405,7 +1469,9 @@ export default function CompareCenterPage() {
                                               </div>
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Radar Stars
+                                                  {t(
+                                                    "compare.direct.hero.radarStars"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("radar_stars")}
@@ -1417,18 +1483,26 @@ export default function CompareCenterPage() {
                                             <div className="grid grid-cols-2 gap-4">
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Exclusive Weapon Owned
+                                                  {t(
+                                                    "compare.direct.hero.exclusiveOwned"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
-                                                  {getVal("exclusive_weapon_owned")}
+                                                  {getVal(
+                                                    "exclusive_weapon_owned"
+                                                  )}
                                                 </span>
                                               </div>
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Exclusive Weapon Level
+                                                  {t(
+                                                    "compare.direct.hero.exclusiveLevel"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
-                                                  {getVal("exclusive_weapon_level")}
+                                                  {getVal(
+                                                    "exclusive_weapon_level"
+                                                  )}
                                                 </span>
                                               </div>
                                             </div>
@@ -1437,7 +1511,9 @@ export default function CompareCenterPage() {
                                             <div className="grid grid-cols-2 gap-4">
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Skill 1
+                                                  {t(
+                                                    "compare.direct.hero.skill1"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("skill1")}
@@ -1445,7 +1521,9 @@ export default function CompareCenterPage() {
                                               </div>
                                               <div className="flex items-baseline justify-between gap-2">
                                                 <span className="text-[10px] uppercase text-slate-500">
-                                                  Skill 2
+                                                  {t(
+                                                    "compare.direct.hero.skill2"
+                                                  )}
                                                 </span>
                                                 <span className="text-[11px] text-slate-200">
                                                   {getVal("skill2")}
@@ -1456,7 +1534,7 @@ export default function CompareCenterPage() {
                                             {/* Skill 3 */}
                                             <div className="flex items-baseline justify-between gap-4">
                                               <span className="text-[10px] uppercase text-slate-500">
-                                                Skill 3
+                                                {t("compare.direct.hero.skill3")}
                                               </span>
                                               <span className="text-[11px] text-slate-200">
                                                 {getVal("skill3")}
@@ -1472,19 +1550,25 @@ export default function CompareCenterPage() {
                                         <div className="flex items-center justify-between gap-2">
                                           <div>
                                             <p className="text-sm font-semibold text-slate-100">
-                                              {teamLabel} details
+                                              {t(
+                                                "compare.direct.heroes.detailsTitle",
+                                                { team: teamLabel }
+                                              )}
                                             </p>
                                             <p className="text-xs text-slate-500">
-                                              Showing full hero stats for this team. Click the team tile again to
-                                              close.
+                                              {t(
+                                                "compare.direct.heroes.detailsSubtitle"
+                                              )}
                                             </p>
                                           </div>
                                           <button
                                             type="button"
-                                            onClick={() => setExpandedTeamKey(null)}
+                                            onClick={() =>
+                                              setExpandedTeamKey(null)
+                                            }
                                             className="text-xs text-slate-400 hover:text-slate-200"
                                           >
-                                            Close
+                                            {t("compare.direct.heroes.close")}
                                           </button>
                                         </div>
 
@@ -1492,15 +1576,21 @@ export default function CompareCenterPage() {
                                           {/* YOU SIDE */}
                                           <div>
                                             <p className="mb-2 text-xs font-semibold uppercase text-slate-400">
-                                              You
+                                              {t(
+                                                "compare.direct.heroes.you"
+                                              )}
                                             </p>
                                             {myHeroes.length === 0 ? (
                                               <p className="text-xs text-slate-500">
-                                                No heroes on this team.
+                                                {t(
+                                                  "compare.direct.hero.noneTeamYou"
+                                                )}
                                               </p>
                                             ) : (
                                               <div className="space-y-3">
-                                                {myHeroes.map(renderHeroDetails)}
+                                                {myHeroes.map(
+                                                  renderHeroDetails
+                                                )}
                                               </div>
                                             )}
                                           </div>
@@ -1508,15 +1598,21 @@ export default function CompareCenterPage() {
                                           {/* THEM SIDE */}
                                           <div>
                                             <p className="mb-2 text-xs font-semibold uppercase text-slate-400">
-                                              Them
+                                              {t(
+                                                "compare.direct.heroes.them"
+                                              )}
                                             </p>
                                             {theirHeroes.length === 0 ? (
                                               <p className="text-xs text-slate-500">
-                                                No heroes on this team for the selected player.
+                                                {t(
+                                                  "compare.direct.hero.noneTeamThem"
+                                                )}
                                               </p>
                                             ) : (
                                               <div className="space-y-3">
-                                                {theirHeroes.map(renderHeroDetails)}
+                                                {theirHeroes.map(
+                                                  renderHeroDetails
+                                                )}
                                               </div>
                                             )}
                                           </div>
@@ -1532,11 +1628,12 @@ export default function CompareCenterPage() {
                             <div className="mt-8 border-t border-slate-800 pt-4">
                               <div className="mb-2 flex items-center justify-between">
                                 <span className="text-sm font-semibold text-slate-100">
-                                  Research Comparison
+                                  {t("compare.direct.research.title")}
                                 </span>
-                                {(loadingMyResearch || loadingOtherResearch) && (
+                                {(loadingMyResearch ||
+                                  loadingOtherResearch) && (
                                   <span className="text-[11px] text-slate-500">
-                                    Loading research…
+                                    {t("compare.direct.research.loading")}
                                   </span>
                                 )}
                               </div>
@@ -1549,8 +1646,7 @@ export default function CompareCenterPage() {
 
                               {myResearch === null && !loadingMyResearch && (
                                 <p className="text-xs text-slate-500">
-                                  No research summary found for your account
-                                  yet.
+                                  {t("compare.direct.research.myNone")}
                                 </p>
                               )}
 
@@ -1558,8 +1654,7 @@ export default function CompareCenterPage() {
                                 otherResearch === null &&
                                 !loadingOtherResearch && (
                                   <p className="text-xs text-slate-500">
-                                    Research summary not available for the
-                                    selected player.
+                                    {t("compare.direct.research.theirNone")}
                                   </p>
                                 )}
 
@@ -1569,16 +1664,16 @@ export default function CompareCenterPage() {
                                     <thead>
                                       <tr className="border-b border-slate-800">
                                         <th className="py-2 pr-3 text-left text-slate-400">
-                                          Category
+                                          {t("compare.table.category")}
                                         </th>
                                         <th className="py-2 px-3 text-left text-slate-400">
-                                          You
+                                          {t("compare.table.you")}
                                         </th>
                                         <th className="py-2 px-3 text-left text-slate-400">
-                                          Them
+                                          {t("compare.table.them")}
                                         </th>
                                         <th className="py-2 pl-3 text-left text-slate-400">
-                                          Difference
+                                          {t("compare.table.difference")}
                                         </th>
                                       </tr>
                                     </thead>
@@ -1595,7 +1690,9 @@ export default function CompareCenterPage() {
                                           return null;
                                         }
 
-                                        let diffDisplay = "n/a";
+                                        let diffDisplay = t(
+                                          "compare.table.notAvailable"
+                                        );
                                         if (
                                           meVal !== undefined &&
                                           themVal !== undefined
@@ -1603,7 +1700,9 @@ export default function CompareCenterPage() {
                                           const diff = meVal - themVal;
                                           const mag = Math.abs(diff);
                                           if (Math.abs(diff) < 0.05) {
-                                            diffDisplay = "Equal";
+                                            diffDisplay = t(
+                                              "compare.table.equal"
+                                            );
                                           } else {
                                             const sign =
                                               diff > 0 ? "+" : "-";
@@ -1641,8 +1740,7 @@ export default function CompareCenterPage() {
                           </div>
                         ) : (
                           <p className="mt-3 text-xs text-slate-500">
-                            Waiting for both your teams and their teams to be
-                            available.
+                            {t("compare.direct.waitingForTeams")}
                           </p>
                         )}
                       </>

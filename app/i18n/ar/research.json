@@ -1,0 +1,29 @@
+{
+  "research.title": "Research",
+  "research.subtitle": "Manage your research progress, priorities, and tracked categories for your dashboard.",
+
+  "research.loading": "Loading research…",
+  "research.noData": "No research data yet.",
+  "research.signInRequired": "Please sign in to manage your research.",
+
+  "research.categoryOverview.title": "Research Category Overview",
+  "research.categoryOverview.description": "Each category shows your overall completion. Click a tile to view and edit that category. Categories with a dot are included in the dashboard research progress tile.",
+
+  "research.category.noEntries": "No research entries for this category yet.",
+  "research.category.clickToView": "Click a category tile above to view research tasks.",
+  "research.category.percentComplete": "{percent} percent complete",
+
+  "research.filter.search.label": "Search",
+  "research.filter.search.placeholder": "Search by research name",
+
+  "research.filter.inProgressOnly": "In Progress Only",
+  "research.filter.trackedOnly": "Tracked For Tile Only",
+
+  "research.table.category": "Category",
+  "research.table.name": "Name",
+  "research.table.current": "Current",
+  "research.table.max": "Max",
+  "research.table.inProgress": "In Progress",
+  "research.table.priority": "Priority",
+  "research.table.trackForTile": "Tracked For Tile"
+}
