@@ -1,40 +1,40 @@
 {
-  "buildings.title": "Buildings",
-  "buildings.subtitle": "Manage building levels and tracking flags for your Command Center dashboard.",
+  "buildings.title": "Gebäude",
+  "buildings.subtitle": "Verwalte Gebäudestufen und Tracking-Flags für dein Command Center Dashboard.",
 
-  "buildings.loading": "Loading buildings…",
-  "buildings.error.loadFailed": "Something went wrong while loading buildings.",
-  "buildings.empty.none": "No buildings found yet. Data will appear here after your first save.",
+  "buildings.loading": "Gebäude werden geladen…",
+  "buildings.error.loadFailed": "Beim Laden der Gebäude ist ein Fehler aufgetreten.",
+  "buildings.empty.none": "Noch keine Gebäude vorhanden. Daten erscheinen hier nach deinem ersten Speichern.",
 
-  "buildings.card.entries": "Entries: {count}",
-  "buildings.card.singleInstance": "Single instance",
-  "buildings.card.noneCreated": "No buildings created yet",
+  "buildings.card.entries": "Einträge: {count}",
+  "buildings.card.singleInstance": "Einzelinstanz",
+  "buildings.card.noneCreated": "Noch keine Gebäude erstellt",
 
-  "buildings.card.levels": "Levels",
-  "buildings.card.seasonLevels": "Season levels",
-  "buildings.card.levels.none": "none",
+  "buildings.card.levels": "Stufen",
+  "buildings.card.seasonLevels": "Saisonstufen",
+  "buildings.card.levels.none": "keine",
 
-  "buildings.card.hint.season": "Click to view and edit all buildings unlocked in this season.",
-  "buildings.card.hint.normal": "Click to edit levels, tracking, and delete instances for this building group.",
+  "buildings.card.hint.season": "Klicken, um alle Gebäude dieser Saison anzusehen und zu bearbeiten.",
+  "buildings.card.hint.normal": "Klicken, um Stufen, Tracking und Instanzlöschungen für diese Gebäudegruppe zu bearbeiten.",
 
-  "buildings.status.tracked": "Tracked",
-  "buildings.status.upgrading": "Upgrading",
+  "buildings.status.tracked": "Verfolgt",
+  "buildings.status.upgrading": "Wird verbessert",
 
-  "buildings.detail.header.season": "Season bucket showing all buildings for this season. Adjust levels, tracking flags, or delete old entries.",
-  "buildings.detail.header.normal": "Update building levels plus tracked and upgrading flags. Delete instances to clean up old or seasonal data.",
+  "buildings.detail.header.season": "Saisonübersicht mit allen Gebäuden dieser Saison. Bearbeite Stufen, Tracking-Flags oder lösche alte Einträge.",
+  "buildings.detail.header.normal": "Aktualisiere Gebäudestufen sowie Flags für Verfolgung und Ausbau. Lösche Instanzen, um alte oder saisonale Daten aufzuräumen.",
 
-  "buildings.detail.table.instance": "Instance",
-  "buildings.detail.table.instanceSeason": "Building / Instance",
-  "buildings.detail.table.level": "Level",
-  "buildings.detail.table.tracked": "Tracked",
-  "buildings.detail.table.upgrading": "Upgrading",
-  "buildings.detail.table.delete": "Delete",
+  "buildings.detail.table.instance": "Instanz",
+  "buildings.detail.table.instanceSeason": "Gebäude / Instanz",
+  "buildings.detail.table.level": "Stufe",
+  "buildings.detail.table.tracked": "Verfolgt",
+  "buildings.detail.table.upgrading": "Wird verbessert",
+  "buildings.detail.table.delete": "Löschen",
 
-  "buildings.detail.deleteConfirm": "Delete this building instance? Core buildings may be re-created automatically on a future reload.",
+  "buildings.detail.deleteConfirm": "Diese Gebäudeinstanz löschen? Kerngebäude können bei einem zukünftigen Reload automatisch neu erstellt werden.",
 
-  "buildings.detail.footer.hint": "Changes save automatically when you edit a level or toggle a checkbox. Delete instances to clean up old, duplicate, or seasonal buildings. Required core buildings may be re-created on a future page load if they are missing.",
+  "buildings.detail.footer.hint": "Änderungen werden automatisch gespeichert, wenn du eine Stufe änderst oder ein Kontrollkästchen aktivierst. Lösche Instanzen, um alte, doppelte oder saisonale Gebäude aufzuräumen. Erforderliche Kerngebäude können bei einem späteren Laden der Seite automatisch wiederhergestellt werden.",
 
-  "buildings.detail.empty": "No buildings created for this group yet. Core buildings are auto-created when needed. Seasonal buildings appear here once they exist in your data.",
+  "buildings.detail.empty": "Für diese Gruppe wurden noch keine Gebäude erstellt. Kerngebäude werden bei Bedarf automatisch erzeugt. Saisonale Gebäude erscheinen hier, sobald sie in deinen Daten vorhanden sind.",
 
-  "buildings.detail.instance.docId": "Document id: {id}"
+  "buildings.detail.instance.docId": "Dokumenten-ID: {id}"
 }

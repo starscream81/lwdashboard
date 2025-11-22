@@ -1,8 +1,8 @@
 {
-    "header.appName": "Last War Command Center",
-    "nav.dashboard": "Dashboard",
-    "nav.heroes": "Heroes",
-    "nav.research": "Research",
-    "nav.buildings": "Buildings",
-    "nav.extras": "Extras"
+  "header.appName": "Last War Command Center",
+  "nav.dashboard": "Übersicht",
+  "nav.heroes": "Helden",
+  "nav.research": "Forschung",
+  "nav.buildings": "Gebäude",
+  "nav.extras": "Extras"
 }

@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useLanguage } from "../../app/i18n/LanguageProvider";
+import type { Locale } from "../../app/i18n/config";
 
 type AppHeaderProps = {
   userName?: string | null;
@@ -23,11 +24,19 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/buildings", labelKey: "nav.buildings" },
 ];
 
+const LANGUAGE_OPTIONS: { value: Locale; label: string }[] = [
+  { value: "en", label: "EN" },
+  { value: "de", label: "DE" },
+  { value: "it", label: "IT" },
+  { value: "fr", label: "FR" },
+  { value: "ar", label: "AR" },
+];
+
 export default function AppHeader({ userName }: AppHeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
-  const { t } = useLanguage();
+  const { t, locale, setLocale } = useLanguage();
 
   const handleLogout = async () => {
     if (loggingOut) return;
@@ -87,6 +96,19 @@ export default function AppHeader({ userName }: AppHeaderProps) {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Language selector */}
+          <select
+            value={locale}
+            onChange={(e) => setLocale(e.target.value as Locale)}
+            className="text-xs px-2 py-1 rounded-md border border-slate-700 bg-slate-900 text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-500"
+          >
+            {LANGUAGE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+
           {userName && (
             <span className="hidden sm:inline-block max-w-[180px] truncate text-xs text-slate-200">
               {userName}

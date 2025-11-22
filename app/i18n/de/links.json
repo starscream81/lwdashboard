@@ -1,13 +1,13 @@
 {
-    "links.sectionTitle": "Command Center Links",
-    "links.heroes.title": "Heroes",
-    "links.heroes.description": "Manage squads, power, and gear.",
-    "links.buildings.title": "Buildings",
-    "links.buildings.description": "Tune your base and upgrades.",
-    "links.research.title": "Plan your research path",
-    "links.research.description": "Plan your research.",
-    "links.compareCenter.title": "Compare Center",
-    "links.compareCenter.description": "Compare you stats against other players.",
+  "links.sectionTitle": "Command Center Links",
+  "links.heroes.title": "Helden",
+  "links.heroes.description": "Verwalte Trupps, Stärke und Ausrüstung.",
+  "links.buildings.title": "Gebäude",
+  "links.buildings.description": "Optimiere deine Basis und Upgrades.",
+  "links.research.title": "Forschungsplanung",
+  "links.research.description": "Plane deinen Forschungsweg.",
+  "links.compareCenter.title": "Vergleichszentrale",
+  "links.compareCenter.description": "Vergleiche deine Werte mit anderen Spielern.",
 
-    "links.card.open": "Open"
+  "links.card.open": "Öffnen"
 }

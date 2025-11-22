@@ -1,10 +1,9 @@
 {
   "app.name": "Last War Command Center",
-  "app.brandTagLine": "Track your base, squads, and upgrades in one place.",
-  
-  "common.saving": "Saving...",
+  "app.brandTagLine": "Verfolge deine Basis, Trupps und Upgrades an einem Ort.",
 
-  "common.loading": "Loading…",
-  "common.confirm": "Are you sure?"
+  "common.saving": "Speichern…",
+
+  "common.loading": "Laden…",
+  "common.confirm": "Bist du sicher?"
 }
-

@@ -1,8 +1,8 @@
 {
-    "nextUp.sectionTitle": "Next Up",
-    
-    "nextUp.empty": "Nothing on deck yet. Set tracked or priority on research or buildings to see them here.",
-    
-    "nextUp.badge.research": "Research",
-    "nextUp.badge.building": "Building"
+  "nextUp.sectionTitle": "Als Nächstes",
+  
+  "nextUp.empty": "Noch nichts in der Warteschlange. Setze Forschung oder Gebäude auf 'verfolgt' oder 'Priorität', um sie hier anzuzeigen.",
+
+  "nextUp.badge.research": "Forschung",
+  "nextUp.badge.building": "Gebäude"
 }

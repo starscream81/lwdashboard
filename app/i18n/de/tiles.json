@@ -1,25 +1,25 @@
 {
-  "tiles.vsToday.title": "VS Today",
-  "tiles.vsToday.empty": "VS tasks are not configured for today.",
-  
-  "tiles.armsRace.title": "Today’s Arms Race",
-  "tiles.armsRace.reason.noServerConfigured": "Server is not configured in your profile.",
-  "tiles.armsRace.reason.noDayForServer": "No Arms Race day found for server {serverId}.",
-  "tiles.armsRace.reason.noPhasesToday": "No Arms Race phases found for today.",
-  "tiles.armsRace.reason.notConfigured": "Arms Race schedule is not configured yet.",
+  "tiles.vsToday.title": "VS heute",
+  "tiles.vsToday.empty": "Für heute sind keine VS-Aufgaben konfiguriert.",
+
+  "tiles.armsRace.title": "Heutiges Arms Race",
+  "tiles.armsRace.reason.noServerConfigured": "Server ist in deinem Profil nicht konfiguriert.",
+  "tiles.armsRace.reason.noDayForServer": "Kein Arms Race-Tag für Server {serverId} gefunden.",
+  "tiles.armsRace.reason.noPhasesToday": "Für heute wurden keine Arms Race-Phasen gefunden.",
+  "tiles.armsRace.reason.notConfigured": "Der Arms Race-Zeitplan ist noch nicht konfiguriert.",
   "tiles.armsRace.phase.fallbackName": "Phase {index}",
 
-  "tiles.shinyTasks.title": "Today’s Shiny Tasks",
-  "tiles.shinyTasks.notConfigured": "Shiny rotation is not configured.",
-  "tiles.shinyTasks.groupLabel": "Group {groupKey}",
+  "tiles.shinyTasks.title": "Heutige Shiny-Aufgaben",
+  "tiles.shinyTasks.notConfigured": "Die Shiny-Rotation ist nicht konfiguriert.",
+  "tiles.shinyTasks.groupLabel": "Gruppe {groupKey}",
 
-  "tiles.hqRequirements.title": "HQ {level} Requirements",
-  "tiles.hqRequirements.titleFallback": "HQ Requirements",
-  "tiles.hqRequirements.hqNotSet": "HQ level not set.",
-  "tiles.hqRequirements.noData": "No requirement data found.",
-  "tiles.hqRequirements.metLabel": "Met",
+  "tiles.hqRequirements.title": "HQ-{level} Anforderungen",
+  "tiles.hqRequirements.titleFallback": "HQ-Anforderungen",
+  "tiles.hqRequirements.hqNotSet": "HQ-Stufe nicht gesetzt.",
+  "tiles.hqRequirements.noData": "Keine Anforderungsdaten gefunden.",
+  "tiles.hqRequirements.metLabel": "Erfüllt",
   "tiles.hqRequirements.progress": "{current} / {required}",
 
-  "tiles.currentlyUpgrading.more": "+ {count} more",
-  "tiles.currentlyUpgrading.empty": "Nothing upgrading yet. Start research or mark buildings as upgrading or add priority to see them here."
+  "tiles.currentlyUpgrading.more": "+ {count} mehr",
+  "tiles.currentlyUpgrading.empty": "Noch keine Verbesserungen aktiv. Starte Forschung oder markiere Gebäude als 'wird verbessert' oder setze Prioritäten, um sie hier anzuzeigen."
 }

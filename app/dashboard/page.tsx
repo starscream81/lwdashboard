@@ -22,6 +22,7 @@ import shinyTasksRotation from "@/config/dashboard/shiny_tasks_rotation.json";
 import vsTasks from "@/config/dashboard/vs_tasks.json";
 import armsRaceSchedule from "@/config/dashboard/arms_race_schedule.json";
 import hqRequirements from "@/config/dashboard/hq_requirements.json";
+import { useFormatter } from "../i18n/useFormatter";
 
 type HqRequirementsMap = Record<string, string[]>;
 
@@ -345,6 +346,8 @@ function resolveHqRequirementsForNextLevel(
 
 export default function DashboardPage() {
   const { t } = useLanguage();
+  const { formatDecimal, formatPercent } = useFormatter();
+
 
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -1011,14 +1014,20 @@ export default function DashboardPage() {
 
   const formattedTotalHeroPower = useMemo(() => {
     if (!totalHeroPower) return "0";
+
     if (totalHeroPower >= 1_000_000) {
-      return `${(totalHeroPower / 1_000_000).toFixed(2)}M`;
+      const millions = totalHeroPower / 1_000_000;
+      return `${formatDecimal(millions)}M`;
     }
+
     if (totalHeroPower >= 1_000) {
-      return `${(totalHeroPower / 1_000).toFixed(1)}K`;
+      const thousands = totalHeroPower / 1_000;
+      return `${formatDecimal(thousands)}K`;
     }
-    return String(totalHeroPower);
-  }, [totalHeroPower]);
+
+    return formatDecimal(totalHeroPower);
+  }, [totalHeroPower, formatDecimal]);
+
 
   const heroesByTeam = useMemo(() => {
     const byTeam: { [team: number]: Hero[] } = {};
@@ -1357,7 +1366,7 @@ export default function DashboardPage() {
                     className="flex items-center justify-between"
                   >
                     <span>{item.category}</span>
-                    <span>{item.percent}%</span>
+                    <span>{formatPercent(item.percent / 100)}</span>
                   </li>
                 ))}
               </ul>
@@ -1383,7 +1392,7 @@ export default function DashboardPage() {
                     className="flex items-center justify-between"
                   >
                     <div className="min-w-0">
-                      <span className="truncate max-w-[11rem] font-medium">
+                      <span className="truncate max-w-44 font-medium">
                         {u.name}
                         {u.currentLevel != null &&
                           u.currentLevel > 0 &&
@@ -1445,7 +1454,7 @@ export default function DashboardPage() {
                 return (
                   <div
                     key={team}
-                    className="relative overflow-hidden rounded-xl border border-slate-700/80 bg-gradient-to-br from-slate-900/90 via-slate-900 to-slate-900/80 px-4 py-4"
+                    className="relative overflow-hidden rounded-xl border border-slate-700/80 bg-linear-to-br from-slate-900/90 via-slate-900 to-slate-900/80 px-4 py-4"
                   >
                     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(129,140,248,0.16),transparent_55%)]" />
                     <div className="relative space-y-3">

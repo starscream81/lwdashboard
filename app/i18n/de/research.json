@@ -1,29 +1,29 @@
 {
-  "research.title": "Research",
-  "research.subtitle": "Manage your research progress, priorities, and tracked categories for your dashboard.",
+  "research.title": "Forschung",
+  "research.subtitle": "Verwalte deinen Forschungsfortschritt, Prioritäten und verfolgte Kategorien für dein Dashboard.",
 
-  "research.loading": "Loading research…",
-  "research.noData": "No research data yet.",
-  "research.signInRequired": "Please sign in to manage your research.",
+  "research.loading": "Forschung wird geladen…",
+  "research.noData": "Noch keine Forschungsdaten vorhanden.",
+  "research.signInRequired": "Bitte melde dich an, um deine Forschung zu verwalten.",
 
-  "research.categoryOverview.title": "Research Category Overview",
-  "research.categoryOverview.description": "Each category shows your overall completion. Click a tile to view and edit that category. Categories with a dot are included in the dashboard research progress tile.",
+  "research.categoryOverview.title": "Forschungsübersicht nach Kategorien",
+  "research.categoryOverview.description": "Jede Kategorie zeigt deinen Gesamtfortschritt. Klicke auf eine Kachel, um die Kategorie zu öffnen und zu bearbeiten. Kategorien mit einem Punkt werden im Forschungsfortschritts-Tile des Dashboards berücksichtigt.",
 
-  "research.category.noEntries": "No research entries for this category yet.",
-  "research.category.clickToView": "Click a category tile above to view research tasks.",
-  "research.category.percentComplete": "{percent} percent complete",
+  "research.category.noEntries": "Für diese Kategorie gibt es noch keine Forschungseinträge.",
+  "research.category.clickToView": "Klicke oben auf eine Kachel, um Forschungseinträge anzuzeigen.",
+  "research.category.percentComplete": "{percent} Prozent abgeschlossen",
 
-  "research.filter.search.label": "Search",
-  "research.filter.search.placeholder": "Search by research name",
+  "research.filter.search.label": "Suchen",
+  "research.filter.search.placeholder": "Nach Forschungsname suchen",
 
-  "research.filter.inProgressOnly": "In Progress Only",
-  "research.filter.trackedOnly": "Tracked For Tile Only",
+  "research.filter.inProgressOnly": "Nur laufende Forschung",
+  "research.filter.trackedOnly": "Nur für Dashboard-Tile",
 
-  "research.table.category": "Category",
+  "research.table.category": "Kategorie",
   "research.table.name": "Name",
-  "research.table.current": "Current",
+  "research.table.current": "Aktuell",
   "research.table.max": "Max",
-  "research.table.inProgress": "In Progress",
-  "research.table.priority": "Priority",
-  "research.table.trackForTile": "Tracked For Tile"
+  "research.table.inProgress": "Läuft",
+  "research.table.priority": "Priorität",
+  "research.table.trackForTile": "Für Tile verfolgen"
 }
