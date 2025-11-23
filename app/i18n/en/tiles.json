@@ -1,13 +1,19 @@
 {
   "tiles.vsToday.title": "VS Today",
   "tiles.vsToday.empty": "VS tasks are not configured for today.",
-  
+
   "tiles.armsRace.title": "Today’s Arms Race",
   "tiles.armsRace.reason.noServerConfigured": "Server is not configured in your profile.",
   "tiles.armsRace.reason.noDayForServer": "No Arms Race day found for server {serverId}.",
   "tiles.armsRace.reason.noPhasesToday": "No Arms Race phases found for today.",
   "tiles.armsRace.reason.notConfigured": "Arms Race schedule is not configured yet.",
   "tiles.armsRace.phase.fallbackName": "Phase {index}",
+  "armsRace.phase.heroAdvancement": "Hero Advancement",
+  "armsRace.phase.baseBuilding": "Base Building",
+  "armsRace.phase.unitProgression": "Unit Progression",
+  "armsRace.phase.techResearch": "Tech Research",
+  "armsRace.phase.droneBoost": "Drone Boost",
+  "tiles.armsRace.timeRange": "{start} – {end}",
 
   "tiles.shinyTasks.title": "Today’s Shiny Tasks",
   "tiles.shinyTasks.notConfigured": "Shiny rotation is not configured.",
@@ -20,6 +26,10 @@
   "tiles.hqRequirements.metLabel": "Met",
   "tiles.hqRequirements.progress": "{current} / {required}",
 
+  "tiles.researchStatus.title": "Research Status",
+  "tiles.researchStatus.empty": "No research categories are being tracked yet.",
+
+  "tiles.currentlyUpgrading.title": "Currently Upgrading",
   "tiles.currentlyUpgrading.more": "+ {count} more",
   "tiles.currentlyUpgrading.empty": "Nothing upgrading yet. Start research or mark buildings as upgrading or add priority to see them here."
 }

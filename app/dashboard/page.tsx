@@ -19,7 +19,6 @@ import { useLanguage } from "../i18n/LanguageProvider";
 import hqRequirementsGroups from "@/config/dashboard/hq_requirements_groups.json";
 import serverArmsRaceState from "@/config/dashboard/server_arms_race_state.json";
 import shinyTasksRotation from "@/config/dashboard/shiny_tasks_rotation.json";
-import vsTasks from "@/config/dashboard/vs_tasks.json";
 import armsRaceSchedule from "@/config/dashboard/arms_race_schedule.json";
 import hqRequirements from "@/config/dashboard/hq_requirements.json";
 import { useFormatter } from "../i18n/useFormatter";
@@ -47,19 +46,13 @@ type VsTask = {
   name: string;
 };
 
-type VsDayConfig = {
-  title: string;
-  tasks: VsTask[];
-};
-
-type VsTasksConfig = Record<string, VsDayConfig>;
-
 type ArmsRacePhaseDisplay = {
   id: string;
   name: string;
   startLabel: string;
   endLabel: string;
   isCurrent: boolean;
+  labelKey?: string;
 };
 
 type ArmsRaceReasonCode =
@@ -132,13 +125,21 @@ type TrackingItem = {
   [key: string]: any;
 };
 
-const VS_TASKS = vsTasks as VsTasksConfig;
-
 const HQ_REQUIREMENTS = hqRequirements as HqRequirementsMap;
 const HQ_REQUIREMENT_GROUPS = hqRequirementsGroups as Record<
   string,
   HqRequirementGroup
 >;
+
+const HQ_GROUP_TO_BUILDING_NAME_KEY: Record<string, string> = {
+  tech_center: "buildings.names.tech-center",
+  center_tank_air_missile: "buildings.names.center-tank-air-missile",
+  barracks: "buildings.names.barracks",
+  wall: "buildings.names.wall",
+  hospital: "buildings.names.hospital",
+  drill_ground: "buildings.names.drill-ground",
+  alliance_center: "buildings.names.alliance-center",
+};
 
 const SHINY_ROTATION = shinyTasksRotation as ShinyRotationConfig;
 
@@ -157,6 +158,73 @@ const ARMS_RACE_ANCHOR = {
 
 // Server time helper (GMT minus 2)
 const SERVER_UTC_OFFSET_HOURS = -2;
+
+// Known Arms Race labels mapped to i18n keys
+const ARMS_RACE_LABEL_KEYS: Record<string, string> = {
+  "Hero Advancement": "armsRace.phase.heroAdvancement",
+  "Base Building": "armsRace.phase.baseBuilding",
+  "Unit Progression": "armsRace.phase.unitProgression",
+  "Tech Research": "armsRace.phase.techResearch",
+  "Drone Boost": "armsRace.phase.droneBoost",
+};
+
+// VS Tasks i18n keys, per weekday (server time)
+const VS_TASK_KEYS: Record<string, string[]> = {
+  sunday: ["vsTasks.sun_01"],
+  monday: [
+    "vsTasks.mon_01",
+    "vsTasks.mon_02",
+    "vsTasks.mon_03",
+    "vsTasks.mon_04",
+    "vsTasks.mon_05",
+    "vsTasks.mon_06",
+    "vsTasks.mon_07",
+    "vsTasks.mon_08",
+  ],
+  tuesday: [
+    "vsTasks.tue_01",
+    "vsTasks.tue_02",
+    "vsTasks.tue_03",
+    "vsTasks.tue_04",
+    "vsTasks.tue_05",
+    "vsTasks.tue_06",
+  ],
+  wednesday: [
+    "vsTasks.wed_01",
+    "vsTasks.wed_02",
+    "vsTasks.wed_03",
+    "vsTasks.wed_04",
+    "vsTasks.wed_05",
+    "vsTasks.wed_06",
+  ],
+  thursday: [
+    "vsTasks.thu_01",
+    "vsTasks.thu_02",
+    "vsTasks.thu_03",
+    "vsTasks.thu_04",
+    "vsTasks.thu_05",
+    "vsTasks.thu_06",
+  ],
+  friday: [
+    "vsTasks.fri_01",
+    "vsTasks.fri_02",
+    "vsTasks.fri_03",
+    "vsTasks.fri_04",
+    "vsTasks.fri_05",
+    "vsTasks.fri_06",
+  ],
+  saturday: [
+    "vsTasks.sat_01",
+    "vsTasks.sat_02",
+    "vsTasks.sat_03",
+    "vsTasks.sat_04",
+    "vsTasks.sat_05",
+    "vsTasks.sat_06",
+    "vsTasks.sat_07",
+    "vsTasks.sat_08",
+    "vsTasks.sat_09",
+  ],
+};
 
 function getServerDate(): Date {
   const now = new Date();
@@ -247,6 +315,27 @@ function groupServerIds(ids: number[]): string {
 
 function normalizeBuildingKey(name: string): string {
   return name.trim().toLowerCase();
+}
+
+function getBestBuildingLevelByName(
+  rawName: string,
+  buildingLevels: BuildingLevelsMap
+): number {
+  const token = normalizeBuildingKey(rawName);
+  if (!token) return 0;
+
+  let best = 0;
+
+  for (const [key, level] of Object.entries(buildingLevels)) {
+    if (!key) continue;
+    if (key.includes(token)) {
+      if (level > best) {
+        best = level;
+      }
+    }
+  }
+
+  return best;
 }
 
 function getMaxLevelForGroup(
@@ -344,10 +433,171 @@ function resolveHqRequirementsForNextLevel(
   };
 }
 
+// Arms Race helpers
+
+function getCycleLengthFromConfig(
+  scheduleJson: any,
+  stateJson: any
+): number {
+  if (
+    scheduleJson &&
+    typeof scheduleJson.cycleLengthDays === "number" &&
+    scheduleJson.cycleLengthDays > 0
+  ) {
+    return scheduleJson.cycleLengthDays;
+  }
+  if (
+    stateJson &&
+    typeof stateJson.cycleLengthDays === "number" &&
+    stateJson.cycleLengthDays > 0
+  ) {
+    return stateJson.cycleLengthDays;
+  }
+  return 7;
+}
+
+function getBaseDayNumberForServer(
+  serverId: string,
+  stateJson: any,
+  cycleLength: number
+): number | null {
+  const serversMap = stateJson?.servers ?? {};
+  const rawEntry = serversMap[String(serverId)];
+
+  let baseDayNumber: number | null = null;
+
+  if (typeof rawEntry === "number") {
+    baseDayNumber = rawEntry;
+  } else if (typeof rawEntry === "string") {
+    const parsed = Number(rawEntry);
+    if (!isNaN(parsed)) baseDayNumber = parsed;
+  } else if (typeof rawEntry === "object" && rawEntry !== null) {
+    const possibleKeys = ["day", "currentDay", "dayNumber", "index"];
+    for (const key of possibleKeys) {
+      const value = (rawEntry as any)[key];
+      if (typeof value === "number") {
+        baseDayNumber = value;
+        break;
+      }
+      if (typeof value === "string") {
+        const parsed = Number(value);
+        if (!isNaN(parsed)) {
+          baseDayNumber = parsed;
+          break;
+        }
+      }
+    }
+  }
+
+  if (
+    baseDayNumber != null &&
+    baseDayNumber >= 1 &&
+    baseDayNumber <= cycleLength
+  ) {
+    return baseDayNumber;
+  }
+
+  // Fallback: deterministic mapping from server id to cycle day
+  const numericId = Number(serverId);
+  if (!isNaN(numericId) && cycleLength > 0) {
+    const normalized =
+      ((numericId - 1) % cycleLength + cycleLength) % cycleLength;
+    return normalized + 1;
+  }
+
+  return null;
+}
+
+function getActiveArmsRaceDayNumber(
+  baseDayNumber: number,
+  anchorDateStr: string | null,
+  cycleLength: number
+): number {
+  if (!anchorDateStr || cycleLength <= 0) {
+    return baseDayNumber;
+  }
+
+  const serverDayNumberToday = getServerDayNumber();
+  const anchorDayNumber = getDayNumberFromDateString(anchorDateStr);
+  const diffDays = serverDayNumberToday - anchorDayNumber;
+
+  const baseIndex = baseDayNumber - 1;
+  const adjustedIndexRaw = baseIndex + diffDays;
+  const adjustedIndex =
+    ((adjustedIndexRaw % cycleLength) + cycleLength) % cycleLength;
+
+  return adjustedIndex + 1;
+}
+
+function buildArmsRacePhasesForDay(dayConfig: any): ArmsRacePhaseDisplay[] {
+  if (!dayConfig || !Array.isArray(dayConfig.phases)) {
+    return [];
+  }
+
+  const serverNow = getServerDate();
+  const currentMinutes =
+    serverNow.getUTCHours() * 60 + serverNow.getUTCMinutes();
+
+  return dayConfig.phases.map((phase: any, index: number) => {
+    const id = String(phase.id ?? index);
+    const rawLabel = String(
+      phase.label ?? phase.name ?? `Phase ${index + 1}`
+    );
+
+    const labelKey =
+      typeof phase.labelKey === "string"
+        ? phase.labelKey
+        : ARMS_RACE_LABEL_KEYS[rawLabel];
+
+    const startServerTime = String(
+      phase.startServer ?? phase.startTime ?? phase.start ?? "00:00"
+    );
+    const endServerTime = String(
+      phase.endServer ?? phase.endTime ?? phase.end ?? "23:59"
+    );
+
+    const startLabel = convertServerTimeToLocal(startServerTime);
+    const endLabel = convertServerTimeToLocal(endServerTime);
+
+    const [shhStr, smmStr] = startServerTime.split(":");
+    const [ehhStr, emmStr] = endServerTime.split(":");
+    const shh = Number(shhStr);
+    const smm = Number(smmStr);
+    const ehh = Number(ehhStr);
+    const emm = Number(emmStr);
+
+    let isCurrent = false;
+
+    if (!isNaN(shh) && !isNaN(smm) && !isNaN(ehh) && !isNaN(emm)) {
+      const startMinutes = shh * 60 + smm;
+      const endMinutes = ehh * 60 + emm;
+
+      if (startMinutes <= endMinutes) {
+        isCurrent =
+          currentMinutes >= startMinutes &&
+          currentMinutes <= endMinutes;
+      } else {
+        // Wraps past midnight
+        isCurrent =
+          currentMinutes >= startMinutes ||
+          currentMinutes <= endMinutes;
+      }
+    }
+
+    return {
+      id,
+      name: rawLabel,
+      startLabel,
+      endLabel,
+      isCurrent,
+      labelKey,
+    };
+  });
+}
+
 export default function DashboardPage() {
   const { t } = useLanguage();
   const { formatDecimal, formatPercent } = useFormatter();
-
 
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -361,7 +611,9 @@ export default function DashboardPage() {
   );
   const [loading, setLoading] = useState(true);
   const [savingTeam, setSavingTeam] = useState<number | null>(null);
-  const [buildingLevels, setBuildingLevels] = useState<BuildingLevelsMap>({});
+  const [buildingLevels, setBuildingLevels] = useState<BuildingLevelsMap>(
+    {}
+  );
   const [researchStatus, setResearchStatus] = useState<
     ResearchStatusCategory[]
   >([]);
@@ -384,7 +636,9 @@ export default function DashboardPage() {
     : baseDisplayName;
 
   const combinedDisplayName = isGuest
-    ? `${combinedDisplayNameWithAlliance} ${t("profile.badge.guestSuffix")}`
+    ? `${combinedDisplayNameWithAlliance} ${t(
+        "profile.badge.guestSuffix"
+      )}`
     : combinedDisplayNameWithAlliance;
 
   const profileServerId =
@@ -608,7 +862,12 @@ export default function DashboardPage() {
           }));
 
         // Buildings tracking
-        const buildingsRef = collection(db, "users", uid, "buildings_tracking");
+        const buildingsRef = collection(
+          db,
+          "users",
+          uid,
+          "buildings_tracking"
+        );
         const buildingsSnap = await getDocs(query(buildingsRef));
 
         type BuildingRow = {
@@ -702,9 +961,15 @@ export default function DashboardPage() {
 
         const buildingSummaries: UpgradeSummary[] =
           trackedBuildingUpgrades.map((row) => {
-            const key = normalizeBuildingKey(row.name);
-            const currentLevel =
-              levels[key] != null ? levels[key] : 0;
+            const exactKey = normalizeBuildingKey(row.name);
+
+            let currentLevel =
+              levels[exactKey] != null ? levels[exactKey] : 0;
+
+            if (!currentLevel) {
+              currentLevel = getBestBuildingLevelByName(row.name, levels);
+            }
+
             const nextLevel =
               currentLevel > 0 ? currentLevel + 1 : null;
 
@@ -730,9 +995,15 @@ export default function DashboardPage() {
           ...buildingSummaries,
         ];
 
-        const totalTrackedUpgrades = allSummaries.length;
+        // Only show things that are actually running now
+        const currentlyUpgrading = allSummaries.filter(
+          (u) => u.status === "inProgress" || u.status === "upgrading"
+        );
+
+        const totalTrackedUpgrades = currentlyUpgrading.length;
         setTrackedCount(totalTrackedUpgrades);
-        setTrackedUpgrades(allSummaries);
+        setTrackedUpgrades(currentlyUpgrading);
+
       } catch (err) {
         console.error("Failed to load dashboard data", err);
       } finally {
@@ -754,7 +1025,7 @@ export default function DashboardPage() {
     [hqLevel, buildingLevels]
   );
 
-  const vsToday = useMemo(() => {
+  const vsTodayTasks: VsTask[] | null = useMemo(() => {
     const serverDate = getServerDate();
     const weekdayIndex = serverDate.getUTCDay();
     const weekdayKeys = [
@@ -768,9 +1039,16 @@ export default function DashboardPage() {
     ];
     const weekdayKey = weekdayKeys[weekdayIndex] ?? "sunday";
 
-    const config = VS_TASKS[weekdayKey];
-    return config ?? null;
-  }, []);
+    const taskKeys = VS_TASK_KEYS[weekdayKey];
+    if (!taskKeys || taskKeys.length === 0) {
+      return null;
+    }
+
+    return taskKeys.map((key) => ({
+      id: key,
+      name: t(key),
+    }));
+  }, [t]);
 
   const armsRaceToday: ArmsRaceToday = useMemo(() => {
     const scheduleJson: any = armsRaceSchedule as any;
@@ -785,49 +1063,28 @@ export default function DashboardPage() {
       };
     }
 
-    const serversMap = stateJson.servers ?? {};
-    const rawEntry = serversMap[String(serverId)];
+    const allDays: any[] = Array.isArray(scheduleJson?.days)
+      ? scheduleJson.days
+      : [];
 
-    if (rawEntry == null) {
-      console.log("[ArmsRaceDebug] no entry for server", {
-        serverId,
-        serversMap,
-      });
+    if (allDays.length === 0) {
       return {
         phases: [],
-        reasonCode: "noDayForServer",
+        reasonCode: "notConfigured",
       };
     }
 
-    let baseDayNumber: number | null = null;
+    const cycleLength = getCycleLengthFromConfig(scheduleJson, stateJson);
 
-    if (typeof rawEntry === "number") {
-      baseDayNumber = rawEntry;
-    } else if (typeof rawEntry === "string") {
-      const parsed = Number(rawEntry);
-      if (!isNaN(parsed)) baseDayNumber = parsed;
-    } else if (typeof rawEntry === "object" && rawEntry !== null) {
-      const possibleKeys = ["day", "currentDay", "dayNumber", "index"];
-      for (const key of possibleKeys) {
-        const value = (rawEntry as any)[key];
-        if (typeof value === "number") {
-          baseDayNumber = value;
-          break;
-        }
-        if (typeof value === "string") {
-          const parsed = Number(value);
-          if (!isNaN(parsed)) {
-            baseDayNumber = parsed;
-            break;
-          }
-        }
-      }
-    }
+    const baseDayNumber = getBaseDayNumberForServer(
+      String(serverId),
+      stateJson,
+      cycleLength
+    );
 
     if (baseDayNumber == null) {
       console.log("[ArmsRaceDebug] could not resolve baseDayNumber", {
         serverId,
-        rawEntry,
       });
       return {
         phases: [],
@@ -835,37 +1092,16 @@ export default function DashboardPage() {
       };
     }
 
-    const cycleLength =
-      typeof scheduleJson.cycleLengthDays === "number"
-        ? scheduleJson.cycleLengthDays
-        : typeof stateJson.cycleLengthDays === "number"
-        ? stateJson.cycleLengthDays
-        : 7;
-
-    let activeDayNumber = baseDayNumber;
-
-    if (cycleLength > 0 && ARMS_RACE_ANCHOR.date) {
-      const serverDayNumberToday = getServerDayNumber();
-      const anchorDayNumber = getDayNumberFromDateString(
-        ARMS_RACE_ANCHOR.date
-      );
-      const diffDays = serverDayNumberToday - anchorDayNumber;
-
-      const baseIndex = baseDayNumber - 1;
-      const adjustedIndexRaw = baseIndex + diffDays;
-
-      const adjustedIndex =
-        ((adjustedIndexRaw % cycleLength) + cycleLength) % cycleLength;
-
-      activeDayNumber = adjustedIndex + 1;
-    }
-
-    const allDays: any[] = Array.isArray(scheduleJson.days)
-      ? scheduleJson.days
-      : [];
+    const activeDayNumber = getActiveArmsRaceDayNumber(
+      baseDayNumber,
+      ARMS_RACE_ANCHOR.date ?? null,
+      cycleLength
+    );
 
     let dayConfig: any =
-      allDays.find((d) => d && d.dayNumber === activeDayNumber) ?? null;
+      allDays.find(
+        (d) => d && Number(d.dayNumber) === Number(activeDayNumber)
+      ) ?? null;
 
     if (!dayConfig && allDays.length > 0) {
       const index = Math.max(
@@ -875,7 +1111,9 @@ export default function DashboardPage() {
       dayConfig = allDays[index];
     }
 
-    if (!dayConfig || !Array.isArray(dayConfig.phases)) {
+    const phases = buildArmsRacePhasesForDay(dayConfig);
+
+    if (phases.length === 0) {
       console.log("[ArmsRaceDebug] no phases for active day", {
         serverId,
         baseDayNumber,
@@ -888,69 +1126,9 @@ export default function DashboardPage() {
       };
     }
 
-    const serverNow = getServerDate();
-    const currentMinutes =
-      serverNow.getUTCHours() * 60 + serverNow.getUTCMinutes();
-
-    const phases: ArmsRacePhaseDisplay[] = dayConfig.phases.map(
-      (phase: any, index: number) => {
-        const id = String(phase.id ?? index);
-        const name = String(
-          phase.label ?? phase.name ?? `Phase ${index + 1}`
-        );
-
-        const startServerTime = String(
-          phase.startServer ?? phase.startTime ?? phase.start ?? "00:00"
-        );
-        const endServerTime = String(
-          phase.endServer ?? phase.endTime ?? phase.end ?? "23:59"
-        );
-
-        const startLabel = convertServerTimeToLocal(startServerTime);
-        const endLabel = convertServerTimeToLocal(endServerTime);
-
-        const [shhStr, smmStr] = startServerTime.split(":");
-        const [ehhStr, emmStr] = endServerTime.split(":");
-        const shh = Number(shhStr);
-        const smm = Number(smmStr);
-        const ehh = Number(ehhStr);
-        const emm = Number(emmStr);
-
-        let isCurrent = false;
-
-        if (
-          !isNaN(shh) &&
-          !isNaN(smm) &&
-          !isNaN(ehh) &&
-          !isNaN(emm)
-        ) {
-          const startMinutes = shh * 60 + smm;
-          const endMinutes = ehh * 60 + emm;
-
-          if (startMinutes <= endMinutes) {
-            isCurrent =
-              currentMinutes >= startMinutes &&
-              currentMinutes <= endMinutes;
-          } else {
-            isCurrent =
-              currentMinutes >= startMinutes ||
-              currentMinutes <= endMinutes;
-          }
-        }
-
-        return {
-          id,
-          name,
-          startLabel,
-          endLabel,
-          isCurrent,
-        };
-      }
-    );
-
     return {
       phases,
-      reasonCode: phases.length === 0 ? "noPhasesToday" : null,
+      reasonCode: null,
     };
   }, [profileServerId]);
 
@@ -1028,7 +1206,6 @@ export default function DashboardPage() {
     return formatDecimal(totalHeroPower);
   }, [totalHeroPower, formatDecimal]);
 
-
   const heroesByTeam = useMemo(() => {
     const byTeam: { [team: number]: Hero[] } = {};
     heroes.forEach((h) => {
@@ -1104,7 +1281,6 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
-
       <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
         {/* Dashboard title and overlapping profile card */}
         <section className="pt-4">
@@ -1179,18 +1355,18 @@ export default function DashboardPage() {
           {/* VS Today */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
             <h2 className="text-sm font-semibold text-slate-100">
-              {vsToday?.title ?? t("tiles.vsToday.title")}
+              {t("tiles.vsToday.title")}
             </h2>
 
-            {!vsToday && (
+            {!vsTodayTasks && (
               <p className="text-xs text-slate-300">
                 {t("tiles.vsToday.empty")}
               </p>
             )}
 
-            {vsToday && (
+            {vsTodayTasks && (
               <ul className="mt-1 space-y-1 text-xs text-slate-200">
-                {vsToday.tasks.map((task) => (
+                {vsTodayTasks.map((task) => (
                   <li key={task.id} className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
                     <span>{task.name}</span>
@@ -1237,13 +1413,18 @@ export default function DashboardPage() {
                           phase.isCurrent ? "font-semibold" : ""
                         }
                       >
-                        {phase.startLabel} - {phase.endLabel}
+                        {t("tiles.armsRace.timeRange", {
+                          start: phase.startLabel,
+                          end: phase.endLabel,
+                        })}
                       </span>
                     </div>
                     <span
                       className={phase.isCurrent ? "font-semibold" : ""}
                     >
-                      {phase.name}
+                      {phase.labelKey
+                        ? t(phase.labelKey)
+                        : phase.name}
                     </span>
                   </li>
                 ))}
@@ -1280,9 +1461,7 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Summary chips */}
-
-        {/* HQ Requirements */}
+        {/* HQ Requirements / Research / Currently Upgrading */}
         <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col gap-2">
             <div className="flex items-center justify-between">
@@ -1318,28 +1497,37 @@ export default function DashboardPage() {
               nextLevel != null &&
               totalCount > 0 && (
                 <ul className="space-y-1 text-xs">
-                  {hqRequirementRows.map((req) => (
-                    <li
-                      key={req.id}
-                      className="flex items-center justify-between"
-                    >
-                      <span>{req.label}</span>
-                      <span
-                        className={
-                          req.met
-                            ? "font-medium text-green-500"
-                            : "font-medium text-red-500"
-                        }
+                  {hqRequirementRows.map((req) => {
+                    const nameKey = HQ_GROUP_TO_BUILDING_NAME_KEY[req.id];
+                    const translated = nameKey ? t(nameKey) : null;
+
+                    // If translation missing and t() just returns the key, fall back to config label
+                    const displayLabel =
+                      translated && translated !== nameKey ? translated : req.label;
+
+                    return (
+                      <li
+                        key={req.id}
+                        className="flex items-center justify-between"
                       >
-                        {req.met
-                          ? t("tiles.hqRequirements.metLabel")
-                          : t("tiles.hqRequirements.progress", {
-                              current: req.currentLevel,
-                              required: req.requiredLevel,
-                            })}
-                      </span>
-                    </li>
-                  ))}
+                        <span>{displayLabel}</span>
+                        <span
+                          className={
+                            req.met
+                              ? "font-medium text-green-500"
+                              : "font-medium text-red-500"
+                          }
+                        >
+                          {req.met
+                            ? t("tiles.hqRequirements.metLabel")
+                            : t("tiles.hqRequirements.progress", {
+                                current: req.currentLevel,
+                                required: req.requiredLevel,
+                              })}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
           </div>
