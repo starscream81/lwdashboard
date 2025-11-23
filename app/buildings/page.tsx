@@ -52,6 +52,7 @@ type BuildingInstance = {
 
 type BuildingGroup = {
   groupKey: string;
+  labelKey: string;
   displayName: string;
   instances: BuildingInstance[];
   hasTracked: boolean;
@@ -182,16 +183,26 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
   },
   { key: "Iron Warehouse", displayName: "Iron Warehouse" },
   {
-    key: "Library",
-    displayName: "Library",
+    key: "Lighthouse",
+    displayName: "Lighthouse",
     seasonGroups: [SEASON_4],
   },
-  { key: "Market", displayName: "Market" },
   {
-    key: "Metal Warehouse",
-    displayName: "Metal Warehouse",
+    key: "Material Workshop",
+    displayName: "Material Workshop",
     multiInstance: true,
-    maxInstances: 3,
+    maxInstances: 5,
+  },
+  { key: "Missile Center", displayName: "Missile Center" },
+  {
+    key: "Missile Vehicle Base",
+    displayName: "Missile Vehicle Base",
+    seasonGroups: [SEASON_1, SEASON_2],
+  },
+  {
+    key: "Missileer Bar",
+    displayName: "Missileer Bar",
+    seasonGroups: [SEASON_5],
   },
   {
     key: "Oil Well",
@@ -200,26 +211,30 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
     maxInstances: 5,
   },
   {
-    key: "Oil Warehouse",
-    displayName: "Oil Warehouse",
+    key: "Opto-Electronic Lab",
+    displayName: "Opto-Electronic Lab",
+    seasonGroups: [SEASON_4],
+  },
+  {
+    key: "Pilot Bar",
+    displayName: "Pilot Bar",
+    seasonGroups: [SEASON_5],
+  },
+  {
+    key: "Protector Field",
+    displayName: "Protector Field",
+    seasonGroups: [SEASON_3, SEASON_4, SEASON_5],
+  },
+  {
+    key: "Protein Farm",
+    displayName: "Protein Farm",
     multiInstance: true,
-    maxInstances: 3,
+    maxInstances: 5,
+    seasonGroups: [SEASON_1],
   },
   {
-    key: "Outpost",
-    displayName: "Outpost",
-    seasonGroups: [SEASON_1, SEASON_2, SEASON_3, SEASON_4, SEASON_5],
-  },
-  {
-    key: "Power Plant",
-    displayName: "Power Plant",
-    multiInstance: true,
-    maxInstances: 3,
-  },
-  { key: "Radar Station", displayName: "Radar Station" },
-  {
-    key: "Reactor",
-    displayName: "Reactor",
+    key: "Quartz Workshop",
+    displayName: "Quartz Workshop",
     multiInstance: true,
     maxInstances: 5,
     seasonGroups: [SEASON_4],
@@ -254,10 +269,7 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
     multiInstance: true,
     maxInstances: 3,
   },
-  {
-    key: "Technical Institute",
-    displayName: "Tactical Institute",
-  },
+
   {
     key: "Titanium Alloy Factory",
     displayName: "Titanium Alloy Factory",
@@ -290,6 +302,19 @@ function normalizeIdentifier(value: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
+}
+
+/**
+ * Convert a value into a canonical slug key:
+ *  - lower case
+ *  - non alphanumeric -> hyphen
+ *  - trim hyphens
+ */
+function toSlugKey(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 /**
@@ -378,7 +403,7 @@ export default function BuildingsPage() {
     return () => unsubscribe();
   }, [router]);
 
-  // Load profile (currently only used for header in other pages; safe to keep)
+  // Load profile for header
   useEffect(() => {
     if (!user) return;
 
@@ -484,6 +509,7 @@ export default function BuildingsPage() {
           if (!existingGroup) {
             coreGroupMap.set(groupName, {
               groupKey: groupName,
+              labelKey: toSlugKey(groupName),
               displayName: def?.displayName || groupName,
               instances: [instance],
               hasTracked:
@@ -578,6 +604,7 @@ export default function BuildingsPage() {
           } else {
             coreGroupMap.set(groupKey, {
               groupKey,
+              labelKey: toSlugKey(groupKey),
               displayName: baseLabel,
               instances: instancesArray,
               hasTracked,
@@ -634,12 +661,12 @@ export default function BuildingsPage() {
 
             const hasTracked = uiInstances.some(
               (inst) =>
-                inst.tracking.tracked ||
-                inst.tracking.upgrading
+                inst.tracking.tracked || inst.tracking.upgrading
             );
 
             uiGroupMap.set(coreGroup.groupKey, {
               groupKey: coreGroup.groupKey,
+              labelKey: coreGroup.labelKey ?? toSlugKey(coreGroup.groupKey),
               displayName: coreGroup.displayName,
               instances: uiInstances,
               hasTracked,
@@ -656,6 +683,7 @@ export default function BuildingsPage() {
             if (!seasonGroup) {
               seasonGroup = {
                 groupKey: seasonName,
+                labelKey: toSlugKey(seasonName),
                 displayName: seasonName,
                 instances: [],
                 hasTracked: false,
@@ -894,7 +922,7 @@ export default function BuildingsPage() {
     return (
       <main className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
         <div className="text-sm text-slate-400">
-          {t("common.loading")}
+          Checking authentication…
         </div>
       </main>
     );
@@ -905,18 +933,40 @@ export default function BuildingsPage() {
       <main className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
         <div className="text-center space-y-4">
           <p className="text-sm text-slate-400">
-            {t("auth.loginRequired.message")}
+            You need to be signed in to view your buildings.
           </p>
           <Link
             href="/login"
             className="inline-flex items-center rounded-xl border border-slate-600 px-4 py-2 text-sm font-medium text-slate-100 hover:bg-slate-800"
           >
-            {t("auth.loginRequired.goToLogin")}
+            Go to login
           </Link>
         </div>
       </main>
     );
   }
+
+  const isGuest = user.isAnonymous ?? false;
+
+  const profileAlliance =
+    isGuest
+      ? "GUEST"
+      : (profile as any)?.alliance != null &&
+        (profile as any)?.alliance !== ""
+      ? String((profile as any).alliance)
+      : null;
+
+  const baseDisplayName = isGuest
+    ? "Guest Commander"
+    : profile?.displayName ?? "Commander";
+
+  const combinedDisplayNameWithAlliance = profileAlliance
+    ? `${baseDisplayName} [${profileAlliance}]`
+    : baseDisplayName;
+
+  const combinedDisplayName = isGuest
+    ? `${combinedDisplayNameWithAlliance} (Guest)`
+    : combinedDisplayNameWithAlliance;
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -991,6 +1041,7 @@ type BuildingCardProps = {
 
 function BuildingCard({ group, onClick }: BuildingCardProps) {
   const { t } = useLanguage();
+
   const hasInstances = group.instances.length > 0;
   const levels = group.instances
     .map((instance) => instance.level)
@@ -1010,6 +1061,12 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
   const multiple =
     group.instances.length > 1 || group.isSeasonGroup;
 
+  const isSeason = group.isSeasonGroup;
+  const titleKey = isSeason
+    ? `buildings.seasons.${group.labelKey}`
+    : `buildings.names.${group.labelKey}`;
+  const title = t(titleKey);
+
   return (
     <button
       type="button"
@@ -1019,7 +1076,7 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="text-base font-semibold text-slate-50">
-            {group.displayName}
+            {title}
           </h2>
           <p className="mt-1 text-xs text-slate-400">
             {hasInstances
@@ -1052,7 +1109,9 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
             : t("buildings.card.levels")}
         </span>
         <span className="font-medium text-slate-100">
-          {hasInstances ? levelsText : t("buildings.card.levels.none")}
+          {hasInstances
+            ? levelsText
+            : t("buildings.card.levels.none")}
         </span>
       </div>
 
@@ -1083,6 +1142,12 @@ function BuildingDetailPanel({
   const { t } = useLanguage();
   const hasInstances = group.instances.length > 0;
 
+  const isSeason = group.isSeasonGroup;
+  const titleKey = isSeason
+    ? `buildings.seasons.${group.labelKey}`
+    : `buildings.names.${group.labelKey}`;
+  const title = t(titleKey);
+
   return (
     <div className="fixed inset-0 z-40 flex justify-end">
       <div
@@ -1093,13 +1158,8 @@ function BuildingDetailPanel({
         <header className="mb-4 flex items-start justify-between gap-2">
           <div>
             <h2 className="text-lg font-semibold text-slate-50">
-              {group.displayName}
+              {title}
             </h2>
-            <p className="text-xs text-slate-400">
-              {group.isSeasonGroup
-                ? t("buildings.detail.header.season")
-                : t("buildings.detail.header.normal")}
-            </p>
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -1146,7 +1206,8 @@ function BuildingDetailPanel({
                     <div className="pr-2">
                       <div className="font-medium text-slate-50">
                         {group.isSeasonGroup &&
-                        instance.baseDisplayName
+                        instance.baseDisplayName &&
+                        instance.baseDisplayName !== instance.instanceLabel
                           ? `${instance.baseDisplayName} — ${instance.instanceLabel}`
                           : instance.instanceLabel}
                       </div>

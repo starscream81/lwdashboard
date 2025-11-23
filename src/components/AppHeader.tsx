@@ -27,9 +27,7 @@ const NAV_ITEMS: NavItem[] = [
 const LANGUAGE_OPTIONS: { value: Locale; label: string }[] = [
   { value: "en", label: "EN" },
   { value: "de", label: "DE" },
-  { value: "it", label: "IT" },
-  { value: "fr", label: "FR" },
-  { value: "ar", label: "AR" },
+
 ];
 
 export default function AppHeader({ userName }: AppHeaderProps) {

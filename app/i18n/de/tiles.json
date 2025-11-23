@@ -21,5 +21,10 @@
   "tiles.hqRequirements.progress": "{current} / {required}",
 
   "tiles.currentlyUpgrading.more": "+ {count} mehr",
-  "tiles.currentlyUpgrading.empty": "Noch keine Verbesserungen aktiv. Starte Forschung oder markiere Gebäude als 'wird verbessert' oder setze Prioritäten, um sie hier anzuzeigen."
+  "tiles.currentlyUpgrading.empty": "Noch keine Verbesserungen aktiv. Starte Forschung oder markiere Gebäude als 'wird verbessert' oder setze Prioritäten, um sie hier anzuzeigen.",
+
+  "tiles.researchStatus.title": "Forschungsfortschritt",
+  "tiles.researchStatus.empty": "Noch keine Forschung verfolgt. Markiere Forschung als „verfolgt“ oder „Priorität“, um sie hier anzuzeigen.",
+  
+  "tiles.currentlyUpgrading.title": "Aktuelle Upgrades"
 }

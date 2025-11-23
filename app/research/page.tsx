@@ -17,6 +17,17 @@ type Profile = {
   alliance?: string | null;
 };
 
+function getCategoryKeyForRow(row: ResearchTrackingDoc): string {
+  if (row.id && row.id.includes("__")) {
+    return row.id.split("__")[0];
+  }
+  const base = row.category || "other";
+  return base
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function ResearchPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
@@ -36,21 +47,17 @@ export default function ResearchPage() {
 
   const [profile, setProfile] = useState<Profile | null>(null);
 
+  // Auth state
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
-      if (!firebaseUser) {
-        setUser(null);
-        setLoadingUser(false);
-        return;
-      }
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
       setLoadingUser(false);
     });
 
-    return () => unsub();
+    return () => unsubscribe();
   }, []);
 
-  // Load profile for header (displayName + alliance)
+  // Load profile for header (displayName plus alliance)
   useEffect(() => {
     if (!user) return;
 
@@ -69,40 +76,46 @@ export default function ResearchPage() {
     loadProfile();
   }, [user]);
 
-  // Subscribe to user research and seed from research_catalog if empty
+  // Subscribe to research
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!user) return;
 
     setLoadingData(true);
 
-    const unsubscribe = subscribeToResearch(user.uid, async (list) => {
-      // First time we see an empty list, seed from catalog
-      if (!hasSeeded && list.length === 0) {
-        setHasSeeded(true);
-        await seedResearchForUser(user.uid);
-        // After seeding, Firestore will emit another snapshot with the new rows
-        return;
-      }
-
-      // Normal case: we have rows, show them
-      setRows(list);
+    const unsubscribe = subscribeToResearch(user.uid, (nextRows) => {
+      setRows(nextRows);
       setLoadingData(false);
     });
 
     return () => unsubscribe();
-  }, [user, hasSeeded]);
+  }, [user]);
 
-  // Compute category-level completion
+  // Seed data if empty
+  useEffect(() => {
+    if (!user) return;
+    if (loadingData) return;
+    if (hasSeeded) return;
+
+    if (rows.length === 0) {
+      seedResearchForUser(user.uid).catch((err) => {
+        console.error("Failed to seed research for user", err);
+      });
+    }
+
+    setHasSeeded(true);
+  }, [user, loadingData, hasSeeded, rows.length]);
+
+  // Compute category level completion using canonical keys
   const categoryProgress = useMemo(() => {
     const map = new Map<
       string,
-      { category: string; current: number; max: number; tracked: boolean }
+      { categoryKey: string; current: number; max: number; tracked: boolean }
     >();
 
     for (const row of rows) {
-      const cat = row.category || "Uncategorized";
-      const existing = map.get(cat) || {
-        category: cat,
+      const key = getCategoryKeyForRow(row);
+      const existing = map.get(key) || {
+        categoryKey: key,
         current: 0,
         max: 0,
         tracked: false,
@@ -116,37 +129,44 @@ export default function ResearchPage() {
 
       existing.tracked = existing.tracked || !!row.trackStatus;
 
-      map.set(cat, existing);
+      map.set(key, existing);
     }
 
     return Array.from(map.values())
-      .map((data) => ({
-        ...data,
-        percent:
-          data.max > 0 ? Math.round((data.current / data.max) * 100) : 0,
-        tracked: data.tracked,
-      }))
-      .sort((a, b) => a.category.localeCompare(b.category));
-  }, [rows]);
+      .map((data) => {
+        const categoryLabel = t(`research.categories.${data.categoryKey}`);
+        return {
+          ...data,
+          categoryLabel,
+          percent:
+            data.max > 0 ? Math.round((data.current / data.max) * 100) : 0,
+          tracked: data.tracked,
+        };
+      })
+      .sort((a, b) => a.categoryLabel.localeCompare(b.categoryLabel));
+  }, [rows, t]);
 
   // Auto select first category when data loads
   useEffect(() => {
     if (!selectedCategory && categoryProgress.length > 0) {
-      setSelectedCategory(categoryProgress[0].category);
+      setSelectedCategory(categoryProgress[0].categoryKey);
     }
   }, [selectedCategory, categoryProgress]);
 
   const filteredRows = useMemo(() => {
     const list = rows.filter((r) => {
       if (!selectedCategory) return false;
-      if (r.category !== selectedCategory) return false;
+
+      const rowCategoryKey = getCategoryKeyForRow(r);
+      if (rowCategoryKey !== selectedCategory) return false;
 
       if (showInProgressOnly && !r.inProgress) return false;
       if (showTrackedForTileOnly && !r.trackStatus) return false;
 
       if (searchTerm.trim()) {
         const term = searchTerm.trim().toLowerCase();
-        if (!r.name.toLowerCase().includes(term)) return false;
+        const localizedName = t(`research.names.${r.id}`).toLowerCase();
+        if (!localizedName.includes(term)) return false;
       }
 
       return true;
@@ -164,7 +184,9 @@ export default function ResearchPage() {
       const bIndex = b.orderIndex ?? 99999;
       if (aIndex !== bIndex) return aIndex - bIndex;
 
-      return a.name.localeCompare(b.name);
+      const aLabel = t(`research.names.${a.id}`);
+      const bLabel = t(`research.names.${b.id}`);
+      return aLabel.localeCompare(bLabel);
     });
 
     return list;
@@ -174,6 +196,7 @@ export default function ResearchPage() {
     showInProgressOnly,
     showTrackedForTileOnly,
     searchTerm,
+    t,
   ]);
 
   if (!user && !loadingUser) {
@@ -191,55 +214,15 @@ export default function ResearchPage() {
     );
   }
 
-  async function handleNumberChange(
-    row: ResearchTrackingDoc,
-    field: "currentLevel",
-    rawValue: string
-  ) {
-    const trimmed = rawValue.trim();
-    const num = trimmed === "" ? 0 : Number(trimmed);
-    if (isNaN(num)) return;
-
-    await updateResearch(user!.uid, row.id, { [field]: num });
+  if (!user || loadingUser) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-slate-950">
+        <div className="text-sm text-slate-400">
+          {t("research.loading")}
+        </div>
+      </main>
+    );
   }
-
-  async function handleToggle(
-    row: ResearchTrackingDoc,
-    field: "inProgress" | "trackStatus"
-  ) {
-    await updateResearch(user!.uid, row.id, {
-      [field]: !row[field],
-    });
-  }
-
-  async function handlePriorityToggle(row: ResearchTrackingDoc) {
-    const newPriority = row.priority ? 0 : 1;
-    await updateResearch(user!.uid, row.id, {
-      priority: newPriority,
-    });
-  }
-
-  const combinedDisplayNameWithAlliance = useMemo(() => {
-    if (!profile) return "";
-
-    const name = profile.displayName?.trim() || "";
-    const alliance = profile.alliance?.trim() || "";
-
-    if (!name && !alliance) return "";
-    if (!name) return `[${alliance}]`;
-    if (!alliance) return name;
-
-    return `${name} [${alliance}]`;
-  }, [profile]);
-
-  const displayName =
-    combinedDisplayNameWithAlliance === ""
-      ? "Guest"
-      : combinedDisplayNameWithAlliance;
-
-  const displayNameWithGuestSuffix = user?.isAnonymous
-    ? `${combinedDisplayNameWithAlliance} (Guest)`
-    : combinedDisplayNameWithAlliance;
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
@@ -254,7 +237,7 @@ export default function ResearchPage() {
           </p>
         </section>
 
-        {/* Category Progress Overview (now clickable selector) */}
+        {/* Category Progress Overview (clickable selector) */}
         <section className="rounded-xl bg-slate-900/80 border border-slate-800 px-4 py-3 space-y-3">
           <h2 className="text-sm font-semibold text-slate-100">
             {t("research.categoryOverview.title")}
@@ -270,12 +253,12 @@ export default function ResearchPage() {
           ) : (
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
               {categoryProgress.map((cat) => {
-                const isActive = selectedCategory === cat.category;
+                const isActive = selectedCategory === cat.categoryKey;
 
                 return (
                   <div
-                    key={cat.category}
-                    onClick={() => setSelectedCategory(cat.category)}
+                    key={cat.categoryKey}
+                    onClick={() => setSelectedCategory(cat.categoryKey)}
                     className={`rounded-lg border px-3 py-2 flex items-center justify-between cursor-pointer transition ${
                       isActive
                         ? "border-sky-500 bg-sky-900/60 shadow-md"
@@ -285,7 +268,7 @@ export default function ResearchPage() {
                     <div>
                       <div className="flex items-center gap-1">
                         <span className="text-xs font-medium text-slate-100">
-                          {cat.category}
+                          {cat.categoryLabel}
                         </span>
                         {cat.tracked && (
                           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-sky-400" />
@@ -316,7 +299,7 @@ export default function ResearchPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder={t("research.filter.search.placeholder")}
-                className="w-full rounded-lg bg-slate-900/80 border border-slate-700/80 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
+                className="w-full rounded-lg bg-slate-900/80 border border-slate-700 px-3 py-2 text-sm text-slate-100 outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
               />
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
@@ -347,140 +330,147 @@ export default function ResearchPage() {
         </section>
 
         {/* Table */}
-        <section className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/80">
-          <table className="min-w-full text-sm border-collapse">
-            <thead>
-              <tr className="border-b border-slate-800 bg-slate-900">
-                <th className="text-left px-3 py-2">
-                  {t("research.table.category")}
-                </th>
-                <th className="text-left px-3 py-2">
-                  {t("research.table.name")}
-                </th>
-                <th className="text-right px-3 py-2">
-                  {t("research.table.current")}
-                </th>
-                <th className="text-right px-3 py-2">
-                  {t("research.table.max")}
-                </th>
-                <th className="text-center px-3 py-2">
-                  {t("research.table.inProgress")}
-                </th>
-                <th className="text-center px-3 py-2">
-                  {t("research.table.priority")}
-                </th>
-                <th className="text-center px-3 py-2">
-                  {t("research.table.trackForTile")}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {loadingData && (
-                <tr>
-                  <td
-                    colSpan={7}
-                    className="px-3 py-4 text-center text-slate-400"
-                  >
-                    {t("research.loading")}
-                  </td>
+        <section className="rounded-xl bg-slate-900/80 border border-slate-800 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead>
+                <tr className="bg-slate-900/90 text-left text-xs uppercase tracking-wide text-slate-400">
+                  <th className="px-3 py-2">
+                    {t("research.table.category")}
+                  </th>
+                  <th className="px-3 py-2">
+                    {t("research.table.name")}
+                  </th>
+                  <th className="px-3 py-2 text-right">
+                    {t("research.table.current")}
+                  </th>
+                  <th className="px-3 py-2 text-right">
+                    {t("research.table.max")}
+                  </th>
+                  <th className="px-3 py-2 text-center">
+                    {t("research.table.inProgress")}
+                  </th>
+                  <th className="px-3 py-2 text-center">
+                    {t("research.table.priority")}
+                  </th>
+                  <th className="px-3 py-2 text-center">
+                    {t("research.table.trackForTile")}
+                  </th>
                 </tr>
-              )}
-
-              {!loadingData && !selectedCategory && (
-                <tr>
-                  <td
-                    colSpan={7}
-                    className="px-3 py-4 text-center text-slate-400"
-                  >
-                    {t("research.category.clickToView")}
-                  </td>
-                </tr>
-              )}
-
-              {!loadingData &&
-                selectedCategory &&
-                filteredRows.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan={7}
-                      className="px-3 py-4 text-center text-slate-400"
-                    >
-                      {t("research.category.noEntries")}
-                    </td>
-                  </tr>
-                )}
-
-              {!loadingData &&
-                filteredRows.map((row) => {
-                  const isPriority =
-                    row.priority != null && row.priority > 0;
-
-                  return (
-                    <tr
-                      key={row.id}
-                      className="border-t border-slate-800"
-                    >
-                      <td className="px-3 py-2 whitespace-nowrap">
-                        {row.category}
-                      </td>
-                      <td className="px-3 py-2 whitespace-nowrap">
-                        {row.name}
-                      </td>
-                      <td className="px-3 py-2 text-right">
-                        <input
-                          type="number"
-                          defaultValue={row.currentLevel}
-                          onBlur={(e) =>
-                            handleNumberChange(
-                              row,
-                              "currentLevel",
-                              e.target.value
-                            )
-                          }
-                          className="w-20 rounded bg-slate-950 border border-slate-700 px-2 py-1 text-right"
-                        />
-                      </td>
-                      <td className="px-3 py-2 text-right">
-                        {row.maxLevel}
-                      </td>
-                      <td className="px-3 py-2 text-center">
-                        <input
-                          type="checkbox"
-                          checked={row.inProgress}
-                          onChange={() =>
-                            handleToggle(row, "inProgress")
-                          }
-                        />
-                      </td>
-                      <td className="px-3 py-2 text-center">
-                        <button
-                          type="button"
-                          onClick={() => handlePriorityToggle(row)}
-                          className={`inline-flex items-center justify-center rounded-full border px-2 py-1 text-xs ${
-                            isPriority
-                              ? "border-amber-400 text-amber-300 bg-amber-900/40"
-                              : "border-slate-600 text-slate-300 bg-slate-900"
-                          }`}
-                        >
-                          {isPriority ? 1 : 0}
-                        </button>
-                      </td>
-                      <td className="px-3 py-2 text-center">
-                        <input
-                          type="checkbox"
-                          checked={row.trackStatus}
-                          onChange={() =>
-                            handleToggle(row, "trackStatus")
-                          }
-                        />
+              </thead>
+              <tbody>
+                {selectedCategory &&
+                  !loadingData &&
+                  filteredRows.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan={7}
+                        className="px-3 py-4 text-center text-slate-400"
+                      >
+                        {t("research.category.noEntries")}
                       </td>
                     </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                  )}
+
+                {!loadingData &&
+                  filteredRows.map((row) => {
+                    const isPriority =
+                      row.priority != null && row.priority > 0;
+
+                    return (
+                      <tr
+                        key={row.id}
+                        className="border-t border-slate-800"
+                      >
+                        <td className="px-3 py-2 whitespace-nowrap">
+                          {t(`research.categories.${getCategoryKeyForRow(row)}`)}
+                        </td>
+                        <td className="px-3 py-2 whitespace-nowrap">
+                          {t(`research.names.${row.id}`)}
+                        </td>
+                        <td className="px-3 py-2 text-right">
+                          <input
+                            type="number"
+                            defaultValue={row.currentLevel}
+                            onBlur={(e) =>
+                              handleNumberChange(
+                                row,
+                                "currentLevel",
+                                e.target.value
+                              )
+                            }
+                            className="w-16 rounded border border-slate-700 bg-slate-900 px-2 py-1 text-right text-xs text-slate-100 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                          />
+                        </td>
+                        <td className="px-3 py-2 text-right">
+                          {row.maxLevel}
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          <input
+                            type="checkbox"
+                            checked={row.inProgress}
+                            onChange={() =>
+                              handleToggle(row, "inProgress")
+                            }
+                          />
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          <button
+                            type="button"
+                            onClick={() => handlePriorityToggle(row)}
+                            className={`inline-flex items-center justify-center rounded-full border px-2 py-1 text-xs ${
+                              isPriority
+                                ? "border-amber-400 text-amber-300 bg-amber-900/40"
+                                : "border-slate-600 text-slate-300 bg-slate-900"
+                            }`}
+                          >
+                            {isPriority ? 1 : 0}
+                          </button>
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          <input
+                            type="checkbox"
+                            checked={row.trackStatus}
+                            onChange={() =>
+                              handleToggle(row, "trackStatus")
+                            }
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
         </section>
       </div>
     </main>
   );
+
+  async function handleNumberChange(
+    row: ResearchTrackingDoc,
+    field: "currentLevel",
+    value: string
+  ) {
+    const num = Number(value);
+    if (!Number.isFinite(num)) return;
+
+    await updateResearch(user!.uid, row.id, { [field]: num });
+  }
+
+  async function handleToggle(
+    row: ResearchTrackingDoc,
+    field: "inProgress" | "trackStatus"
+  ) {
+    await updateResearch(user!.uid, row.id, {
+      [field]: !row[field],
+    });
+  }
+
+  async function handlePriorityToggle(row: ResearchTrackingDoc) {
+    const newPriority = row.priority ? 0 : 1;
+    await updateResearch(user!.uid, row.id, {
+      priority: newPriority,
+    });
+  }
 }
