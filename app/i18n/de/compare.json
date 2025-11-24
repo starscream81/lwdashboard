@@ -1,0 +1,88 @@
+{
+  "compare.title": "Vergleichszentrale",
+  "compare.subtitle": "Steuere, wie deine Werte in Vergleichen verwendet werden, und wähle anschließend aus, wie die Ergebnisse angezeigt werden sollen.",
+  "compare.backToDashboard": "Zurück zum Dashboard",
+
+  "compare.privacy.title": "Sichtbarkeit für Direktvergleiche",
+  "compare.privacy.description": "Anonyme Durchschnitte und Perzentile nutzen immer die Werte aller Spieler. Aktiviere diese Option, wenn du in direkten Vergleichen neben anderen Spielern erscheinen möchtest. Deine Rohdaten werden nie direkt angezeigt, nur Vergleichsansichten.",
+  "compare.privacy.included": "In Direktvergleichen enthalten",
+  "compare.privacy.excluded": "Von Direktvergleichen ausgeschlossen",
+  "compare.privacy.saving": "Wird gespeichert…",
+
+  "compare.modes.title": "Vergleichsmodi",
+  "compare.modes.description": "Wähle aus, wie Vergleichsergebnisse dargestellt werden sollen. Alle Modi respektieren deine Privatsphäreeinstellungen.",
+  "compare.modes.aggregated": "Aggregierter Vergleich",
+  "compare.modes.direct": "Direktvergleich",
+
+  "compare.aggregated.description": "Der Aggregierte Vergleich zeigt, wie sich deine Teamstärken im Vergleich zu Gruppendurchschnitten und Perzentilen schlagen – basierend auf allen Spielern, die ihre Dashboard-Meta gespeichert haben.",
+  "compare.aggregated.loadingTeams": "Teamdaten werden geladen…",
+  "compare.aggregated.noTeams": "Keine Teamdaten in deiner Dashboard-Meta gefunden.",
+  "compare.aggregated.loadingGroup": "Gruppendurchschnitt wird geladen…",
+  "compare.aggregated.noGroup": "Noch keine Gruppendaten verfügbar.",
+  "compare.aggregated.basedOn": "Basierend auf {count} Spielern",
+  "compare.aggregated.groupAverage": "Gruppendurchschnitt",
+  "compare.aggregated.percentileRank": "Perzentilrang",
+  "compare.aggregated.percentileRankValue": "{value}. Perzentil",
+  "compare.aggregated.explainer": "Der Aggregierte Vergleich nutzt Teamstärken aller Spieler, die ihre Dashboard-Meta gespeichert haben, ohne jemanden direkt zu identifizieren.",
+
+  "compare.table.team": "Team",
+  "compare.table.category": "Kategorie",
+  "compare.table.you": "Du",
+  "compare.table.them": "Sie",
+  "compare.table.difference": "Differenz",
+  "compare.table.noData": "Keine Daten",
+  "compare.table.notAvailable": "k. A.",
+  "compare.table.equal": "Gleich",
+
+  "compare.direct.description": "Wähle einen Spieler, der ebenfalls den Direktvergleich aktiviert hat, um Statistiken nebeneinander anzusehen.",
+
+  "compare.direct.playerPicker.title": "Spieler für Vergleich auswählen",
+  "compare.direct.playerPicker.loading": "Spieler werden geladen…",
+  "compare.direct.playerPicker.none": "Keine Spieler sind derzeit für den Direktvergleich verfügbar.",
+  "compare.direct.playerPicker.placeholder": "Spieler auswählen…",
+
+  "compare.direct.preparing": "Vergleich wird vorbereitet mit:",
+  "compare.direct.loadingTeams": "Teamdaten für diesen Spieler werden geladen…",
+  "compare.direct.errorTeams": "Teamdaten für den ausgewählten Spieler konnten nicht geladen werden.",
+  "compare.direct.teamDataLoaded": "Teamdaten aus Firestore geladen.",
+
+  "compare.direct.sxs.title": "Teams im Direktvergleich",
+
+  "compare.direct.teamComps.title": "Teamzusammenstellungen – klicke auf eine Kachel für den vollständigen Teamvergleich",
+
+  "compare.direct.heroes.you": "Du",
+  "compare.direct.heroes.them": "Sie",
+  "compare.direct.hero.none": "Keine Helden",
+  "compare.direct.heroes.detailsTitle": "{team} Details",
+  "compare.direct.heroes.detailsSubtitle": "Vollständige Heldenwerte für dieses Team. Klicke erneut auf die Teamkachel, um zu schließen.",
+  "compare.direct.heroes.close": "Schließen",
+  "compare.direct.hero.noneTeamYou": "Keine Helden in diesem Team.",
+  "compare.direct.hero.noneTeamThem": "Der ausgewählte Spieler hat keine Helden in diesem Team.",
+
+  "compare.direct.hero.power": "Stärke",
+  "compare.direct.hero.railGun": "Puma Kanone",
+  "compare.direct.hero.railGunStars": "Puma Kanone-Sterne",
+  "compare.direct.hero.armor": "Wächter Reaktivpanzerung",
+  "compare.direct.hero.armorStars": "Wächter Reaktivpanzerung-Sterne",
+  "compare.direct.hero.dataChip": "Jäger Chip",
+  "compare.direct.hero.dataChipStars": "Jäger Chip-Sterne",
+  "compare.direct.hero.radar": "Schild Radar",
+  "compare.direct.hero.radarStars": "Schild Radar-Sterne",
+  "compare.direct.hero.exclusiveOwned": "Exklusive Waffe vorhanden",
+  "compare.direct.hero.exclusiveLevel": "Exklusivwaffen-Stufe",
+  "compare.direct.hero.skill1": "Fähigkeit 1",
+  "compare.direct.hero.skill2": "Fähigkeit 2",
+  "compare.direct.hero.skill3": "Fähigkeit 3",
+
+  "compare.direct.research.title": "Forschungsvergleich",
+  "compare.direct.research.loading": "Forschung wird geladen…",
+  "compare.direct.research.myNone": "Für dein Konto wurde noch keine Forschungsübersicht gefunden.",
+  "compare.direct.research.theirNone": "Für den ausgewählten Spieler ist keine Forschungsübersicht verfügbar.",
+  "compare.direct.research.errorMe": "Deine Forschungsübersicht konnte nicht geladen werden.",
+  "compare.direct.research.errorThem": "Die Forschung des ausgewählten Spielers konnte nicht geladen werden.",
+
+  "compare.direct.heroes.errorMe": "Deine Helden für die Teamzusammenstellung konnten nicht geladen werden.",
+  "compare.direct.heroes.errorThem": "Die Helden des ausgewählten Spielers konnten nicht geladen werden.",
+
+  "compare.direct.waitingForTeams": "Warte darauf, dass sowohl deine Teams als auch die Teams des Spielers verfügbar sind."
+}

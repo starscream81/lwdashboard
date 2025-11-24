@@ -1,6 +1,10 @@
 "use client";
 
+import { useLanguage } from "../../app/i18n/LanguageProvider";
+
 export default function AppFooter() {
+  const { t } = useLanguage();
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -11,7 +15,7 @@ export default function AppFooter() {
   return (
     <footer className="mt-10 py-8 text-center text-xs text-slate-500 border-t border-slate-800">
       <p className="text-slate-400 font-medium tracking-wide">
-        Last War Command Center created by Shōckwave (977)
+        {t("footer.appName")}
       </p>
 
       <div className="mt-3 flex flex-col items-center gap-2 text-slate-500">
@@ -20,7 +24,7 @@ export default function AppFooter() {
           href="/privacy"
           className="hover:text-slate-300 transition-colors"
         >
-          GDPR / Privacy Policy
+          {t("footer.link.privacy")}
         </a>
 
         {/* Back to Top */}
@@ -28,18 +32,20 @@ export default function AppFooter() {
           onClick={scrollToTop}
           className="hover:text-slate-300 transition-colors"
         >
-          Back to top ↑
+          {t("footer.link.backToTop")}
         </button>
       </div>
 
       <p className="mt-4 text-slate-500">
-        Made with <span className="text-red-400">❤</span>. If you find this helpful,
+        {t("footer.madeWith.text")}{" "}
+        <span className="text-red-400">❤</span>.{" "}
+        {t("footer.donation.text")}
         <a
           href="https://paypal.me/KMahana"
           target="_blank"
           className="text-sky-400 hover:text-sky-300 ml-1 transition-colors"
         >
-          🍺 buy me a beer 🍺
+          {t("footer.donation.linkLabel")}
         </a>
         .
       </p>

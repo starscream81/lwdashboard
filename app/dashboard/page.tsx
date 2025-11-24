@@ -14,13 +14,14 @@ import {
 
 import Link from "next/link";
 import { auth, db } from "@/lib/firebase";
-import AppHeader from "@/components/AppHeader";
+import { useLanguage } from "../i18n/LanguageProvider";
+
 import hqRequirementsGroups from "@/config/dashboard/hq_requirements_groups.json";
 import serverArmsRaceState from "@/config/dashboard/server_arms_race_state.json";
 import shinyTasksRotation from "@/config/dashboard/shiny_tasks_rotation.json";
-import vsTasks from "@/config/dashboard/vs_tasks.json";
 import armsRaceSchedule from "@/config/dashboard/arms_race_schedule.json";
 import hqRequirements from "@/config/dashboard/hq_requirements.json";
+import { useFormatter } from "../i18n/useFormatter";
 
 type HqRequirementsMap = Record<string, string[]>;
 
@@ -45,25 +46,24 @@ type VsTask = {
   name: string;
 };
 
-type VsDayConfig = {
-  title: string;
-  tasks: VsTask[];
-};
-
-type VsTasksConfig = Record<string, VsDayConfig>;
-
 type ArmsRacePhaseDisplay = {
   id: string;
   name: string;
   startLabel: string;
   endLabel: string;
   isCurrent: boolean;
+  labelKey?: string;
 };
 
+type ArmsRaceReasonCode =
+  | "noServerConfigured"
+  | "noDayForServer"
+  | "noPhasesToday"
+  | "notConfigured";
+
 type ArmsRaceToday = {
-  title: string;
   phases: ArmsRacePhaseDisplay[];
-  reason: string | null;
+  reasonCode: ArmsRaceReasonCode | null;
 };
 
 type ShinyRotationConfig = {
@@ -73,7 +73,7 @@ type ShinyRotationConfig = {
 };
 
 type ShinyToday = {
-  groupLabel: string | null;
+  groupKey: string | null;
   serversDisplay: string | null;
 };
 
@@ -82,13 +82,17 @@ type ResearchStatusCategory = {
   percent: number;
 };
 
+type UpgradeStatus = "inProgress" | "priority" | "tracked" | "upgrading";
+
 type UpgradeSummary = {
   id: string;
   name: string;
   type: "research" | "building";
-  status: string;
+  status: UpgradeStatus;
+  priority?: number | null;
   currentLevel?: number | null;
   nextLevel?: number | null;
+  category?: string;        // add this
 };
 
 type Profile = {
@@ -116,16 +120,30 @@ type TrackingItem = {
   id: string;
   kind?: string;
   name?: string;
+  type?: "research" | "building";
+  priority?: number | null;
+  orderIndex?: number | null;
+  category?: string;        // add this
   [key: string]: any;
 };
-
-const VS_TASKS = vsTasks as VsTasksConfig;
 
 const HQ_REQUIREMENTS = hqRequirements as HqRequirementsMap;
 const HQ_REQUIREMENT_GROUPS = hqRequirementsGroups as Record<
   string,
   HqRequirementGroup
 >;
+
+
+
+const HQ_GROUP_TO_BUILDING_NAME_KEY: Record<string, string> = {
+  tech_center: "buildings.names.tech-center",
+  center_tank_air_missile: "buildings.names.center-tank-air-missile",
+  barracks: "buildings.names.barracks",
+  wall: "buildings.names.wall",
+  hospital: "buildings.names.hospital",
+  drill_ground: "buildings.names.drill-ground",
+  alliance_center: "buildings.names.alliance-center",
+};
 
 const SHINY_ROTATION = shinyTasksRotation as ShinyRotationConfig;
 
@@ -144,6 +162,82 @@ const ARMS_RACE_ANCHOR = {
 
 // Server time helper (GMT minus 2)
 const SERVER_UTC_OFFSET_HOURS = -2;
+
+// Known Arms Race labels mapped to i18n keys
+const ARMS_RACE_LABEL_KEYS: Record<string, string> = {
+  "Hero Advancement": "armsRace.phase.heroAdvancement",
+  "Base Building": "armsRace.phase.baseBuilding",
+  "Unit Progression": "armsRace.phase.unitProgression",
+  "Tech Research": "armsRace.phase.techResearch",
+  "Drone Boost": "armsRace.phase.droneBoost",
+};
+
+// VS Tasks i18n keys, per weekday (server time)
+const VS_TASK_KEYS: Record<string, string[]> = {
+  sunday: ["vsTasks.sun_01"],
+  monday: [
+    "vsTasks.mon_01",
+    "vsTasks.mon_02",
+    "vsTasks.mon_03",
+    "vsTasks.mon_04",
+    "vsTasks.mon_05",
+    "vsTasks.mon_06",
+    "vsTasks.mon_07",
+    "vsTasks.mon_08",
+  ],
+  tuesday: [
+    "vsTasks.tue_01",
+    "vsTasks.tue_02",
+    "vsTasks.tue_03",
+    "vsTasks.tue_04",
+    "vsTasks.tue_05",
+    "vsTasks.tue_06",
+  ],
+  wednesday: [
+    "vsTasks.wed_01",
+    "vsTasks.wed_02",
+    "vsTasks.wed_03",
+    "vsTasks.wed_04",
+    "vsTasks.wed_05",
+    "vsTasks.wed_06",
+  ],
+  thursday: [
+    "vsTasks.thu_01",
+    "vsTasks.thu_02",
+    "vsTasks.thu_03",
+    "vsTasks.thu_04",
+    "vsTasks.thu_05",
+    "vsTasks.thu_06",
+  ],
+  friday: [
+    "vsTasks.fri_01",
+    "vsTasks.fri_02",
+    "vsTasks.fri_03",
+    "vsTasks.fri_04",
+    "vsTasks.fri_05",
+    "vsTasks.fri_06",
+  ],
+  saturday: [
+    "vsTasks.sat_01",
+    "vsTasks.sat_02",
+    "vsTasks.sat_03",
+    "vsTasks.sat_04",
+    "vsTasks.sat_05",
+    "vsTasks.sat_06",
+    "vsTasks.sat_07",
+    "vsTasks.sat_08",
+    "vsTasks.sat_09",
+  ],
+};
+
+function normalizeNameForKey(raw: string): string {
+  return raw
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[()]/g, "")
+    .replace(/['",:.]/g, "");
+}
 
 function getServerDate(): Date {
   const now = new Date();
@@ -236,6 +330,27 @@ function normalizeBuildingKey(name: string): string {
   return name.trim().toLowerCase();
 }
 
+function getBestBuildingLevelByName(
+  rawName: string,
+  buildingLevels: BuildingLevelsMap
+): number {
+  const token = normalizeBuildingKey(rawName);
+  if (!token) return 0;
+
+  let best = 0;
+
+  for (const [key, level] of Object.entries(buildingLevels)) {
+    if (!key) continue;
+    if (key.includes(token)) {
+      if (level > best) {
+        best = level;
+      }
+    }
+  }
+
+  return best;
+}
+
 function getMaxLevelForGroup(
   group: HqRequirementGroup,
   buildingLevels: BuildingLevelsMap
@@ -297,29 +412,28 @@ function resolveHqRequirementsForNextLevel(
   const groupIds = HQ_REQUIREMENTS[key] ?? [];
 
   const rows: ResolvedRequirement[] = groupIds.map((groupId) => {
-  const group = HQ_REQUIREMENT_GROUPS[groupId];
-  if (!group) {
+    const group = HQ_REQUIREMENT_GROUPS[groupId];
+    if (!group) {
+      return {
+        id: groupId,
+        label: groupId,
+        requiredLevel,
+        currentLevel: 0,
+        met: false,
+      };
+    }
+
+    const currentLevel = getMaxLevelForGroup(group, buildingLevels);
+    const met = currentLevel >= requiredLevel;
+
     return {
       id: groupId,
-      label: groupId,
+      label: group.label,
       requiredLevel,
-      currentLevel: 0,
-      met: false,
+      currentLevel,
+      met,
     };
-  }
-
-  const currentLevel = getMaxLevelForGroup(group, buildingLevels);
-  const met = currentLevel >= requiredLevel;
-
-  return {
-    id: groupId,
-    label: group.label,
-    requiredLevel,
-    currentLevel,
-    met,
-  };
-});
-
+  });
 
   const metCount = rows.filter((r) => r.met).length;
   const totalCount = rows.length;
@@ -332,7 +446,236 @@ function resolveHqRequirementsForNextLevel(
   };
 }
 
+// Arms Race helpers
+
+function getCycleLengthFromConfig(
+  scheduleJson: any,
+  stateJson: any
+): number {
+  if (
+    scheduleJson &&
+    typeof scheduleJson.cycleLengthDays === "number" &&
+    scheduleJson.cycleLengthDays > 0
+  ) {
+    return scheduleJson.cycleLengthDays;
+  }
+  if (
+    stateJson &&
+    typeof stateJson.cycleLengthDays === "number" &&
+    stateJson.cycleLengthDays > 0
+  ) {
+    return stateJson.cycleLengthDays;
+  }
+  return 7;
+}
+
+function getBaseDayNumberForServer(
+  serverId: string,
+  stateJson: any,
+  cycleLength: number
+): number | null {
+  const serversMap = stateJson?.servers ?? {};
+  const rawEntry = serversMap[String(serverId)];
+
+  let baseDayNumber: number | null = null;
+
+  if (typeof rawEntry === "number") {
+    baseDayNumber = rawEntry;
+  } else if (typeof rawEntry === "string") {
+    const parsed = Number(rawEntry);
+    if (!isNaN(parsed)) baseDayNumber = parsed;
+  } else if (typeof rawEntry === "object" && rawEntry !== null) {
+    const possibleKeys = ["day", "currentDay", "dayNumber", "index"];
+    for (const key of possibleKeys) {
+      const value = (rawEntry as any)[key];
+      if (typeof value === "number") {
+        baseDayNumber = value;
+        break;
+      }
+      if (typeof value === "string") {
+        const parsed = Number(value);
+        if (!isNaN(parsed)) {
+          baseDayNumber = parsed;
+          break;
+        }
+      }
+    }
+  }
+
+  if (
+    baseDayNumber != null &&
+    baseDayNumber >= 1 &&
+    baseDayNumber <= cycleLength
+  ) {
+    return baseDayNumber;
+  }
+
+  // Fallback: deterministic mapping from server id to cycle day
+  const numericId = Number(serverId);
+  if (!isNaN(numericId) && cycleLength > 0) {
+    const normalized =
+      ((numericId - 1) % cycleLength + cycleLength) % cycleLength;
+    return normalized + 1;
+  }
+
+  return null;
+}
+
+function getActiveArmsRaceDayNumber(
+  baseDayNumber: number,
+  anchorDateStr: string | null,
+  cycleLength: number
+): number {
+  if (!anchorDateStr || cycleLength <= 0) {
+    return baseDayNumber;
+  }
+
+  const serverDayNumberToday = getServerDayNumber();
+  const anchorDayNumber = getDayNumberFromDateString(anchorDateStr);
+  const diffDays = serverDayNumberToday - anchorDayNumber;
+
+  const baseIndex = baseDayNumber - 1;
+  const adjustedIndexRaw = baseIndex + diffDays;
+  const adjustedIndex =
+    ((adjustedIndexRaw % cycleLength) + cycleLength) % cycleLength;
+
+  return adjustedIndex + 1;
+}
+
+function buildArmsRacePhasesForDay(dayConfig: any): ArmsRacePhaseDisplay[] {
+  if (!dayConfig || !Array.isArray(dayConfig.phases)) {
+    return [];
+  }
+
+  const serverNow = getServerDate();
+  const currentMinutes =
+    serverNow.getUTCHours() * 60 + serverNow.getUTCMinutes();
+
+  return dayConfig.phases.map((phase: any, index: number) => {
+    const id = String(phase.id ?? index);
+    const rawLabel = String(
+      phase.label ?? phase.name ?? `Phase ${index + 1}`
+    );
+
+    const labelKey =
+      typeof phase.labelKey === "string"
+        ? phase.labelKey
+        : ARMS_RACE_LABEL_KEYS[rawLabel];
+
+    const startServerTime = String(
+      phase.startServer ?? phase.startTime ?? phase.start ?? "00:00"
+    );
+    const endServerTime = String(
+      phase.endServer ?? phase.endTime ?? phase.end ?? "23:59"
+    );
+
+    const startLabel = convertServerTimeToLocal(startServerTime);
+    const endLabel = convertServerTimeToLocal(endServerTime);
+
+    const [shhStr, smmStr] = startServerTime.split(":");
+    const [ehhStr, emmStr] = endServerTime.split(":");
+    const shh = Number(shhStr);
+    const smm = Number(smmStr);
+    const ehh = Number(ehhStr);
+    const emm = Number(emmStr);
+
+    let isCurrent = false;
+
+    if (!isNaN(shh) && !isNaN(smm) && !isNaN(ehh) && !isNaN(emm)) {
+      const startMinutes = shh * 60 + smm;
+      const endMinutes = ehh * 60 + emm;
+
+      if (startMinutes <= endMinutes) {
+        isCurrent =
+          currentMinutes >= startMinutes &&
+          currentMinutes <= endMinutes;
+      } else {
+        // Wraps past midnight
+        isCurrent =
+          currentMinutes >= startMinutes ||
+          currentMinutes <= endMinutes;
+      }
+    }
+
+    return {
+      id,
+      name: rawLabel,
+      startLabel,
+      endLabel,
+      isCurrent,
+      labelKey,
+    };
+  });
+}
+
 export default function DashboardPage() {
+  const { t } = useLanguage();
+  const { formatDecimal, formatPercent } = useFormatter();
+
+  const getResearchDisplayNameFromI18n = (
+  name: string,
+  category?: string
+): string => {
+  if (!name || !category) return name;
+
+  const nameSlug = normalizeNameForKey(name);
+  const categorySlug = normalizeNameForKey(category);
+
+  const key = `research.names.${categorySlug}__${nameSlug}`;
+  const translated = t(key);
+
+  return translated === key ? name : translated;
+};
+
+  const getUpgradeDisplayName = (u: UpgradeSummary) => {
+    switch (u.type) {
+      case "research":
+        return getResearchDisplayNameFromI18n(u.name, u.category);
+      case "building":
+      default:
+        // your existing building logic here, probably using buildings names
+        return /* existing building name logic */;
+    }
+  };
+
+  const tryTranslate = (keys: string[]): string | null => {
+    for (const key of keys) {
+      const value = t(key);
+      if (value !== key) {
+        return value;
+      }
+    }
+    return null;
+  };
+
+  const getTrackingItemDisplayName = (item: TrackingItem): string => {
+    const base = item.name ?? "";
+    if (!base) return "";
+
+    if (item.type === "building") {
+      // existing building lookup, keep as is
+      const slug = normalizeNameForKey(base);
+      const key = `buildings.names.${slug}`;
+      const translated = t(key);
+      return translated === key ? base : translated;
+    }
+
+    if (item.type === "research") {
+      return getResearchDisplayNameFromI18n(base, item.category);
+    }
+
+    return base;
+  };
+
+  const getResearchCategoryDisplayName = (category: string): string => {
+    const base = category || "";
+    if (!base) return "";
+
+    const key = `research.categories.${normalizeNameForKey(base)}`;
+    const translated = t(key);
+    return translated === key ? base : translated;
+  };
+
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [hqLevel, setHqLevel] = useState<number | null>(null);
@@ -345,7 +688,9 @@ export default function DashboardPage() {
   );
   const [loading, setLoading] = useState(true);
   const [savingTeam, setSavingTeam] = useState<number | null>(null);
-  const [buildingLevels, setBuildingLevels] = useState<BuildingLevelsMap>({});
+  const [buildingLevels, setBuildingLevels] = useState<BuildingLevelsMap>(
+    {}
+  );
   const [researchStatus, setResearchStatus] = useState<
     ResearchStatusCategory[]
   >([]);
@@ -353,22 +698,24 @@ export default function DashboardPage() {
   const isGuest = user?.isAnonymous ?? false;
 
   const profileAlliance = isGuest
-    ? "GUEST"
+    ? t("profile.alliance.guestTag")
     : (profile as any)?.alliance != null &&
       (profile as any)?.alliance !== ""
     ? String((profile as any).alliance)
     : null;
 
   const baseDisplayName = isGuest
-    ? "Guest Commander"
-    : profile?.displayName ?? "Commander";
+    ? t("profile.role.guestCommander")
+    : profile?.displayName ?? t("profile.role.commander");
 
   const combinedDisplayNameWithAlliance = profileAlliance
     ? `${baseDisplayName} [${profileAlliance}]`
     : baseDisplayName;
 
   const combinedDisplayName = isGuest
-    ? `${combinedDisplayNameWithAlliance} (Guest)`
+    ? `${combinedDisplayNameWithAlliance} ${t(
+        "profile.badge.guestSuffix"
+      )}`
     : combinedDisplayNameWithAlliance;
 
   const profileServerId =
@@ -587,12 +934,18 @@ export default function DashboardPage() {
             id: row.id,
             name: row.name,
             type: "research" as const,
+            category: row.category,          // add this
             priority: row.priority,
             orderIndex: row.orderIndex,
           }));
 
         // Buildings tracking
-        const buildingsRef = collection(db, "users", uid, "buildings_tracking");
+        const buildingsRef = collection(
+          db,
+          "users",
+          uid,
+          "buildings_tracking"
+        );
         const buildingsSnap = await getDocs(query(buildingsRef));
 
         type BuildingRow = {
@@ -667,37 +1020,50 @@ export default function DashboardPage() {
               }
             }
 
+            const status: UpgradeStatus = row.inProgress
+              ? "inProgress"
+              : row.priority != null && row.priority > 0
+              ? "priority"
+              : "tracked";
+
             return {
               id: row.id,
               name: row.name,
               type: "research",
-              status: row.inProgress
-                ? "In progress"
-                : row.priority != null && row.priority > 0
-                ? `Priority ${row.priority}`
-                : "Tracked",
+              status,
+              priority: row.priority,
               currentLevel,
               nextLevel,
+              category: row.category,      // add this line
             };
           });
 
         const buildingSummaries: UpgradeSummary[] =
           trackedBuildingUpgrades.map((row) => {
-            const key = normalizeBuildingKey(row.name);
-            const currentLevel =
-              levels[key] != null ? levels[key] : 0;
+            const exactKey = normalizeBuildingKey(row.name);
+
+            let currentLevel =
+              levels[exactKey] != null ? levels[exactKey] : 0;
+
+            if (!currentLevel) {
+              currentLevel = getBestBuildingLevelByName(row.name, levels);
+            }
+
             const nextLevel =
               currentLevel > 0 ? currentLevel + 1 : null;
+
+            const status: UpgradeStatus = row.upgrading
+              ? "upgrading"
+              : row.priority != null && row.priority > 0
+              ? "priority"
+              : "tracked";
 
             return {
               id: row.id,
               name: row.name,
               type: "building",
-              status: row.upgrading
-                ? "Upgrading"
-                : row.priority != null && row.priority > 0
-                ? `Priority ${row.priority}`
-                : "Tracked",
+              status,
+              priority: row.priority,
               currentLevel,
               nextLevel,
             };
@@ -708,9 +1074,15 @@ export default function DashboardPage() {
           ...buildingSummaries,
         ];
 
-        const totalTrackedUpgrades = allSummaries.length;
+        // Only show things that are actually running now
+        const currentlyUpgrading = allSummaries.filter(
+          (u) => u.status === "inProgress" || u.status === "upgrading"
+        );
+
+        const totalTrackedUpgrades = currentlyUpgrading.length;
         setTrackedCount(totalTrackedUpgrades);
-        setTrackedUpgrades(allSummaries);
+        setTrackedUpgrades(currentlyUpgrading);
+
       } catch (err) {
         console.error("Failed to load dashboard data", err);
       } finally {
@@ -720,7 +1092,7 @@ export default function DashboardPage() {
 
     setLoading(true);
     loadData();
-  }, [user]);
+  }, [user, t]);
 
   const {
     nextLevel,
@@ -732,7 +1104,7 @@ export default function DashboardPage() {
     [hqLevel, buildingLevels]
   );
 
-  const vsToday = useMemo(() => {
+  const vsTodayTasks: VsTask[] | null = useMemo(() => {
     const serverDate = getServerDate();
     const weekdayIndex = serverDate.getUTCDay();
     const weekdayKeys = [
@@ -746,9 +1118,16 @@ export default function DashboardPage() {
     ];
     const weekdayKey = weekdayKeys[weekdayIndex] ?? "sunday";
 
-    const config = VS_TASKS[weekdayKey];
-    return config ?? null;
-  }, []);
+    const taskKeys = VS_TASK_KEYS[weekdayKey];
+    if (!taskKeys || taskKeys.length === 0) {
+      return null;
+    }
+
+    return taskKeys.map((key) => ({
+      id: key,
+      name: t(key),
+    }));
+  }, [t]);
 
   const armsRaceToday: ArmsRaceToday = useMemo(() => {
     const scheduleJson: any = armsRaceSchedule as any;
@@ -758,95 +1137,50 @@ export default function DashboardPage() {
 
     if (!serverId) {
       return {
-        title: "Today’s Arms Race",
         phases: [],
-        reason: "Server is not configured in your profile.",
+        reasonCode: "noServerConfigured",
       };
     }
 
-    const serversMap = stateJson.servers ?? {};
-    const rawEntry = serversMap[String(serverId)];
+    const allDays: any[] = Array.isArray(scheduleJson?.days)
+      ? scheduleJson.days
+      : [];
 
-    if (rawEntry == null) {
-      console.log("[ArmsRaceDebug] no entry for server", {
-        serverId,
-        serversMap,
-      });
+    if (allDays.length === 0) {
       return {
-        title: "Today’s Arms Race",
         phases: [],
-        reason: `No Arms Race day found for server ${serverId}.`,
+        reasonCode: "notConfigured",
       };
     }
 
-    let baseDayNumber: number | null = null;
+    const cycleLength = getCycleLengthFromConfig(scheduleJson, stateJson);
 
-    if (typeof rawEntry === "number") {
-      baseDayNumber = rawEntry;
-    } else if (typeof rawEntry === "string") {
-      const parsed = Number(rawEntry);
-      if (!isNaN(parsed)) baseDayNumber = parsed;
-    } else if (typeof rawEntry === "object" && rawEntry !== null) {
-      const possibleKeys = ["day", "currentDay", "dayNumber", "index"];
-      for (const key of possibleKeys) {
-        const value = (rawEntry as any)[key];
-        if (typeof value === "number") {
-          baseDayNumber = value;
-          break;
-        }
-        if (typeof value === "string") {
-          const parsed = Number(value);
-          if (!isNaN(parsed)) {
-            baseDayNumber = parsed;
-            break;
-          }
-        }
-      }
-    }
+    const baseDayNumber = getBaseDayNumberForServer(
+      String(serverId),
+      stateJson,
+      cycleLength
+    );
 
     if (baseDayNumber == null) {
       console.log("[ArmsRaceDebug] could not resolve baseDayNumber", {
         serverId,
-        rawEntry,
       });
       return {
-        title: "Today’s Arms Race",
         phases: [],
-        reason: `No Arms Race day found for server ${serverId}.`,
+        reasonCode: "noDayForServer",
       };
     }
 
-    const cycleLength =
-      typeof scheduleJson.cycleLengthDays === "number"
-        ? scheduleJson.cycleLengthDays
-        : typeof stateJson.cycleLengthDays === "number"
-        ? stateJson.cycleLengthDays
-        : 7;
-
-    let activeDayNumber = baseDayNumber;
-
-    if (cycleLength > 0 && ARMS_RACE_ANCHOR.date) {
-      const serverDayNumberToday = getServerDayNumber();
-      const anchorDayNumber = getDayNumberFromDateString(
-        ARMS_RACE_ANCHOR.date
-      );
-      const diffDays = serverDayNumberToday - anchorDayNumber;
-
-      const baseIndex = baseDayNumber - 1;
-      const adjustedIndexRaw = baseIndex + diffDays;
-
-      const adjustedIndex =
-        ((adjustedIndexRaw % cycleLength) + cycleLength) % cycleLength;
-
-      activeDayNumber = adjustedIndex + 1;
-    }
-
-    const allDays: any[] = Array.isArray(scheduleJson.days)
-      ? scheduleJson.days
-      : [];
+    const activeDayNumber = getActiveArmsRaceDayNumber(
+      baseDayNumber,
+      ARMS_RACE_ANCHOR.date ?? null,
+      cycleLength
+    );
 
     let dayConfig: any =
-      allDays.find((d) => d && d.dayNumber === activeDayNumber) ?? null;
+      allDays.find(
+        (d) => d && Number(d.dayNumber) === Number(activeDayNumber)
+      ) ?? null;
 
     if (!dayConfig && allDays.length > 0) {
       const index = Math.max(
@@ -856,7 +1190,9 @@ export default function DashboardPage() {
       dayConfig = allDays[index];
     }
 
-    if (!dayConfig || !Array.isArray(dayConfig.phases)) {
+    const phases = buildArmsRacePhasesForDay(dayConfig);
+
+    if (phases.length === 0) {
       console.log("[ArmsRaceDebug] no phases for active day", {
         serverId,
         baseDayNumber,
@@ -864,79 +1200,14 @@ export default function DashboardPage() {
         dayConfig,
       });
       return {
-        title: "Today’s Arms Race",
         phases: [],
-        reason: "No Arms Race phases found for today.",
+        reasonCode: "noPhasesToday",
       };
     }
 
-    const serverNow = getServerDate();
-    const currentMinutes =
-      serverNow.getUTCHours() * 60 + serverNow.getUTCMinutes();
-
-    const phases: ArmsRacePhaseDisplay[] = dayConfig.phases.map(
-      (phase: any, index: number) => {
-        const id = String(phase.id ?? index);
-        const name = String(
-          phase.label ?? phase.name ?? `Phase ${index + 1}`
-        );
-
-        const startServerTime = String(
-          phase.startServer ?? phase.startTime ?? phase.start ?? "00:00"
-        );
-        const endServerTime = String(
-          phase.endServer ?? phase.endTime ?? phase.end ?? "23:59"
-        );
-
-        const startLabel = convertServerTimeToLocal(startServerTime);
-        const endLabel = convertServerTimeToLocal(endServerTime);
-
-        const [shhStr, smmStr] = startServerTime.split(":");
-        const [ehhStr, emmStr] = endServerTime.split(":");
-        const shh = Number(shhStr);
-        const smm = Number(smmStr);
-        const ehh = Number(ehhStr);
-        const emm = Number(emmStr);
-
-        let isCurrent = false;
-
-        if (
-          !isNaN(shh) &&
-          !isNaN(smm) &&
-          !isNaN(ehh) &&
-          !isNaN(emm)
-        ) {
-          const startMinutes = shh * 60 + smm;
-          const endMinutes = ehh * 60 + emm;
-
-          if (startMinutes <= endMinutes) {
-            isCurrent =
-              currentMinutes >= startMinutes &&
-              currentMinutes <= endMinutes;
-          } else {
-            isCurrent =
-              currentMinutes >= startMinutes ||
-              currentMinutes <= endMinutes;
-          }
-        }
-
-        return {
-          id,
-          name,
-          startLabel,
-          endLabel,
-          isCurrent,
-        };
-      }
-    );
-
     return {
-      title: "Today’s Arms Race",
       phases,
-      reason:
-        phases.length === 0
-          ? "No Arms Race phases found for today."
-          : null,
+      reasonCode: null,
     };
   }, [profileServerId]);
 
@@ -950,7 +1221,7 @@ export default function DashboardPage() {
       !cfg.groups
     ) {
       return {
-        groupLabel: null,
+        groupKey: null,
         serversDisplay: null,
       };
     }
@@ -975,13 +1246,13 @@ export default function DashboardPage() {
 
     if (!servers || servers.length === 0) {
       return {
-        groupLabel: `Group ${groupKey}`,
+        groupKey,
         serversDisplay: null,
       };
     }
 
     return {
-      groupLabel: `Group ${groupKey}`,
+      groupKey,
       serversDisplay: groupServerIds(servers),
     };
   }, []);
@@ -1000,14 +1271,19 @@ export default function DashboardPage() {
 
   const formattedTotalHeroPower = useMemo(() => {
     if (!totalHeroPower) return "0";
+
     if (totalHeroPower >= 1_000_000) {
-      return `${(totalHeroPower / 1_000_000).toFixed(2)}M`;
+      const millions = totalHeroPower / 1_000_000;
+      return `${formatDecimal(millions)}M`;
     }
+
     if (totalHeroPower >= 1_000) {
-      return `${(totalHeroPower / 1_000).toFixed(1)}K`;
+      const thousands = totalHeroPower / 1_000;
+      return `${formatDecimal(thousands)}K`;
     }
-    return String(totalHeroPower);
-  }, [totalHeroPower]);
+
+    return formatDecimal(totalHeroPower);
+  }, [totalHeroPower, formatDecimal]);
 
   const heroesByTeam = useMemo(() => {
     const byTeam: { [team: number]: Hero[] } = {};
@@ -1046,22 +1322,37 @@ export default function DashboardPage() {
     }
   };
 
+  const getUpgradeStatusLabel = (u: UpgradeSummary) => {
+    switch (u.status) {
+      case "inProgress":
+        return t("status.upgrade.inProgress");
+      case "upgrading":
+        return t("status.upgrade.upgrading");
+      case "priority":
+        return t("status.upgrade.priority", {
+          priority: u.priority ?? "",
+        });
+      default:
+        return t("status.upgrade.tracked");
+    }
+  };
+
   if (!user) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-slate-50">
         <h1 className="text-3xl font-semibold tracking-tight">
-          Last War Command Center
+          {t("app.name")}
         </h1>
 
         <p className="mt-3 text-sm text-slate-300">
-          Please sign in to view your command center.
+          {t("auth.loginRequired.message")}
         </p>
 
         <Link
           href="/login"
           className="mt-6 inline-flex items-center rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 shadow"
         >
-          Go to login
+          {t("auth.loginRequired.cta")}
         </Link>
       </main>
     );
@@ -1069,31 +1360,30 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
-      <AppHeader />
-
-
       <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
         {/* Dashboard title and overlapping profile card */}
         <section className="pt-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="max-w-xl space-y-2">
               <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-                Last War Dashboard
+                {t("dashboard.title")}
               </h1>
               <p className="text-sm text-slate-300">
-                Track your base, squads, and upgrades in one place.
+                {t("dashboard.subtitle")}
               </p>
             </div>
 
-              <div className="mt-4 md:mt-0 flex justify-end md:justify-between md:min-w-[260px]">
-                <div className="relative md:-translate-y-10">
-
-                <div className="flex items-center gap-3 rounded-xl bg-slate-900/80 px-4 py-3 border border-slate-700/70 shadow-lg shadow-slate-900/80">
+            <div className="mt-4 md:mt-0 flex justify-end md:justify-between md:min-w-[260px]">
+              <div className="relative md:-translate-y-10">
+                <div className="flex itemsCenter gap-3 rounded-xl bg-slate-900/80 px-4 py-3 border border-slate-700/70 shadow-lg shadow-slate-900/80">
                   <div className="relative">
                     {profile?.avatarUrl ? (
                       <img
                         src={profile.avatarUrl}
-                        alt={profile.displayName ?? "Commander avatar"}
+                        alt={
+                          profile.displayName ??
+                          t("profile.avatar.alt")
+                        }
                         className="h-12 w-12 rounded-full object-cover border border-slate-700"
                       />
                     ) : (
@@ -1120,15 +1410,16 @@ export default function DashboardPage() {
 
                       <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
                         <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-                        HQ:{" "}
+                        {t("profile.badge.hq.label")}:{" "}
                         {hqLevel != null && !isNaN(hqLevel)
                           ? hqLevel
-                          : "not set"}
+                          : t("profile.badge.hq.notSet")}
                       </span>
 
                       <span className="inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2 py-1 border border-slate-700/80">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                        Total Hero Power: {formattedTotalHeroPower}
+                        {t("profile.badge.totalHeroPower")}:{" "}
+                        {formattedTotalHeroPower}
                       </span>
                     </div>
                   </div>
@@ -1143,18 +1434,18 @@ export default function DashboardPage() {
           {/* VS Today */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
             <h2 className="text-sm font-semibold text-slate-100">
-              {vsToday?.title ?? "VS Today"}
+              {t("tiles.vsToday.title")}
             </h2>
 
-            {!vsToday && (
+            {!vsTodayTasks && (
               <p className="text-xs text-slate-300">
-                VS tasks are not configured for today.
+                {t("tiles.vsToday.empty")}
               </p>
             )}
 
-            {vsToday && (
+            {vsTodayTasks && (
               <ul className="mt-1 space-y-1 text-xs text-slate-200">
-                {vsToday.tasks.map((task) => (
+                {vsTodayTasks.map((task) => (
                   <li key={task.id} className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
                     <span>{task.name}</span>
@@ -1167,13 +1458,17 @@ export default function DashboardPage() {
           {/* Arms Race */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
             <h2 className="text-sm font-semibold text-slate-100">
-              {armsRaceToday.title}
+              {t("tiles.armsRace.title")}
             </h2>
 
             {armsRaceToday.phases.length === 0 && (
               <p className="text-xs text-slate-300">
-                {armsRaceToday.reason ??
-                  "Arms Race schedule is not configured yet."}
+                {armsRaceToday.reasonCode
+                  ? t(
+                      `tiles.armsRace.reason.${armsRaceToday.reasonCode}`,
+                      { serverId: profileServerId ?? "" }
+                    )
+                  : t("tiles.armsRace.reason.notConfigured")}
               </p>
             )}
 
@@ -1197,13 +1492,18 @@ export default function DashboardPage() {
                           phase.isCurrent ? "font-semibold" : ""
                         }
                       >
-                        {phase.startLabel} - {phase.endLabel}
+                        {t("tiles.armsRace.timeRange", {
+                          start: phase.startLabel,
+                          end: phase.endLabel,
+                        })}
                       </span>
                     </div>
                     <span
                       className={phase.isCurrent ? "font-semibold" : ""}
                     >
-                      {phase.name}
+                      {phase.labelKey
+                        ? t(phase.labelKey)
+                        : phase.name}
                     </span>
                   </li>
                 ))}
@@ -1214,19 +1514,21 @@ export default function DashboardPage() {
           {/* Shiny Tasks */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
             <h2 className="text-sm font-semibold text-slate-100">
-              Today&apos;s Shiny Tasks
+              {t("tiles.shinyTasks.title")}
             </h2>
 
-            {!shinyToday.groupLabel && (
+            {!shinyToday.groupKey && (
               <p className="text-xs text-slate-300">
-                Shiny rotation is not configured.
+                {t("tiles.shinyTasks.notConfigured")}
               </p>
             )}
 
-            {shinyToday.groupLabel && (
+            {shinyToday.groupKey && (
               <div className="space-y-1">
                 <p className="text-xs text-slate-400">
-                  {shinyToday.groupLabel}
+                  {t("tiles.shinyTasks.groupLabel", {
+                    groupKey: shinyToday.groupKey,
+                  })}
                 </p>
                 {shinyToday.serversDisplay && (
                   <p className="text-xs text-slate-200">
@@ -1238,17 +1540,16 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Summary chips */}
-        {/* (everything from here down is unchanged from your existing layout) */}
-
-        {/* HQ Requirements */}
+        {/* HQ Requirements / Research / Currently Upgrading */}
         <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <p className="text-xs text-slate-400">
                 {nextLevel != null
-                  ? `HQ ${nextLevel} Requirements`
-                  : "HQ Requirements"}
+                  ? t("tiles.hqRequirements.title", {
+                      level: nextLevel,
+                    })
+                  : t("tiles.hqRequirements.titleFallback")}
               </p>
               {nextLevel != null && (
                 <span className="text-xs text-slate-300">
@@ -1258,49 +1559,69 @@ export default function DashboardPage() {
             </div>
 
             {hqLevel == null && (
-              <p className="text-xs text-slate-400">HQ level not set.</p>
-            )}
-
-            {hqLevel != null && nextLevel != null && totalCount === 0 && (
               <p className="text-xs text-slate-400">
-                No requirement data found.
+                {t("tiles.hqRequirements.hqNotSet")}
               </p>
             )}
 
-            {hqLevel != null && nextLevel != null && totalCount > 0 && (
-              <ul className="space-y-1 text-xs">
-                {hqRequirementRows.map((req) => (
-                  <li
-                    key={req.id}
-                    className="flex items-center justify-between"
-                  >
-                    <span>{req.label}</span>
-                    <span
-                      className={
-                        req.met
-                          ? "font-medium text-green-500"
-                          : "font-medium text-red-500"
-                      }
-                    >
-                      {req.met
-                        ? "Met"
-                        : `${req.currentLevel} / ${req.requiredLevel}`}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+            {hqLevel != null &&
+              nextLevel != null &&
+              totalCount === 0 && (
+                <p className="text-xs text-slate-400">
+                  {t("tiles.hqRequirements.noData")}
+                </p>
+              )}
+
+            {hqLevel != null &&
+              nextLevel != null &&
+              totalCount > 0 && (
+                <ul className="space-y-1 text-xs">
+                  {hqRequirementRows.map((req) => {
+                    const nameKey = HQ_GROUP_TO_BUILDING_NAME_KEY[req.id];
+                    const translated = nameKey ? t(nameKey) : null;
+
+                    // If translation missing and t() just returns the key, fall back to config label
+                    const displayLabel =
+                      translated && translated !== nameKey ? translated : req.label;
+
+                    return (
+                      <li
+                        key={req.id}
+                        className="flex items-center justify-between"
+                      >
+                        <span>{displayLabel}</span>
+                        <span
+                          className={
+                            req.met
+                              ? "font-medium text-green-500"
+                              : "font-medium text-red-500"
+                          }
+                        >
+                          {req.met
+                            ? t("tiles.hqRequirements.metLabel")
+                            : t("tiles.hqRequirements.progress", {
+                                current: req.currentLevel,
+                                required: req.requiredLevel,
+                              })}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
           </div>
 
           {/* Research Status */}
           <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-slate-400">Research Status</p>
+              <p className="text-xs text-slate-400">
+                {t("tiles.researchStatus.title")}
+              </p>
             </div>
 
             {researchStatus.length === 0 && (
               <p className="text-xs text-slate-400">
-                No tracked research categories yet.
+                {t("tiles.researchStatus.empty")}
               </p>
             )}
 
@@ -1311,8 +1632,8 @@ export default function DashboardPage() {
                     key={item.category}
                     className="flex items-center justify-between"
                   >
-                    <span>{item.category}</span>
-                    <span>{item.percent}%</span>
+                    <span>{getResearchCategoryDisplayName(item.category)}</span>
+                    <span>{formatPercent(item.percent / 100)}</span>
                   </li>
                 ))}
               </ul>
@@ -1324,11 +1645,9 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs text-slate-400">
-                  Currently Upgrading
+                  {t("tiles.currentlyUpgrading.title")}
                 </p>
-                <p className="text-[11px] text-slate-400 mt-1">
-
-                </p>
+                <p className="text-[11px] text-slate-400 mt-1" />
               </div>
             </div>
 
@@ -1340,8 +1659,8 @@ export default function DashboardPage() {
                     className="flex items-center justify-between"
                   >
                     <div className="min-w-0">
-                      <span className="truncate max-w-[11rem] font-medium">
-                        {u.name}
+                      <span className="truncate max-w-44 font-medium">
+                        {getUpgradeDisplayName(u)}
                         {u.currentLevel != null &&
                           u.currentLevel > 0 &&
                           u.nextLevel != null && (
@@ -1352,13 +1671,19 @@ export default function DashboardPage() {
                       </span>
                     </div>
                     <span className="ml-2 inline-flex items-center rounded-full px-2 py-0.5 border border-slate-600/80 text-[10px] text-slate-200">
-                      {u.type === "research" ? "R" : "B"} · {u.status}
+                      {u.type === "research"
+                        ? t("status.research.short")
+                        : t("status.building.short")}
+                      {" · "}
+                      {getUpgradeStatusLabel(u)}
                     </span>
                   </li>
                 ))}
                 {trackedUpgrades.length > 7 && (
                   <li className="text-[10px] text-slate-400">
-                    +{trackedUpgrades.length - 4} more
+                    {t("tiles.currentlyUpgrading.more", {
+                      count: trackedUpgrades.length - 4,
+                    })}
                   </li>
                 )}
               </ul>
@@ -1366,21 +1691,19 @@ export default function DashboardPage() {
 
             {trackedUpgrades.length === 0 && (
               <p className="mt-1 text-[11px] text-slate-400">
-                Nothing upgrading yet. Start research or mark buildings as
-                upgrading or add priority to see them here.
+                {t("tiles.currentlyUpgrading.empty")}
               </p>
             )}
           </div>
         </section>
 
         {/* Teams and Next Up */}
-        {/* unchanged */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Teams section */}
           <section className="lg:col-span-2 space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-slate-100">
-                Teams
+                {t("teams.sectionTitle")}
               </h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4">
@@ -1398,18 +1721,18 @@ export default function DashboardPage() {
                 return (
                   <div
                     key={team}
-                    className="relative overflow-hidden rounded-xl border border-slate-700/80 bg-gradient-to-br from-slate-900/90 via-slate-900 to-slate-900/80 px-4 py-4"
+                    className="relative overflow-hidden rounded-xl border border-slate-700/80 bg-linear-to-br from-slate-900/90 via-slate-900 to-slate-900/80 px-4 py-4"
                   >
                     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(129,140,248,0.16),transparent_55%)]" />
                     <div className="relative space-y-3">
                       <div className="flex items-center justify-between">
                         <h3 className="text-sm font-semibold">
-                          Team {team}
+                          {t("teams.card.title", { number: team })}
                         </h3>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="text-xs text-slate-300">
-                          Team Power
+                          {t("teams.card.powerLabel")}
                         </div>
                         <div className="flex items-center gap-1">
                           <input
@@ -1424,20 +1747,22 @@ export default function DashboardPage() {
                             }
                             onBlur={() => saveTeamPower(team)}
                             className="w-20 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
-                            placeholder="0.00"
+                            placeholder={t(
+                              "teams.card.powerPlaceholder"
+                            )}
                           />
                           <span className="text-sm text-slate-200">
-                            M
+                            {t("teams.card.powerUnitMillions")}
                           </span>
                           {savingTeam === team && (
                             <span className="text-xs text-sky-300">
-                              saving
+                              {t("teams.card.saving")}
                             </span>
                           )}
                         </div>
                       </div>
                       <p className="text-xs text-slate-300">
-                        {heroNames || "No heroes"}
+                        {heroNames || t("teams.card.noHeroes")}
                       </p>
                     </div>
                   </div>
@@ -1450,14 +1775,13 @@ export default function DashboardPage() {
           <section className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-slate-100">
-                Next Up
+                {t("nextUp.sectionTitle")}
               </h2>
             </div>
             <div className="rounded-xl border border-slate-700/80 bg-slate-900/80 max-h-80 overflow-hidden flex flex-col">
               {trackingItems.length === 0 ? (
                 <div className="flex-1 flex items-center justify-center px-4 py-6 text-sm text-slate-400">
-                  Nothing on deck yet. Set tracked or priority on research
-                  or buildings to see them here.
+                  {t("nextUp.empty")}
                 </div>
               ) : (
                 <div className="flex-1 overflow-y-auto divide-y divide-slate-800/80">
@@ -1468,7 +1792,7 @@ export default function DashboardPage() {
                     >
                       <div className="min-w-0">
                         <p className="text-xs font-medium text-slate-100 truncate">
-                          {item.name}
+                          {getTrackingItemDisplayName(item)}
                         </p>
                       </div>
                       <span
@@ -1479,8 +1803,8 @@ export default function DashboardPage() {
                         }`}
                       >
                         {item.type === "research"
-                          ? "Research"
-                          : "Building"}
+                          ? t("nextUp.badge.research")
+                          : t("nextUp.badge.building")}
                       </span>
                     </div>
                   ))}
@@ -1493,28 +1817,32 @@ export default function DashboardPage() {
         {/* Quick links */}
         <section className="space-y-3">
           <h2 className="text-sm font-semibold text-slate-100">
-            Command Center Links
+            {t("links.sectionTitle")}
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <QuickLinkCard
               href="/heroes"
-              title="Heroes"
-              description="Manage squads, power, and gear."
+              title={t("links.heroes.title")}
+              description={t("links.heroes.description")}
+              openLabel={t("links.card.open")}
             />
             <QuickLinkCard
               href="/buildings"
-              title="Buildings"
-              description="Tune your base and upgrades."
+              title={t("links.buildings.title")}
+              description={t("links.buildings.description")}
+              openLabel={t("links.card.open")}
             />
             <QuickLinkCard
               href="/research"
-              title="Research"
-              description="Plan your research path."
+              title={t("links.research.title")}
+              description={t("links.research.description")}
+              openLabel={t("links.card.open")}
             />
             <QuickLinkCard
               href="/compare"
-              title="Compare Center"
-              description="Compare your stats against other players."
+              title={t("links.compareCenter.title")}
+              description={t("links.compareCenter.description")}
+              openLabel={t("links.card.open")}
             />
           </div>
         </section>
@@ -1527,6 +1855,7 @@ function QuickLinkCard(props: {
   href: string;
   title: string;
   description: string;
+  openLabel: string;
 }) {
   return (
     <Link
@@ -1540,7 +1869,7 @@ function QuickLinkCard(props: {
         <p className="text-xs text-slate-300">{props.description}</p>
       </div>
       <div className="mt-3 text-xs text-sky-300 group-hover:text-sky-200">
-        Open
+        {props.openLabel}
       </div>
     </Link>
   );

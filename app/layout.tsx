@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./i18n/LanguageProvider";
 import AppFooter from "@/components/AppFooter";
+import AppHeader from "@/components/AppHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,13 +24,22 @@ type RootLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-slate-950 text-slate-50">
-        <LanguageProvider>{children}</LanguageProvider>
-        <AppFooter />
+    <html lang="en">
+      <body className="...">
+        <LanguageProvider>
+          {/* everything that calls useLanguage must live inside here */}
+          <AppHeader />
+          {children}
+          <AppFooter />
+        </LanguageProvider>
       </body>
     </html>
   );
 }
+

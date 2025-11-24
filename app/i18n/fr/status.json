@@ -1,0 +1,9 @@
+{
+    "status.research.short": "R",
+    "status.building.short": "B",
+
+    "status.upgrade.inProgress": "In progress",
+    "status.upgrade.priority": "Priority {priority}",
+    "status.upgrade.tracked": "Tracked",
+    "status.upgrade.upgrading": "Upgrading"
+}

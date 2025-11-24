@@ -1,0 +1,35 @@
+{
+  "tiles.vsToday.title": "VS Heute",
+  "tiles.vsToday.empty": "Für heute sind keine VS-Aufgaben konfiguriert.",
+
+  "tiles.armsRace.title": "Heutiges Wettrüsten",
+  "tiles.armsRace.reason.noServerConfigured": "Kein Server in deinem Profil eingestellt.",
+  "tiles.armsRace.reason.noDayForServer": "Für Server {serverId} konnte kein Waffenrennen-Tag ermittelt werden.",
+  "tiles.armsRace.reason.noPhasesToday": "Für heute sind keine Waffenrennen-Phasen eingetragen.",
+  "tiles.armsRace.reason.notConfigured": "Der Zeitplan für das Waffenrennen ist nicht konfiguriert.",
+  "armsRace.phase.fallbackName": "Phase {index}",
+  "armsRace.phase.heroAdvancement": "Heldenenforschritt",
+  "armsRace.phase.baseBuilding": "Ausbau der Basis",
+  "armsRace.phase.unitProgression": "Einheitenfortschritt",
+  "armsRace.phase.techResearch": "Technologie Forschung",
+  "armsRace.phase.droneBoost": "Drohnen-Boost",
+  "tiles.armsRace.timeRange": "{start} – {end}",
+
+  "tiles.shinyTasks.title": "Heutige Glänzende Aufgaben",
+  "tiles.shinyTasks.notConfigured": "Glänzende Drehung ist nicht konfiguriert.",
+  "tiles.shinyTasks.groupLabel": "Gruppe {groupKey}",
+
+  "tiles.hqRequirements.title": "HQ-Anforderungen für Stufe {level}",
+  "tiles.hqRequirements.titleFallback": "HQ-Anforderungen",
+  "tiles.hqRequirements.hqNotSet": "HQ-Stufe nicht festgelegt.",
+  "tiles.hqRequirements.noData": "Keine Anforderungsdaten gefunden.",
+  "tiles.hqRequirements.metLabel": "Erfüllt",
+  "tiles.hqRequirements.progress": "{current} / {required}",
+
+  "tiles.researchStatus.title": "Forschungsstatus",
+  "tiles.researchStatus.empty": "Es werden noch keine Forschungskategorien verfolgt.",
+
+  "tiles.currentlyUpgrading.title": "Aktuell im Ausbau",
+  "tiles.currentlyUpgrading.more": "+ {count} weitere",
+  "tiles.currentlyUpgrading.empty": "Zurzeit wird nichts ausgebaut. Gestartete Forschung, markierte Gebäude oder Prioritäten erscheinen hier."
+}

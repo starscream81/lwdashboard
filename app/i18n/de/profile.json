@@ -1,0 +1,42 @@
+{
+  "profile.role.commander": "Kommandant",
+  "profile.role.guestCommander": "Gastkommandant",
+  "profile.alliance.guestTag": "GAST",
+  "profile.badge.guestSuffix": "(Gast)",
+
+  "profile.badge.hq.label": "HQ",
+  "profile.badge.hq.notSet": "nicht gesetzt",
+  "profile.badge.totalHeroPower": "Gesamte Heldenstärke",
+
+  "profile.avatar.alt": "Kommandanten-Avatar",
+  
+  "profile.title": "Kommandantenprofil",
+  "profile.subtitle": "Aktualisiere deinen Namen, Allianz, Avatar und Server.",
+  "profile.loginRequired": "Bitte melde dich an, um dein Profil zu bearbeiten.",
+  "profile.backToDashboard": "← Zurück zum Dashboard",
+  "profile.loading": "Profil wird geladen…",
+
+  "profile.avatar.label": "Avatar",
+  "profile.avatar.hint": "Quadratische Bilder funktionieren am besten. Der Avatar wird direkt nach dem Hochladen aktualisiert.",
+  "profile.avatar.uploading": "Avatar wird hochgeladen…",
+
+  "profile.displayName.label": "Anzeigename",
+  "profile.displayName.placeholder": "Name des Kommandanten",
+  "profile.displayName.hint": "Wird im Dashboard-Header angezeigt.",
+
+  "profile.alliance.label": "Allianz",
+  "profile.alliance.placeholder": "Beispiel: FER",
+  "profile.alliance.hint": "Wird im Dashboard als Shōckwave [FER] angezeigt.",
+
+  "profile.server.label": "Server",
+  "profile.server.placeholder": "Beispiel: 977",
+  "profile.server.hint": "Wird für Arms Race und Shiny Tasks verwendet.",
+
+  "profile.save.message.success": "Profil gespeichert.",
+  "profile.save.message.error": "Profil konnte nicht gespeichert werden.",
+  "profile.avatar.message.success": "Avatar aktualisiert.",
+  "profile.avatar.message.error": "Avatar konnte nicht hochgeladen werden.",
+
+  "profile.save.button.label": "Änderungen speichern",
+  "profile.save.button.saving": "Wird gespeichert…"
+}

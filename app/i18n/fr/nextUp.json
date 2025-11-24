@@ -1,0 +1,8 @@
+{
+    "nextUp.sectionTitle": "Next Up",
+    
+    "nextUp.empty": "Nothing on deck yet. Set tracked or priority on research or buildings to see them here.",
+    
+    "nextUp.badge.research": "Research",
+    "nextUp.badge.building": "Building"
+}

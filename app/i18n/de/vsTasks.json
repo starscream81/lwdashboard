@@ -1,0 +1,53 @@
+{
+  "vsTasks.mon_01": "Ausdauer verwenden",
+  "vsTasks.mon_02": "Radarmissionen abschließen",
+  "vsTasks.mon_03": "Helden-EP verbessern",
+  "vsTasks.mon_04": "Drohnen-Kampfpunkte einsetzen",
+  "vsTasks.mon_05": "Drohnen-Teile verwenden",
+  "vsTasks.mon_06": "Ressourcen sammeln",
+  "vsTasks.mon_07": "Drohnenchip-Truhen öffnen",
+  "vsTasks.mon_08": "Pakete mit Diamanten kaufen",
+
+  "vsTasks.tue_01": "Baugeschwindigkeits-Boosts verwenden",
+  "vsTasks.tue_02": "Gebäudestärke erhöhen",
+  "vsTasks.tue_03": "UR-Truck entsenden",
+  "vsTasks.tue_04": "UR-Geheimaufgaben durchführen",
+  "vsTasks.tue_05": "Überlebende rekrutieren",
+  "vsTasks.tue_06": "Pakete mit Diamanten kaufen",
+
+  "vsTasks.wed_01": "Forschungsgeschwindigkeits-Boosts verwenden",
+  "vsTasks.wed_02": "Technologiestärke erhöhen",
+  "vsTasks.wed_03": "Valorabzeichen verwenden",
+  "vsTasks.wed_04": "Radarmissionen abschließen",
+  "vsTasks.wed_05": "Drohnenteile-Truhen öffnen",
+  "vsTasks.wed_06": "Pakete mit Diamanten kaufen",
+
+  "vsTasks.thu_01": "Helden rekrutieren",
+  "vsTasks.thu_02": "Helden-EP verbessern",
+  "vsTasks.thu_03": "Heldenfragmente verwenden",
+  "vsTasks.thu_04": "Helden-Fähigkeitsmedaillen verwenden",
+  "vsTasks.thu_05": "Fragmente für exklusive Waffen verwenden",
+  "vsTasks.thu_06": "Pakete mit Diamanten kaufen",
+
+  "vsTasks.fri_01": "Radarmissionen abschließen",
+  "vsTasks.fri_02": "Einheiten ausbilden",
+  "vsTasks.fri_03": "Baugeschwindigkeits-Boosts verwenden",
+  "vsTasks.fri_04": "Forschungsgeschwindigkeits-Boosts verwenden",
+  "vsTasks.fri_05": "Trainingsgeschwindigkeits-Boosts verwenden",
+  "vsTasks.fri_06": "Gebäudestärke erhöhen",
+  "vsTasks.fri_07": "Technologiestärke erhöhen",
+  "vsTasks.fri_08": "Overlord verbessern",
+  "vsTasks.fri_09": "Pakete mit Diamanten kaufen",
+
+  "vsTasks.sat_01": "UR-Truck entsenden",
+  "vsTasks.sat_02": "UR-Geheimaufgaben durchführen",
+  "vsTasks.sat_03": "Baugeschwindigkeits-Boosts verwenden",
+  "vsTasks.sat_04": "Forschungsgeschwindigkeits-Boosts verwenden",
+  "vsTasks.sat_05": "Trainingsgeschwindigkeits-Boosts verwenden",
+  "vsTasks.sat_06": "Heilgeschwindigkeits-Boosts verwenden",
+  "vsTasks.sat_07": "Feindeinheiten töten",
+  "vsTasks.sat_08": "Einheiten im PvP verlieren",
+  "vsTasks.sat_09": "Pakete mit Diamanten kaufen",
+
+  "vsTasks.sun_01": "Vergiss nicht, deine Trupps in Minen sammeln zu lassen, bevor du dich für den Tag ausloggst!"
+}

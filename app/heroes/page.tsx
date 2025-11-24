@@ -13,7 +13,8 @@ import {
 } from "firebase/firestore";
 import Link from "next/link";
 import { auth, db } from "@/lib/firebase";
-import AppHeader from "@/components/AppHeader";
+import { useLanguage } from "../i18n/LanguageProvider";
+import { useFormatter } from "../i18n/useFormatter";
 
 type HeroRole = "Attack" | "Defense" | "Support" | string;
 
@@ -98,6 +99,9 @@ const STAR_VALUES: string[] = [
 ];
 
 export default function HeroesPage() {
+  const { t } = useLanguage();
+  const { formatInteger } = useFormatter();
+
   const [user, setUser] = useState<User | null>(null);
   const [heroes, setHeroes] = useState<Hero[]>([]);
   const [loading, setLoading] = useState(true);
@@ -114,6 +118,34 @@ export default function HeroesPage() {
   const [creatingHero, setCreatingHero] = useState(false);
 
   const [profile, setProfile] = useState<Profile | null>(null);
+
+  const getRoleDisplayLabel = (role?: HeroRole) => {
+    if (!role) return t("heroes.role.unknown");
+    const r = role.toLowerCase();
+    if (r === "attack") return t("heroes.role.attack");
+    if (r === "defense") return t("heroes.role.defense");
+    if (r === "support") return t("heroes.role.support");
+    return role;
+  };
+
+  const getTeamFilterLabel = (value: TeamFilter) => {
+    switch (value) {
+      case "All":
+        return t("heroes.filter.team.all");
+      case "Team 1":
+        return t("heroes.filter.team.team1");
+      case "Team 2":
+        return t("heroes.filter.team.team2");
+      case "Team 3":
+        return t("heroes.filter.team.team3");
+      case "Team 4":
+        return t("heroes.filter.team.team4");
+      case "Unassigned":
+        return t("heroes.filter.team.unassigned");
+      default:
+        return value;
+    }
+  };
 
   // Watch auth state
   useEffect(() => {
@@ -478,7 +510,6 @@ export default function HeroesPage() {
   };
 
   const handleCloseDetail = () => {
-    // Close the detail panel and reset to "All heroes"
     setSelectedHeroId(null);
     setCatalogFilter("All");
   };
@@ -487,9 +518,11 @@ export default function HeroesPage() {
     return (
       <main className="min-h-screen flex items-center justify-center bg-slate-950">
         <div className="text-center space-y-4">
-          <h1 className="text-2xl font-semibold text-white">Heroes</h1>
+          <h1 className="text-2xl font-semibold text-white">
+            {t("heroes.title")}
+          </h1>
           <p className="text-slate-300">
-            Please sign in to view your heroes.
+            {t("auth.loginRequired.message")}
           </p>
         </div>
       </main>
@@ -500,35 +533,36 @@ export default function HeroesPage() {
 
   const profileAlliance =
     isGuest
-      ? "GUEST"
+      ? t("profile.alliance.guestTag")
       : (profile as any)?.alliance != null &&
         (profile as any)?.alliance !== ""
       ? String((profile as any).alliance)
       : null;
 
   const baseDisplayName = isGuest
-    ? "Guest Commander"
-    : profile?.displayName ?? "Commander";
+    ? t("profile.role.guestCommander")
+    : profile?.displayName ?? t("profile.role.commander");
 
   const combinedDisplayNameWithAlliance = profileAlliance
     ? `${baseDisplayName} [${profileAlliance}]`
     : baseDisplayName;
 
   const combinedDisplayName = isGuest
-    ? `${combinedDisplayNameWithAlliance} (Guest)`
+    ? `${combinedDisplayNameWithAlliance} ${t(
+        "profile.badge.guestSuffix"
+      )}`
     : combinedDisplayNameWithAlliance;
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
-      <AppHeader userName={combinedDisplayName} />
       <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
         {/* Header */}
         <section className="space-y-2">
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-            Heroes
+            {t("heroes.title")}
           </h1>
           <p className="text-sm text-slate-300">
-            Manage your squads, power, gear, and skills.
+            {t("heroes.subtitle")}
           </p>
         </section>
 
@@ -537,19 +571,21 @@ export default function HeroesPage() {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex-1">
               <label className="block text-xs text-slate-400 mb-1">
-                Hero
+                {t("heroes.filter.hero.label")}
               </label>
               <select
                 value={catalogFilter}
                 onChange={(e) => setCatalogFilter(e.target.value)}
                 className="w-full rounded-lg bg-slate-900/80 border border-slate-700/80 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
               >
-                <option value="All">All heroes</option>
+                <option value="All">
+                  {t("heroes.filter.hero.allOption")}
+                </option>
                 {heroOptions.map((h) => {
-                  const label =
-                    h.power != null
-                      ? `${h.name} (${h.power.toLocaleString()})`
-                      : h.name;
+                  let label = h.name;
+                  if (h.power != null) {
+                    label = `${h.name} (${formatInteger(h.power)})`;
+                  }
 
                   return (
                     <option key={h.id} value={h.name}>
@@ -562,7 +598,7 @@ export default function HeroesPage() {
             <div className="flex flex-wrap gap-3 md:justify-end">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  Role
+                  {t("heroes.filter.role.label")}
                 </label>
                 <select
                   value={roleFilter}
@@ -573,14 +609,20 @@ export default function HeroesPage() {
                 >
                   {ROLE_FILTERS.map((r) => (
                     <option key={r} value={r}>
-                      {r}
+                      {r === "All"
+                        ? t("heroes.filter.role.all")
+                        : r === "Attack"
+                        ? t("heroes.filter.role.attack")
+                        : r === "Defense"
+                        ? t("heroes.filter.role.defense")
+                        : t("heroes.filter.role.support")}
                     </option>
                   ))}
                 </select>
               </div>
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  Sort By
+                  {t("heroes.filter.sort.label")}
                 </label>
                 <select
                   value={sortBy}
@@ -591,7 +633,11 @@ export default function HeroesPage() {
                 >
                   {SORT_OPTIONS.map((s) => (
                     <option key={s} value={s}>
-                      {s}
+                      {s === "Power"
+                        ? t("heroes.filter.sort.power")
+                        : s === "Name"
+                        ? t("heroes.filter.sort.name")
+                        : t("heroes.filter.sort.team")}
                     </option>
                   ))}
                 </select>
@@ -601,20 +647,20 @@ export default function HeroesPage() {
 
           {/* Team filter chips */}
           <div className="flex flex-wrap gap-2">
-            {TEAM_FILTERS.map((t) => {
-              const active = t === teamFilter;
+            {TEAM_FILTERS.map((tFilter) => {
+              const active = tFilter === teamFilter;
               return (
                 <button
-                  key={t}
+                  key={tFilter}
                   type="button"
-                  onClick={() => setTeamFilter(t)}
+                  onClick={() => setTeamFilter(tFilter)}
                   className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
                     active
                       ? "bg-sky-600/80 border-sky-400 text-white"
                       : "bg-slate-900/90 border-slate-700/80 text-slate-200 hover:border-sky-500/70"
                   }`}
                 >
-                  {t}
+                  {getTeamFilterLabel(tFilter)}
                 </button>
               );
             })}
@@ -625,16 +671,18 @@ export default function HeroesPage() {
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {loading && filteredHeroes.length === 0 ? (
             <div className="col-span-full text-sm text-slate-400">
-              Loading heroes...
+              {t("heroes.loading")}
             </div>
           ) : filteredHeroes.length === 0 ? (
             <div className="col-span-full text-sm text-slate-400 space-y-2">
               {catalogFilter === "All" ? (
-                <p>No heroes match your filters.</p>
+                <p>{t("heroes.empty.noMatch")}</p>
               ) : (
                 <>
                   <p>
-                    You do not have {catalogFilter} in your roster yet.
+                    {t("heroes.empty.noHeroInRoster", {
+                      heroName: catalogFilter,
+                    })}
                   </p>
                   <button
                     type="button"
@@ -643,8 +691,10 @@ export default function HeroesPage() {
                     className="inline-flex items-center rounded-lg bg-sky-600/90 px-3 py-2 text-xs font-medium text-white hover:bg-sky-500 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {creatingHero
-                      ? "Adding hero..."
-                      : `Add ${catalogFilter} to your roster`}
+                      ? t("heroes.actions.addHero.loading")
+                      : t("heroes.actions.addHero.label", {
+                          heroName: catalogFilter,
+                        })}
                   </button>
                 </>
               )}
@@ -652,12 +702,23 @@ export default function HeroesPage() {
           ) : (
             filteredHeroes.map((hero) => {
               const teamLabel =
-                hero.team == null ? "Unassigned" : `Team ${hero.team}`;
-              const roleLabel = hero.role ?? "Unknown";
-              const powerDisplay =
+                hero.team == null
+                  ? t("heroes.team.unassigned")
+                  : t("heroes.team.teamWithNumber", {
+                      team: hero.team,
+                    });
+              const roleLabel = getRoleDisplayLabel(hero.role);
+              const numericPower =
                 typeof hero.power === "number"
-                  ? hero.power.toLocaleString()
-                  : hero.power ?? "0";
+                  ? hero.power
+                  : hero.power != null
+                  ? Number(hero.power)
+                  : null;
+
+              const powerDisplay =
+                numericPower != null && !isNaN(numericPower)
+                  ? formatInteger(numericPower)
+                  : "0";
 
               return (
                 <button
@@ -672,8 +733,9 @@ export default function HeroesPage() {
                         {hero.name}
                       </p>
                       <p className="text-xs text-slate-400">
-                        Type: {hero.type ?? "Unknown"} · Role:{" "}
-                        {roleLabel}
+                        {t("heroes.type.label")}:{" "}
+                        {hero.type ?? t("heroes.type.unknown")} ·{" "}
+                        {t("heroes.role.label")}: {roleLabel}
                       </p>
                     </div>
                     <span className="inline-flex items-center rounded-full px-2 py-1 text-[10px] font-medium bg-slate-800/80 border border-slate-600/80 text-slate-200">
@@ -681,7 +743,9 @@ export default function HeroesPage() {
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-xs text-slate-400">Power</p>
+                    <p className="text-xs text-slate-400">
+                      {t("heroes.power.label")}
+                    </p>
                     <p className="text-sm font-semibold">
                       {powerDisplay}
                     </p>
@@ -732,8 +796,9 @@ function HeroDetailPanel(props: {
     isSaving,
   } = props;
 
+  const { t } = useLanguage();
+
   // All gear pairs every hero has, in your requested order:
-  // Rail Gun, Armor, Data Chip, Radar (each with stars)
   const allGearPairs: [string, string][] = [
     ["rail_gun", "rail_gun_stars"],
     ["armor", "armor_stars"],
@@ -744,6 +809,15 @@ function HeroDetailPanel(props: {
   // Role relevant gear (for highlighting)
   const rolePairs = getGearFieldsForRole(hero.role);
   const relevantBaseKeys = new Set(rolePairs.map(([base]) => base));
+
+  const getRoleDisplayLabel = (role?: HeroRole) => {
+    if (!role) return t("heroes.role.unknown");
+    const r = role.toLowerCase();
+    if (r === "attack") return t("heroes.role.attack");
+    if (r === "defense") return t("heroes.role.defense");
+    if (r === "support") return t("heroes.role.support");
+    return role;
+  };
 
   const skillColor = (value: number | null | undefined) => {
     if (value == null) return "text-slate-200";
@@ -783,6 +857,36 @@ function HeroDetailPanel(props: {
   const exclusiveOwned = !!hero.exclusive_weapon_owned;
   const exclusiveLevel = hero.exclusive_weapon_level ?? null;
 
+  const getBaseLabel = (baseKey: string) => {
+    switch (baseKey) {
+      case "rail_gun":
+        return t("compare.direct.hero.railGun");
+      case "armor":
+        return t("compare.direct.hero.armor");
+      case "data_chip":
+        return t("compare.direct.hero.dataChip");
+      case "radar":
+        return t("compare.direct.hero.radar");
+      default:
+        return baseKey;
+    }
+  };
+
+  const getStarLabel = (baseKey: string, baseLabel: string) => {
+    switch (baseKey) {
+      case "rail_gun":
+        return t("compare.direct.hero.railGunStars");
+      case "armor":
+        return t("compare.direct.hero.armorStars");
+      case "data_chip":
+        return t("compare.direct.hero.dataChipStars");
+      case "radar":
+        return t("compare.direct.hero.radarStars");
+      default:
+        return `${baseLabel} Stars`;
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-40 bg-black/60 flex justify-end">
       <div className="h-full w-full max-w-md bg-slate-950 border-l border-slate-800 flex flex-col">
@@ -792,8 +896,9 @@ function HeroDetailPanel(props: {
               {hero.name}
             </p>
             <p className="text-xs text-slate-400">
-              Type: {hero.type ?? "Unknown"} · Role:{" "}
-              {hero.role ?? "Unknown"}
+              {t("heroes.type.label")}:{" "}
+              {hero.type ?? t("heroes.type.unknown")} ·{" "}
+              {t("heroes.role.label")}: {getRoleDisplayLabel(hero.role)}
             </p>
           </div>
           <button
@@ -801,7 +906,7 @@ function HeroDetailPanel(props: {
             onClick={onClose}
             className="text-xs text-slate-400 hover:text-slate-100"
           >
-            Close
+            {t("heroes.detail.close")}
           </button>
         </header>
 
@@ -809,12 +914,12 @@ function HeroDetailPanel(props: {
           {/* Core stats */}
           <section className="rounded-xl bg-slate-900/80 border border-slate-700/80 px-4 py-3 space-y-3">
             <h2 className="text-sm font-semibold text-slate-100">
-              Core Stats
+              {t("heroes.detail.coreStats.title")}
             </h2>
             <div className="grid grid-cols-1 gap-3">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  Power
+                  {t("heroes.power.label")}
                 </label>
                 <input
                   type="text"
@@ -832,13 +937,13 @@ function HeroDetailPanel(props: {
                 />
                 {isSaving(hero.id, "power") && (
                   <p className="text-[10px] text-sky-300 mt-1">
-                    Saving
+                    {t("common.saving")}
                   </p>
                 )}
               </div>
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  Team
+                  {t("heroes.team.label")}
                 </label>
                 <select
                   value={
@@ -849,33 +954,43 @@ function HeroDetailPanel(props: {
                   }
                   className="w-full rounded-lg bg-slate-950/80 border border-slate-700/80 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
                 >
-                  <option value="Unassigned">Unassigned</option>
-                  <option value="1">Team 1</option>
-                  <option value="2">Team 2</option>
-                  <option value="3">Team 3</option>
-                  <option value="4">Team 4</option>
+                  <option value="Unassigned">
+                    {t("heroes.team.unassigned")}
+                  </option>
+                  <option value="1">
+                    {t("heroes.filter.team.team1")}
+                  </option>
+                  <option value="2">
+                    {t("heroes.filter.team.team2")}
+                  </option>
+                  <option value="3">
+                    {t("heroes.filter.team.team3")}
+                  </option>
+                  <option value="4">
+                    {t("heroes.filter.team.team4")}
+                  </option>
                 </select>
                 {isSaving(hero.id, "team") && (
                   <p className="text-[10px] text-sky-300 mt-1">
-                    Saving
+                    {t("common.saving")}
                   </p>
                 )}
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs text-slate-400 mb-1">
-                    Type
+                    {t("heroes.type.label")}
                   </label>
                   <div className="text-sm text-slate-200">
-                    {hero.type ?? "Unknown"}
+                    {hero.type ?? t("heroes.type.unknown")}
                   </div>
                 </div>
                 <div>
                   <label className="block text-xs text-slate-400 mb-1">
-                    Role
+                    {t("heroes.role.label")}
                   </label>
                   <div className="text-sm text-slate-200">
-                    {hero.role ?? "Unknown"}
+                    {getRoleDisplayLabel(hero.role)}
                   </div>
                 </div>
               </div>
@@ -885,11 +1000,10 @@ function HeroDetailPanel(props: {
           {/* Gear and bonuses */}
           <section className="rounded-xl bg-slate-900/80 border border-slate-700/80 px-4 py-3 space-y-3">
             <h2 className="text-sm font-semibold text-slate-100">
-              Gear And Bonuses
+              {t("heroes.detail.gear.title")}
             </h2>
             <p className="text-[11px] text-slate-400">
-              Role important gear is highlighted. Set base gear to 40
-              to unlock stars.
+              {t("heroes.detail.gear.description")}
             </p>
             <div className="space-y-3">
               {allGearPairs.map(([baseKey, starKey]) => {
@@ -903,10 +1017,8 @@ function HeroDetailPanel(props: {
                     | null
                     | undefined;
 
-                const baseLabel = baseKey
-                  .replace("_", " ")
-                  .replace(/\b\w/g, (c) => c.toUpperCase());
-                const starLabel = baseLabel + " Stars";
+                const baseLabel = getBaseLabel(baseKey);
+                const starLabel = getStarLabel(baseKey, baseLabel);
 
                 const showStars = canShowStars(baseValue ?? null);
                 const isRelevant = relevantBaseKeys.has(baseKey);
@@ -951,7 +1063,7 @@ function HeroDetailPanel(props: {
                       />
                       {isSaving(hero.id, baseKey) && (
                         <p className="text-[10px] text-sky-300 mt-1">
-                          Saving
+                          {t("common.saving")}
                         </p>
                       )}
                     </div>
@@ -974,7 +1086,7 @@ function HeroDetailPanel(props: {
                           className={`w-full rounded-lg bg-slate-950/80 border border-slate-700/80 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70 ${rowColorClass}`}
                         >
                           <option value="">
-                            Select star level
+                            {t("heroes.detail.gear.selectStarLevel")}
                           </option>
                           {STAR_VALUES.map((v) => (
                             <option key={v} value={v}>
@@ -984,13 +1096,15 @@ function HeroDetailPanel(props: {
                         </select>
                         {isSaving(hero.id, starKey) && (
                           <p className="text-[10px] text-sky-300 mt-1">
-                            Saving
+                            {t("common.saving")}
                           </p>
                         )}
                       </div>
                     ) : (
                       <p className="text-[11px] text-slate-400">
-                        Set {baseLabel} to 40 to unlock stars.
+                        {t("heroes.detail.gear.unlockStars", {
+                          gearName: baseLabel,
+                        })}
                       </p>
                     )}
                   </div>
@@ -1022,14 +1136,14 @@ function HeroDetailPanel(props: {
                     }}
                     className="h-4 w-4 rounded border-slate-600 bg-slate-900 text-sky-500"
                   />
-                  Has exclusive weapon
+                  {t("heroes.detail.exclusive.hasWeapon")}
                 </label>
               </div>
 
               {exclusiveOwned && (
                 <div>
                   <label className="block text-xs text-slate-400 mb-1">
-                    Exclusive Weapon Level
+                    {t("heroes.detail.exclusive.levelLabel")}
                   </label>
                   <input
                     type="text"
@@ -1052,7 +1166,7 @@ function HeroDetailPanel(props: {
                     "exclusive_weapon_level"
                   ) && (
                     <p className="text-[10px] text-sky-300 mt-1">
-                      Saving
+                      {t("common.saving")}
                     </p>
                   )}
                 </div>
@@ -1063,12 +1177,12 @@ function HeroDetailPanel(props: {
           {/* Skills */}
           <section className="rounded-xl bg-slate-900/80 border border-slate-700/80 px-4 py-3 space-y-3">
             <h2 className="text-sm font-semibold text-slate-100">
-              Skills
+              {t("heroes.detail.skills.title")}
             </h2>
             <div className="grid grid-cols-1 gap-3">
               <div>
                 <label className="block text-xs text-slate-400 mb-1">
-                  Max Skill Level
+                  {t("heroes.detail.skills.maxSkillLabel")}
                 </label>
                 <input
                   type="text"
@@ -1088,13 +1202,13 @@ function HeroDetailPanel(props: {
                 />
                 {isSaving(hero.id, "max_skill_level") && (
                   <p className="text-[10px] text-sky-300 mt-1">
-                    Saving
+                    {t("common.saving")}
                   </p>
                 )}
               </div>
 
               <SkillRow
-                label="Skill 1"
+                label={t("heroes.detail.skills.skill1")}
                 hero={hero}
                 field="skill1"
                 onUpdateNumericField={onUpdateNumericField}
@@ -1102,7 +1216,7 @@ function HeroDetailPanel(props: {
                 colorClass={skillColor(hero.skill1)}
               />
               <SkillRow
-                label="Skill 2"
+                label={t("heroes.detail.skills.skill2")}
                 hero={hero}
                 field="skill2"
                 onUpdateNumericField={onUpdateNumericField}
@@ -1110,7 +1224,7 @@ function HeroDetailPanel(props: {
                 colorClass={skillColor(hero.skill2)}
               />
               <SkillRow
-                label="Skill 3"
+                label={t("heroes.detail.skills.skill3")}
                 hero={hero}
                 field="skill3"
                 onUpdateNumericField={onUpdateNumericField}
@@ -1137,8 +1251,15 @@ function SkillRow(props: {
   isSaving: (heroId: string, field: string) => boolean;
   colorClass: string;
 }) {
-  const { label, hero, field, onUpdateNumericField, isSaving, colorClass } =
-    props;
+  const {
+    label,
+    hero,
+    field,
+    onUpdateNumericField,
+    isSaving,
+    colorClass,
+  } = props;
+  const { t } = useLanguage();
   const value = hero[field];
 
   return (
@@ -1155,7 +1276,9 @@ function SkillRow(props: {
         className={`w-full rounded-lg bg-slate-950/80 border border-slate-700/80 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70 ${colorClass}`}
       />
       {isSaving(hero.id, field) && (
-        <p className="text-[10px] text-sky-300 mt-1">Saving</p>
+        <p className="text-[10px] text-sky-300 mt-1">
+          {t("common.saving")}
+        </p>
       )}
     </div>
   );

@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { auth, db } from "@/lib/firebase";
-import AppHeader from "@/components/AppHeader";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type BuildingKvDoc = {
   name?: string;
@@ -52,6 +52,7 @@ type BuildingInstance = {
 
 type BuildingGroup = {
   groupKey: string;
+  labelKey: string;
   displayName: string;
   instances: BuildingInstance[];
   hasTracked: boolean;
@@ -182,8 +183,8 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
   },
   { key: "Iron Warehouse", displayName: "Iron Warehouse" },
   {
-    key: "Light House",
-    displayName: "Light House",
+    key: "Lighthouse",
+    displayName: "Lighthouse",
     seasonGroups: [SEASON_4],
   },
   {
@@ -268,10 +269,7 @@ const BUILDING_GROUP_DEFS: BuildingGroupDef[] = [
     multiInstance: true,
     maxInstances: 3,
   },
-  {
-    key: "Technical Institute",
-    displayName: "Tactical Institute",
-  },
+
   {
     key: "Titanium Alloy Factory",
     displayName: "Titanium Alloy Factory",
@@ -304,6 +302,19 @@ function normalizeIdentifier(value: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
+}
+
+/**
+ * Convert a value into a canonical slug key:
+ *  - lower case
+ *  - non alphanumeric -> hyphen
+ *  - trim hyphens
+ */
+function toSlugKey(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 /**
@@ -363,6 +374,8 @@ function buildDefaultTracking(
 
 export default function BuildingsPage() {
   const router = useRouter();
+  const { t } = useLanguage();
+
   const [user, setUser] = useState<User | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -496,6 +509,7 @@ export default function BuildingsPage() {
           if (!existingGroup) {
             coreGroupMap.set(groupName, {
               groupKey: groupName,
+              labelKey: toSlugKey(groupName),
               displayName: def?.displayName || groupName,
               instances: [instance],
               hasTracked:
@@ -590,6 +604,7 @@ export default function BuildingsPage() {
           } else {
             coreGroupMap.set(groupKey, {
               groupKey,
+              labelKey: toSlugKey(groupKey),
               displayName: baseLabel,
               instances: instancesArray,
               hasTracked,
@@ -651,6 +666,7 @@ export default function BuildingsPage() {
 
             uiGroupMap.set(coreGroup.groupKey, {
               groupKey: coreGroup.groupKey,
+              labelKey: coreGroup.labelKey ?? toSlugKey(coreGroup.groupKey),
               displayName: coreGroup.displayName,
               instances: uiInstances,
               hasTracked,
@@ -667,6 +683,7 @@ export default function BuildingsPage() {
             if (!seasonGroup) {
               seasonGroup = {
                 groupKey: seasonName,
+                labelKey: toSlugKey(seasonName),
                 displayName: seasonName,
                 instances: [],
                 hasTracked: false,
@@ -705,14 +722,14 @@ export default function BuildingsPage() {
         setGroups(builtGroups);
       } catch (err: unknown) {
         console.error(err);
-        setError("Something went wrong while loading buildings.");
+        setError(t("buildings.error.loadFailed"));
       } finally {
         setLoading(false);
       }
     }
 
     load();
-  }, [user]);
+  }, [user, t]);
 
   const selectedGroup = useMemo(
     () =>
@@ -854,7 +871,7 @@ export default function BuildingsPage() {
     if (!user) return;
 
     const confirmed = window.confirm(
-      "Delete this building instance? Core buildings may be re created automatically on a future reload."
+      t("buildings.detail.deleteConfirm")
     );
     if (!confirmed) return;
 
@@ -953,23 +970,20 @@ export default function BuildingsPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      <AppHeader userName={combinedDisplayName} />
-
       <div className="mx-auto max-w-6xl px-4 py-8">
         <section className="mb-6 space-y-1">
           <h1 className="text-2xl font-semibold text-slate-50">
-            Buildings
+            {t("buildings.title")}
           </h1>
           <p className="text-sm text-slate-400">
-            Manage building levels and tracking flags that feed your
-            command center dashboard. Seasonal buildings are grouped by season.
+            {t("buildings.subtitle")}
           </p>
         </section>
 
         {loading && (
           <div className="mt-10 flex justify-center">
             <div className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300">
-              Loading buildings…
+              {t("buildings.loading")}
             </div>
           </div>
         )}
@@ -985,8 +999,7 @@ export default function BuildingsPage() {
         {!loading && !error && groups.length === 0 && (
           <div className="mt-10 flex justify-center">
             <div className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300">
-              No buildings found yet. Data will appear here after your
-              first save.
+              {t("buildings.empty.none")}
             </div>
           </div>
         )}
@@ -1027,12 +1040,16 @@ type BuildingCardProps = {
 };
 
 function BuildingCard({ group, onClick }: BuildingCardProps) {
+  const { t } = useLanguage();
+
   const hasInstances = group.instances.length > 0;
   const levels = group.instances
     .map((instance) => instance.level)
     .filter((level) => typeof level === "number");
   const levelsText =
-    levels.length > 0 ? levels.join(", ") : "none yet";
+    levels.length > 0
+      ? levels.join(", ")
+      : t("buildings.card.levels.none");
 
   const anyUpgrading = group.instances.some(
     (instance) => instance.tracking.upgrading
@@ -1044,6 +1061,12 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
   const multiple =
     group.instances.length > 1 || group.isSeasonGroup;
 
+  const isSeason = group.isSeasonGroup;
+  const titleKey = isSeason
+    ? `buildings.seasons.${group.labelKey}`
+    : `buildings.names.${group.labelKey}`;
+  const title = t(titleKey);
+
   return (
     <button
       type="button"
@@ -1053,25 +1076,27 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="text-base font-semibold text-slate-50">
-            {group.displayName}
+            {title}
           </h2>
           <p className="mt-1 text-xs text-slate-400">
             {hasInstances
               ? multiple
-                ? `Entries: ${group.instances.length}`
-                : "Single instance"
-              : "No buildings created yet"}
+                ? t("buildings.card.entries", {
+                    count: group.instances.length,
+                  })
+                : t("buildings.card.singleInstance")
+              : t("buildings.card.noneCreated")}
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">
           {anyTracked && (
             <span className="inline-flex items-center rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-semibold text-emerald-300 ring-1 ring-emerald-500/40">
-              Tracked
+              {t("buildings.status.tracked")}
             </span>
           )}
           {anyUpgrading && (
             <span className="inline-flex items-center rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold text-amber-300 ring-1 ring-amber-500/40">
-              Upgrading
+              {t("buildings.status.upgrading")}
             </span>
           )}
         </div>
@@ -1079,17 +1104,21 @@ function BuildingCard({ group, onClick }: BuildingCardProps) {
 
       <div className="mt-4 flex items-center justify-between text-xs text-slate-300">
         <span className="text-slate-400">
-          {group.isSeasonGroup ? "Season levels" : "Levels"}
+          {group.isSeasonGroup
+            ? t("buildings.card.seasonLevels")
+            : t("buildings.card.levels")}
         </span>
         <span className="font-medium text-slate-100">
-          {hasInstances ? levelsText : "none"}
+          {hasInstances
+            ? levelsText
+            : t("buildings.card.levels.none")}
         </span>
       </div>
 
       <div className="mt-3 text-[11px] text-slate-500">
         {group.isSeasonGroup
-          ? "Click to view and edit all buildings unlocked in this season."
-          : "Click to edit levels, tracking, and delete instances for this building group."}
+          ? t("buildings.card.hint.season")
+          : t("buildings.card.hint.normal")}
       </div>
     </button>
   );
@@ -1110,7 +1139,14 @@ function BuildingDetailPanel({
   onTrackingToggle,
   onDeleteInstance,
 }: BuildingDetailPanelProps) {
+  const { t } = useLanguage();
   const hasInstances = group.instances.length > 0;
+
+  const isSeason = group.isSeasonGroup;
+  const titleKey = isSeason
+    ? `buildings.seasons.${group.labelKey}`
+    : `buildings.names.${group.labelKey}`;
+  const title = t(titleKey);
 
   return (
     <div className="fixed inset-0 z-40 flex justify-end">
@@ -1122,13 +1158,8 @@ function BuildingDetailPanel({
         <header className="mb-4 flex items-start justify-between gap-2">
           <div>
             <h2 className="text-lg font-semibold text-slate-50">
-              {group.displayName}
+              {title}
             </h2>
-            <p className="text-xs text-slate-400">
-              {group.isSeasonGroup
-                ? "Season bucket showing all buildings associated with this season. Adjust levels, tracking flags, or delete old entries."
-                : "Update building levels plus tracked and upgrading flags. Delete instances to clean up old or seasonal data."}
-            </p>
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -1147,12 +1178,24 @@ function BuildingDetailPanel({
               <div className="rounded-2xl border border-slate-800 bg-slate-900/70">
                 <div className="grid grid-cols-[minmax(0,2.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.8fr)] gap-3 border-b border-slate-800 px-4 py-3 text-[11px] font-semibold text-slate-400">
                   <div>
-                    {group.isSeasonGroup ? "Building / Instance" : "Instance"}
+                    {group.isSeasonGroup
+                      ? t(
+                          "buildings.detail.table.instanceSeason"
+                        )
+                      : t("buildings.detail.table.instance")}
                   </div>
-                  <div className="text-center">Level</div>
-                  <div className="text-center">Tracked</div>
-                  <div className="text-center">Upgrading</div>
-                  <div className="text-center">Delete</div>
+                  <div className="text-center">
+                    {t("buildings.detail.table.level")}
+                  </div>
+                  <div className="text-center">
+                    {t("buildings.detail.table.tracked")}
+                  </div>
+                  <div className="text-center">
+                    {t("buildings.detail.table.upgrading")}
+                  </div>
+                  <div className="text-center">
+                    {t("buildings.detail.table.delete")}
+                  </div>
                 </div>
 
                 {group.instances.map((instance) => (
@@ -1162,12 +1205,16 @@ function BuildingDetailPanel({
                   >
                     <div className="pr-2">
                       <div className="font-medium text-slate-50">
-                        {group.isSeasonGroup && instance.baseDisplayName
+                        {group.isSeasonGroup &&
+                        instance.baseDisplayName &&
+                        instance.baseDisplayName !== instance.instanceLabel
                           ? `${instance.baseDisplayName} — ${instance.instanceLabel}`
                           : instance.instanceLabel}
                       </div>
                       <div className="text-[11px] text-slate-500">
-                        Document id: {instance.id}
+                        {t("buildings.detail.instance.docId", {
+                          id: instance.id,
+                        })}
                       </div>
                     </div>
 
@@ -1248,19 +1295,12 @@ function BuildingDetailPanel({
               </div>
 
               <p className="mt-3 text-[11px] text-slate-500">
-                Changes save automatically when you edit a level or
-                toggle a checkbox. Delete instances to clean up old,
-                duplicate, or seasonal buildings. Required core buildings
-                may be re created on a future page load if they are missing.
+                {t("buildings.detail.footer.hint")}
               </p>
             </>
           ) : (
             <div className="rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-4 text-xs text-slate-200">
-              <p>
-                No buildings created for this group yet. Core buildings
-                are auto created when needed. Seasonal buildings appear
-                here once they exist in your data.
-              </p>
+              <p>{t("buildings.detail.empty")}</p>
             </div>
           )}
         </div>

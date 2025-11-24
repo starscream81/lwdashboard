@@ -1,0 +1,88 @@
+{
+  "compare.title": "Compare Center",
+  "compare.subtitle": "Control how your stats are used in comparisons, then choose how you want to view results.",
+  "compare.backToDashboard": "Back To Dashboard",
+
+  "compare.privacy.title": "Direct Compare Visibility",
+  "compare.privacy.description": "Anonymous averages and percentiles always use every player's stats. Turn this on if you want to appear in direct, side by side comparisons with other players. Your raw data is never exposed, only comparison views.",
+  "compare.privacy.included": "Included In Direct Comparisons",
+  "compare.privacy.excluded": "Excluded From Direct Comparisons",
+  "compare.privacy.saving": "Saving…",
+
+  "compare.modes.title": "Compare Modes",
+  "compare.modes.description": "Choose how you want compare results to be presented. Modes always respect privacy settings.",
+  "compare.modes.aggregated": "Aggregated Compare",
+  "compare.modes.direct": "Direct Player Compare",
+
+  "compare.aggregated.description": "Aggregated Compare shows how your team powers stack up against group averages and percentiles, using stats from every player who has saved their dashboard meta.",
+  "compare.aggregated.loadingTeams": "Loading your team data…",
+  "compare.aggregated.noTeams": "No team data found in your dashboard meta.",
+  "compare.aggregated.loadingGroup": "Loading group averages…",
+  "compare.aggregated.noGroup": "No group data available yet.",
+  "compare.aggregated.basedOn": "Based on {count} players",
+  "compare.aggregated.groupAverage": "Group Average",
+  "compare.aggregated.percentileRank": "Percentile Rank",
+  "compare.aggregated.percentileRankValue": "{value}th percentile",
+  "compare.aggregated.explainer": "Aggregated Compare uses team power from every player who has saved their dashboard meta, without identifying anyone directly.",
+
+  "compare.table.team": "Team",
+  "compare.table.category": "Category",
+  "compare.table.you": "You",
+  "compare.table.them": "Them",
+  "compare.table.difference": "Difference",
+  "compare.table.noData": "No data",
+  "compare.table.notAvailable": "n/a",
+  "compare.table.equal": "Equal",
+
+  "compare.direct.description": "Choose a player who has also enabled Direct Compare to view side by side statistics.",
+
+  "compare.direct.playerPicker.title": "Select Player To Compare With",
+  "compare.direct.playerPicker.loading": "Loading players…",
+  "compare.direct.playerPicker.none": "No players are currently eligible for direct compare.",
+  "compare.direct.playerPicker.placeholder": "Select a player…",
+
+  "compare.direct.preparing": "Preparing comparison with:",
+  "compare.direct.loadingTeams": "Loading team data for this player…",
+  "compare.direct.errorTeams": "Failed to load teams for the selected player.",
+  "compare.direct.teamDataLoaded": "Team data loaded from Firestore.",
+
+  "compare.direct.sxs.title": "Teams Side-by-Side",
+
+  "compare.direct.teamComps.title": "Team Compositions - click a tile for full team comparison",
+
+  "compare.direct.heroes.you": "You",
+  "compare.direct.heroes.them": "Them",
+  "compare.direct.hero.none": "No heroes",
+  "compare.direct.heroes.detailsTitle": "{team} details",
+  "compare.direct.heroes.detailsSubtitle": "Showing full hero stats for this team. Click the team tile again to close.",
+  "compare.direct.heroes.close": "Close",
+  "compare.direct.hero.noneTeamYou": "No heroes on this team.",
+  "compare.direct.hero.noneTeamThem": "No heroes on this team for the selected player.",
+
+  "compare.direct.hero.power": "Power",
+  "compare.direct.hero.railGun": "Puma Cannon",
+  "compare.direct.hero.railGunStars": "Puma Cannon Stars",
+  "compare.direct.hero.armor": "Reactive Armor",
+  "compare.direct.hero.armorStars": "Reactive Armor Stars",
+  "compare.direct.hero.dataChip": "Hunter Data Chip",
+  "compare.direct.hero.dataChipStars": "Hunter Data Chip Stars",
+  "compare.direct.hero.radar": "Aegis Radar",
+  "compare.direct.hero.radarStars": "Aegis Radar Stars",
+  "compare.direct.hero.exclusiveOwned": "Exclusive Weapon Owned",
+  "compare.direct.hero.exclusiveLevel": "Exclusive Weapon Level",
+  "compare.direct.hero.skill1": "Skill 1",
+  "compare.direct.hero.skill2": "Skill 2",
+  "compare.direct.hero.skill3": "Skill 3",
+
+  "compare.direct.research.title": "Research Comparison",
+  "compare.direct.research.loading": "Loading research…",
+  "compare.direct.research.myNone": "No research summary found for your account yet.",
+  "compare.direct.research.theirNone": "Research summary not available for the selected player.",
+  "compare.direct.research.errorMe": "Failed to load your research summary.",
+  "compare.direct.research.errorThem": "Failed to load research for the selected player.",
+
+  "compare.direct.heroes.errorMe": "Failed to load your heroes for team composition.",
+  "compare.direct.heroes.errorThem": "Failed to load heroes for the selected player.",
+
+  "compare.direct.waitingForTeams": "Waiting for both your teams and their teams to be available."
+}

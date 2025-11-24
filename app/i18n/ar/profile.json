@@ -1,0 +1,42 @@
+{
+  "profile.role.commander": "Commander",
+  "profile.role.guestCommander": "Guest Commander",
+  "profile.alliance.guestTag": "GUEST",
+  "profile.badge.guestSuffix": "(Guest)",
+
+  "profile.badge.hq.label": "HQ",
+  "profile.badge.hq.notSet": "not set",
+  "profile.badge.totalHeroPower": "Total Hero Power",
+
+  "profile.avatar.alt": "Commander avatar",
+  
+  "profile.title": "Commander Profile",
+  "profile.subtitle": "Update your name, alliance, avatar, and server.",
+  "profile.loginRequired": "Please sign in to edit your profile.",
+  "profile.backToDashboard": "← Back to Dashboard",
+  "profile.loading": "Loading profile…",
+
+  "profile.avatar.label": "Avatar",
+  "profile.avatar.hint": "Square images work best. Avatar updates immediately after upload.",
+  "profile.avatar.uploading": "Uploading avatar…",
+
+  "profile.displayName.label": "Display name",
+  "profile.displayName.placeholder": "Commander name",
+  "profile.displayName.hint": "Shown in the dashboard header.",
+
+  "profile.alliance.label": "Alliance",
+  "profile.alliance.placeholder": "Example: FER",
+  "profile.alliance.hint": "Displayed as Shōckwave [FER] on the dashboard.",
+
+  "profile.server.label": "Server",
+  "profile.server.placeholder": "Example: 977",
+  "profile.server.hint": "Used for Arms Race and Shiny tasks.",
+
+  "profile.save.message.success": "Profile saved.",
+  "profile.save.message.error": "Failed to save profile.",
+  "profile.avatar.message.success": "Avatar updated.",
+  "profile.avatar.message.error": "Failed to upload avatar.",
+
+  "profile.save.button.label": "Save changes",
+  "profile.save.button.saving": "Saving…"
+}
