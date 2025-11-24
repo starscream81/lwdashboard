@@ -92,6 +92,7 @@ type UpgradeSummary = {
   priority?: number | null;
   currentLevel?: number | null;
   nextLevel?: number | null;
+  category?: string;        // add this
 };
 
 type Profile = {
@@ -122,6 +123,7 @@ type TrackingItem = {
   type?: "research" | "building";
   priority?: number | null;
   orderIndex?: number | null;
+  category?: string;        // add this
   [key: string]: any;
 };
 
@@ -130,6 +132,8 @@ const HQ_REQUIREMENT_GROUPS = hqRequirementsGroups as Record<
   string,
   HqRequirementGroup
 >;
+
+
 
 const HQ_GROUP_TO_BUILDING_NAME_KEY: Record<string, string> = {
   tech_center: "buildings.names.tech-center",
@@ -225,6 +229,15 @@ const VS_TASK_KEYS: Record<string, string[]> = {
     "vsTasks.sat_09",
   ],
 };
+
+function normalizeNameForKey(raw: string): string {
+  return raw
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[()]/g, "")
+    .replace(/['",:.]/g, "");
+}
 
 function getServerDate(): Date {
   const now = new Date();
@@ -599,6 +612,70 @@ export default function DashboardPage() {
   const { t } = useLanguage();
   const { formatDecimal, formatPercent } = useFormatter();
 
+  const getResearchDisplayNameFromI18n = (
+  name: string,
+  category?: string
+): string => {
+  if (!name || !category) return name;
+
+  const nameSlug = normalizeNameForKey(name);
+  const categorySlug = normalizeNameForKey(category);
+
+  const key = `research.names.${categorySlug}__${nameSlug}`;
+  const translated = t(key);
+
+  return translated === key ? name : translated;
+};
+
+  const getUpgradeDisplayName = (u: UpgradeSummary) => {
+    switch (u.type) {
+      case "research":
+        return getResearchDisplayNameFromI18n(u.name, u.category);
+      case "building":
+      default:
+        // your existing building logic here, probably using buildings names
+        return /* existing building name logic */;
+    }
+  };
+
+  const tryTranslate = (keys: string[]): string | null => {
+    for (const key of keys) {
+      const value = t(key);
+      if (value !== key) {
+        return value;
+      }
+    }
+    return null;
+  };
+
+  const getTrackingItemDisplayName = (item: TrackingItem): string => {
+    const base = item.name ?? "";
+    if (!base) return "";
+
+    if (item.type === "building") {
+      // existing building lookup, keep as is
+      const slug = normalizeNameForKey(base);
+      const key = `buildings.names.${slug}`;
+      const translated = t(key);
+      return translated === key ? base : translated;
+    }
+
+    if (item.type === "research") {
+      return getResearchDisplayNameFromI18n(base, item.category);
+    }
+
+    return base;
+  };
+
+  const getResearchCategoryDisplayName = (category: string): string => {
+    const base = category || "";
+    if (!base) return "";
+
+    const key = `research.categories.${normalizeNameForKey(base)}`;
+    const translated = t(key);
+    return translated === key ? base : translated;
+  };
+
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [hqLevel, setHqLevel] = useState<number | null>(null);
@@ -857,6 +934,7 @@ export default function DashboardPage() {
             id: row.id,
             name: row.name,
             type: "research" as const,
+            category: row.category,          // add this
             priority: row.priority,
             orderIndex: row.orderIndex,
           }));
@@ -956,6 +1034,7 @@ export default function DashboardPage() {
               priority: row.priority,
               currentLevel,
               nextLevel,
+              category: row.category,      // add this line
             };
           });
 
@@ -1553,7 +1632,7 @@ export default function DashboardPage() {
                     key={item.category}
                     className="flex items-center justify-between"
                   >
-                    <span>{item.category}</span>
+                    <span>{getResearchCategoryDisplayName(item.category)}</span>
                     <span>{formatPercent(item.percent / 100)}</span>
                   </li>
                 ))}
@@ -1581,7 +1660,7 @@ export default function DashboardPage() {
                   >
                     <div className="min-w-0">
                       <span className="truncate max-w-44 font-medium">
-                        {u.name}
+                        {getUpgradeDisplayName(u)}
                         {u.currentLevel != null &&
                           u.currentLevel > 0 &&
                           u.nextLevel != null && (
@@ -1713,7 +1792,7 @@ export default function DashboardPage() {
                     >
                       <div className="min-w-0">
                         <p className="text-xs font-medium text-slate-100 truncate">
-                          {item.name}
+                          {getTrackingItemDisplayName(item)}
                         </p>
                       </div>
                       <span
