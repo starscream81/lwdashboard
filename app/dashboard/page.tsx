@@ -627,16 +627,21 @@ export default function DashboardPage() {
   return translated === key ? name : translated;
 };
 
-  const getUpgradeDisplayName = (u: UpgradeSummary) => {
-    switch (u.type) {
-      case "research":
-        return getResearchDisplayNameFromI18n(u.name, u.category);
-      case "building":
-      default:
-        // your existing building logic here, probably using buildings names
-        return /* existing building name logic */;
+const getUpgradeDisplayName = (u: UpgradeSummary): string => {
+  switch (u.type) {
+    case "research":
+      return getResearchDisplayNameFromI18n(u.name, u.category);
+
+    case "building":
+    default: {
+      const slug = normalizeNameForKey(u.name);
+      const key = `buildings.names.${slug}`;
+      const translated = t(key);
+      return translated === key ? u.name : translated;
     }
-  };
+  }
+};
+
 
   const tryTranslate = (keys: string[]): string | null => {
     for (const key of keys) {
