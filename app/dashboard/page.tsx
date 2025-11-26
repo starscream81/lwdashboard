@@ -628,20 +628,28 @@ export default function DashboardPage() {
 };
 
 const getUpgradeDisplayName = (u: UpgradeSummary): string => {
-  switch (u.type) {
-    case "research":
-      return getResearchDisplayNameFromI18n(u.name, u.category);
-
-    case "building":
-    default: {
-      const slug = normalizeNameForKey(u.name);
-      const key = `buildings.names.${slug}`;
-      const translated = t(key);
-      return translated === key ? u.name : translated;
-    }
+  if (u.type === "research") {
+    return getResearchDisplayNameFromI18n(u.name, u.category);
   }
-};
 
+  // Building case: handle instances like "Oil Well 1"
+  const baseName = u.name.replace(/\s+\d+$/, ""); // remove trailing instance number
+  const baseSlug = normalizeNameForKey(baseName);
+
+  const key = `buildings.names.${baseSlug}`;
+  const translated = t(key);
+
+  // If translated, re-attach instance number (e.g., "Oil Well 1")
+  if (translated !== key) {
+    const matchInstance = u.name.match(/\d+$/);
+    if (matchInstance) {
+      return `${translated} ${matchInstance[0]}`;
+    }
+    return translated;
+  }
+
+  return u.name;
+};
 
   const tryTranslate = (keys: string[]): string | null => {
     for (const key of keys) {
@@ -788,6 +796,8 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
           setHqLevel(Number.isNaN(parsed as number) ? null : parsed);
         }
 
+        const instanceNames: Record<string, string> = {};
+
         // All building levels from buildings_kv
         const buildingsKvRef = collection(db, "users", uid, "buildings_kv");
         const buildingsKvSnap = await getDocs(buildingsKvRef);
@@ -812,6 +822,9 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
           }
 
           levels[normalizeBuildingKey(docSnap.id)] = level;
+
+          // Store instance label by document id (for "Oil Well 1", etc.)
+          instanceNames[docSnap.id] = name || docSnap.id;
         });
 
         setBuildingLevels(levels);
@@ -891,26 +904,31 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
         });
 
         // Research Status tile
+        // Aggregate whole category progress, but only show categories
+        // where at least one entry is marked trackStatus = true
         const categoryTotals: Record<
           string,
-          { current: number; max: number }
+          { current: number; max: number; tracked: boolean }
         > = {};
 
         researchRows.forEach((row) => {
-          if (!row.trackStatus) return;
-
           const key = row.category || "Other";
           if (!categoryTotals[key]) {
-            categoryTotals[key] = { current: 0, max: 0 };
+            categoryTotals[key] = { current: 0, max: 0, tracked: false };
           }
 
           categoryTotals[key].current += row.currentLevel;
           categoryTotals[key].max += row.maxLevel;
+
+          if (row.trackStatus) {
+            categoryTotals[key].tracked = true;
+          }
         });
 
         const status: ResearchStatusCategory[] = Object.entries(
           categoryTotals
         )
+          .filter(([, totals]) => totals.tracked)
           .map(([category, totals]) => {
             const { current, max } = totals;
             const percent =
@@ -1039,20 +1057,17 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
               priority: row.priority,
               currentLevel,
               nextLevel,
-              category: row.category,      // add this line
+              category: row.category,
             };
           });
 
         const buildingSummaries: UpgradeSummary[] =
           trackedBuildingUpgrades.map((row) => {
-            const exactKey = normalizeBuildingKey(row.name);
+            // Row.id is the instance document ID. Use that directly.
+            const instanceKey = normalizeBuildingKey(row.id);
 
-            let currentLevel =
-              levels[exactKey] != null ? levels[exactKey] : 0;
-
-            if (!currentLevel) {
-              currentLevel = getBestBuildingLevelByName(row.name, levels);
-            }
+            // Use KV level by instanceId, not by base name
+            let currentLevel = levels[instanceKey] ?? 0;
 
             const nextLevel =
               currentLevel > 0 ? currentLevel + 1 : null;
@@ -1063,9 +1078,12 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
               ? "priority"
               : "tracked";
 
+            // Prefer instance label from KV ("Oil Well 1"), fall back to tracking name
+            const instanceLabel = instanceNames[row.id] ?? row.name;
+
             return {
               id: row.id,
-              name: row.name,
+              name: instanceLabel,
               type: "building",
               status,
               priority: row.priority,
@@ -1073,20 +1091,28 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
               nextLevel,
             };
           });
-
-        const allSummaries: UpgradeSummary[] = [
-          ...researchSummaries,
-          ...buildingSummaries,
-        ];
-
-        // Only show things that are actually running now
-        const currentlyUpgrading = allSummaries.filter(
-          (u) => u.status === "inProgress" || u.status === "upgrading"
+        // Separate actual upgrading items by type
+        const researchUpgrading = researchSummaries.filter(
+          (u) => u.status === "inProgress"
+        );
+        const buildingUpgrading = buildingSummaries.filter(
+          (u) => u.status === "upgrading"
         );
 
-        const totalTrackedUpgrades = currentlyUpgrading.length;
+        // Apply caps: 3 research + 4 buildings = 7 max
+        const limitedResearch = researchUpgrading.slice(0, 3);
+        const limitedBuildings = buildingUpgrading.slice(0, 4);
+
+        const combinedUpgrading: UpgradeSummary[] = [
+          ...limitedResearch,
+          ...limitedBuildings,
+        ];
+
+        const totalTrackedUpgrades =
+          researchUpgrading.length + buildingUpgrading.length;
+
         setTrackedCount(totalTrackedUpgrades);
-        setTrackedUpgrades(currentlyUpgrading);
+        setTrackedUpgrades(combinedUpgrading);
 
       } catch (err) {
         console.error("Failed to load dashboard data", err);
@@ -1658,7 +1684,7 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
 
             {trackedUpgrades.length > 0 && (
               <ul className="mt-1 space-y-1 text-[11px] text-slate-200">
-                {trackedUpgrades.slice(0, 7).map((u) => (
+                {trackedUpgrades.map((u) => (
                   <li
                     key={`${u.type}-${u.id}`}
                     className="flex items-center justify-between"
@@ -1684,10 +1710,10 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
                     </span>
                   </li>
                 ))}
-                {trackedUpgrades.length > 7 && (
+                {trackedCount > trackedUpgrades.length && (
                   <li className="text-[10px] text-slate-400">
                     {t("tiles.currentlyUpgrading.more", {
-                      count: trackedUpgrades.length - 4,
+                      count: trackedCount - trackedUpgrades.length,
                     })}
                   </li>
                 )}

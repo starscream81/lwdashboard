@@ -9,6 +9,8 @@
 
   "research.signInRequired": "Bitte melde dich an, um deine Forschung zu verwalten.",
 
+  "research.status.researching": "Wird erforscht",
+
   "research.categoryOverview.title": "Forschungskategorie Übersicht",
   "research.categoryOverview.description": "Jede Kategorie zeigt deinen Fortschritt. Kategorien mit einem Punkt werden in der Forschungsfortschrittskachel des Dashboards berücksichtigt.",
   "research.category.noEntries": "Für diese Kategorie gibt es noch keine Forschungseinträge.",

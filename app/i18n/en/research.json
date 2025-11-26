@@ -9,6 +9,8 @@
 
   "research.signInRequired": "Please sign in to manage your research.",
 
+  "research.status.researching": "Researching",
+
   "research.categoryOverview.title": "Research Category Overview",
   "research.categoryOverview.description": "Each category shows your progress. Categories with a dot are included in the dashboard research progress tile.",
   "research.category.noEntries": "No research entries for this category yet.",

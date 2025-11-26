@@ -109,7 +109,7 @@ export default function ResearchPage() {
   const categoryProgress = useMemo(() => {
     const map = new Map<
       string,
-      { categoryKey: string; current: number; max: number; tracked: boolean }
+      { categoryKey: string; current: number; max: number; tracked: boolean; inProgress: boolean }
     >();
 
     for (const row of rows) {
@@ -119,6 +119,7 @@ export default function ResearchPage() {
         current: 0,
         max: 0,
         tracked: false,
+        inProgress: false,
       };
 
       const clampedCurrent = Math.max(0, row.currentLevel ?? 0);
@@ -128,6 +129,7 @@ export default function ResearchPage() {
       existing.max += clampedMax;
 
       existing.tracked = existing.tracked || !!row.trackStatus;
+      existing.inProgress = existing.inProgress || !!row.inProgress;
 
       map.set(key, existing);
     }
@@ -141,6 +143,7 @@ export default function ResearchPage() {
           percent:
             data.max > 0 ? Math.round((data.current / data.max) * 100) : 0,
           tracked: data.tracked,
+          inProgress: data.inProgress,
         };
       })
       .sort((a, b) => a.categoryLabel.localeCompare(b.categoryLabel));
@@ -266,12 +269,20 @@ export default function ResearchPage() {
                     }`}
                   >
                     <div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-xs font-medium text-slate-100">
-                          {cat.categoryLabel}
-                        </span>
-                        {cat.tracked && (
-                          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-sky-400" />
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1">
+                          <span className="text-xs font-medium text-slate-100">
+                            {cat.categoryLabel}
+                          </span>
+                          {cat.tracked && (
+                            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-sky-400" />
+                          )}
+                        </div>
+
+                        {cat.inProgress && (
+                          <span className="inline-flex items-center rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold text-amber-300 ring-1 ring-amber-500/40">
+                            {t("research.status.researching")}
+                          </span>
                         )}
                       </div>
                       <p className="text-[11px] text-slate-400">
