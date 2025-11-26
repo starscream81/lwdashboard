@@ -1,21 +1,27 @@
 'use client';
 
+
 import { useEffect, useState } from 'react';
 import {
   collectionGroup,
+  collection,
   DocumentData,
   getDocs,
   limit,
   orderBy,
   query,
+  setDoc,
   QueryDocumentSnapshot,
   startAfter,
 } from 'firebase/firestore';
 // TODO: Adjust this import to match your Firebase setup
 import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+
 
 type Profile = {
   id: string;
+  path: string,
   serverId: number | string;
   avatarUrl?: string;
   displayName: string;
@@ -50,6 +56,8 @@ function useWhosHereTranslations() {
   return { t };
 }
 
+
+
 export default function WhosHerePage() {
   const { t } = useWhosHereTranslations();
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -82,7 +90,17 @@ export default function WhosHerePage() {
 
       console.log('[Who’s Here] snapshot size:', snapshot.size);
       snapshot.docs.forEach((doc) => {
-      console.log('[Who’s Here] doc path:', doc.ref.path, 'data:', doc.data());
+        const data = doc.data(); // Get the data object
+        // Log a structured object instead of the raw, live data reference
+        console.log('[Who’s Here] doc path:', doc.ref.path, 'data:', {
+          id: doc.id,
+          path: doc.ref.path,
+          // Add all fields you expect to see
+          displayName: data.displayName,
+          totalHeroPower: data.totalHeroPower,
+          alliance: data.alliance,
+          language: data.language, // Include the one you know works
+        });
       });
 
       if (snapshot.empty) {
@@ -97,6 +115,7 @@ export default function WhosHerePage() {
         const data = doc.data();
         return {
           id: doc.id,
+          path: doc.ref.path,
           serverId: data.serverId,
           avatarUrl: data.avatarUrl,
           displayName: data.displayName ?? '',
@@ -126,6 +145,55 @@ export default function WhosHerePage() {
     // initial load
     void loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
+  // DEBUG: Force-write proper profile fields into your Firestore doc
+async function debugFixProfile() {
+  try {
+    await setDoc(
+      doc(db, "users", "6FGO4OpqkdbA34amGS4Y8ZwuHWX2", "profiles", "default"),
+      {
+        displayName: "Shöckwave",
+        alliance: "FER",
+        avatarUrl:
+          "https://firebasestorage.googleapis.com/v0/b/last-war-survival-tracker.firebasestorage.app/o/users%2F6FGO4OpqkdbA34amGS4Y8ZwuHWX2%2Favatar.jpg",
+        serverId: 977,
+        language: "en",
+        totalHeroPower: 0
+      },
+      { merge: true }
+    );
+
+    console.log("[DEBUG] Forced profile fix written!");
+  } catch (err) {
+    console.error("[DEBUG] Error writing forced profile fix:", err);
+  }
+}
+
+debugFixProfile();
+
+
+  useEffect(() => {
+  // DEBUG: direct getDoc check for your own profile
+  const run = async () => {
+    try {
+      const uid = '6FGO4OpqkdbA34amGS4Y8ZwuHWX2'
+
+      const ref = doc(db, 'users', uid, 'profiles', 'default');
+      const snap = await getDoc(ref);
+      console.log('[DEBUG] Direct getDoc for your profile:', snap.data());
+    } catch (err) {
+      console.error('[DEBUG] Error reading direct profile doc:', err);
+    }
+  };
+
+  void run();
+}, []);
+
+  useEffect(() => {
+    // temporary debug
+    // eslint-disable-next-line no-console
+    console.log('[Who’s Here] Firebase app options:', db.app.options);
   }, []);
 
   const renderAvatar = (profile: Profile) => {
@@ -171,7 +239,7 @@ export default function WhosHerePage() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {profiles.map((profile) => (
             <div
-              key={profile.id}
+              key={profile.path}
               className="flex h-full flex-col justify-between rounded-lg border bg-black/30 p-4"
             >
               {/* Top line: server */}
