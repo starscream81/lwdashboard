@@ -26,7 +26,7 @@
   "tiles.hqRequirements.metLabel": "Met",
   "tiles.hqRequirements.progress": "{current} / {required}",
 
-  "tiles.researchStatus.title": "Research Status",
+  "tiles.researchStatus.title": "Tracked Research Categories",
   "tiles.researchStatus.empty": "No research categories are being tracked yet.",
 
   "tiles.currentlyUpgrading.title": "Currently Upgrading",
