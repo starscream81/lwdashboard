@@ -948,14 +948,14 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
           .filter(
             (row) =>
               !row.inProgress &&
-              (row.trackStatus ||
-                (row.priority != null && row.priority > 0))
+              row.priority != null &&
+              row.priority > 0
           )
           .map((row) => ({
             id: row.id,
             name: row.name,
             type: "research" as const,
-            category: row.category,          // add this
+            category: row.category,
             priority: row.priority,
             orderIndex: row.orderIndex,
           }));
