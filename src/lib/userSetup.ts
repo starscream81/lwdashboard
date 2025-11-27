@@ -46,5 +46,22 @@ export async function ensureUserInitialized(firebaseUser: User) {
     );
   }
 
-  // (Optional) you could also create a default profile here if you want.
+  // 3. Default profile doc
+  const profileRef = doc(db, "users", uid, "profiles", "default");
+  const profileSnap = await getDoc(profileRef);
+
+  if (!profileSnap.exists()) {
+    await setDoc(
+      profileRef,
+      {
+        totalHeroPower: 0,
+        serverId: null,
+        avatarUrl: null,
+        displayName: firebaseUser.displayName ?? null,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+  }
+
 }

@@ -34,7 +34,9 @@ export default function AppHeader({ userName }: AppHeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [extrasOpen, setExtrasOpen] = useState(false);
   const { t, locale, setLocale } = useLanguage();
+
 
   const handleLogout = async () => {
     if (loggingOut) return;
@@ -64,7 +66,7 @@ export default function AppHeader({ userName }: AppHeaderProps) {
           </span>
 
           {/* Desktop nav with Extras */}
-          <nav className="hidden md:flex items-center gap-2">
+          <nav className="hidden md:flex items-center gap-2 relative">
             {NAV_ITEMS.map((item) => {
               const active = isActive(item.href);
               return (
@@ -83,14 +85,31 @@ export default function AppHeader({ userName }: AppHeaderProps) {
               );
             })}
 
-            {/* Extras placeholder for future dropdown */}
-            <button
-              type="button"
-              className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border border-slate-700 bg-slate-900 text-slate-300 hover:border-sky-400 hover:text-sky-100"
-            >
-              {t("nav.extras")}
-            </button>
+            {/* Extras with simple dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setExtrasOpen((open) => !open)}
+                className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border border-slate-700 bg-slate-900 text-slate-300 hover:border-sky-400 hover:text-sky-100"
+              >
+                {t("nav.extras")}
+                <span className="ml-1 text-[10px]">{extrasOpen ? "▴" : "▾"}</span>
+              </button>
+
+              {extrasOpen && (
+                <div className="absolute right-0 mt-2 w-40 rounded-lg border border-slate-700 bg-slate-900 shadow-lg z-20">
+                  <Link
+                    href="/extras/whos-here"
+                    className="block px-3 py-2 text-xs text-slate-100 hover:bg-slate-800 rounded-t-lg"
+                    onClick={() => setExtrasOpen(false)}
+                  >
+                    {t("extras.whoshere.title")}
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
+
         </div>
 
         <div className="flex items-center gap-3">

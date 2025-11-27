@@ -133,8 +133,6 @@ const HQ_REQUIREMENT_GROUPS = hqRequirementsGroups as Record<
   HqRequirementGroup
 >;
 
-
-
 const HQ_GROUP_TO_BUILDING_NAME_KEY: Record<string, string> = {
   tech_center: "buildings.names.tech-center",
   center_tank_air_missile: "buildings.names.center-tank-air-missile",
@@ -1288,6 +1286,7 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
     };
   }, []);
 
+  
   const totalHeroPower = useMemo(() => {
     return heroes.reduce((sum, h) => {
       const value =
@@ -1299,6 +1298,25 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
       return sum + (isNaN(value) ? 0 : value);
     }, 0);
   }, [heroes]);
+
+  // Sync totalHeroPower to Firestore for Who's Here page
+useEffect(() => {
+  if (!user) return;
+  if (totalHeroPower == null) return;
+
+  const profileRef = doc(db, "users", user.uid, "profiles", "default");
+
+  setDoc(
+    profileRef,
+    {
+      totalHeroPower,
+      updatedAt: Date.now(),
+    },
+    { merge: true }
+  ).catch((err) => {
+    console.error("[THP sync] Failed to update totalHeroPower:", err);
+  });
+}, [user, totalHeroPower]);
 
   const formattedTotalHeroPower = useMemo(() => {
     if (!totalHeroPower) return "0";

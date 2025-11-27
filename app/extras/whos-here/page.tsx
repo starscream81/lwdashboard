@@ -16,6 +16,8 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useLanguage } from "../../i18n/LanguageProvider";
+import { useFormatter } from "@/hooks/useFormatter";
+
 
 type Profile = {
   id: string;
@@ -29,22 +31,15 @@ type Profile = {
 
 const PAGE_SIZE = 25;
 
-// Helper function for K/M abbreviation (same logic as dashboard)
+// Helper function for full comma formatting (no K/M)
 function formatHeroPower(power: number | null | undefined): string {
   if (power == null || power === 0) return "0";
 
-  const num = Math.round(power);
-
-  if (num >= 1_000_000) {
-    return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
-  }
-
-  if (num >= 1_000) {
-    return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
-  }
-
-  return num.toLocaleString();
+  return new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 0
+  }).format(power);
 }
+
 
 export default function WhosHerePage() {
   const { t } = useLanguage();
@@ -70,19 +65,18 @@ export default function WhosHerePage() {
       setHasMore(true);
     }
 
-    const orderField = "__name__";
-    const orderDirection = "asc";
-
     let baseQuery = query(
       collectionGroup(db, "profiles"),
-      orderBy(orderField, orderDirection as "asc" | "desc"),
+      orderBy("serverId", "asc"),
+      orderBy("totalHeroPower", "desc"),
       limit(PAGE_SIZE)
     );
 
     if (currentLastDoc) {
       baseQuery = query(
         collectionGroup(db, "profiles"),
-        orderBy(orderField, orderDirection as "asc" | "desc"),
+        orderBy("serverId", "asc"),
+        orderBy("totalHeroPower", "desc"),
         startAfter(currentLastDoc),
         limit(PAGE_SIZE)
       );
