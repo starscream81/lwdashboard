@@ -1,3 +1,5 @@
+// starscream81/lwdashboard/lwdashboard-work/app/i18n/LanguageProvider.tsx
+
 "use client";
 
 import {
@@ -94,26 +96,23 @@ export function LanguageProvider(props: { children: React.ReactNode }) {
     };
   }, [user]);
 
-  // write locale to html attributes, localStorage, and Firestore
+  // 💡 FINAL FIX: REMOVED WRITE-TO-FIRESTORE LOGIC
+  // We only keep localStorage and DOM manipulation (if any), 
+  // but the conflicting Firestore write is gone.
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = locale;
-      document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
-    }
-
+    // Removed document.documentElement.lang/dir mutation earlier
+    
     try {
       window.localStorage.setItem(STORAGE_KEY, locale);
     } catch {
       // ignore
     }
 
-    if (user) {
-      const ref = doc(db, "users", user.uid, "profiles", "default");
-      // fire and forget
-      setDoc(ref, { language: locale }, { merge: true }).catch(() => {
-        // ignore write errors, do not block UI
-      });
-    }
+    // 🛑 DELETED THE CONFLICTING FIREBASE WRITE:
+    // if (user) {
+    //   const ref = doc(db, "users", user.uid, "profiles", "default");
+    //   setDoc(ref, { language: locale }, { merge: true }).catch(() => {});
+    // }
   }, [locale, user]);
 
   const setLocale = useCallback((value: Locale) => {

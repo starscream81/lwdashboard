@@ -1,10 +1,8 @@
-'use client';
+"use client";
 
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   collectionGroup,
-  collection,
   DocumentData,
   getDocs,
   limit,
@@ -13,16 +11,16 @@ import {
   setDoc,
   QueryDocumentSnapshot,
   startAfter,
-} from 'firebase/firestore';
-// TODO: Adjust this import to match your Firebase setup
-import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-
+  doc,
+  getDoc,
+} from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { useLanguage } from "../../i18n/LanguageProvider";
 
 type Profile = {
   id: string;
-  path: string,
-  serverId: number | string;
+  path: string;
+  serverId: number | string | null;
   avatarUrl?: string;
   displayName: string;
   alliance?: string;
@@ -31,169 +29,135 @@ type Profile = {
 
 const PAGE_SIZE = 25;
 
-// TODO: Replace this with your real i18n hook.
-// For now this keeps everything functional and uses the keys we agreed on.
-function useWhosHereTranslations() {
-  const t = (key: string) => {
-    switch (key) {
-      case 'extras.whoshere.title':
-        return "Who's Here";
-      case 'extras.whoshere.totalHeroPowerLabel':
-        return 'Total Hero Power';
-      case 'extras.whoshere.loadMore':
-        return 'Load more';
-      case 'extras.whoshere.noMoreResults':
-        return 'No more results';
-      case 'extras.whoshere.emptyTitle':
-        return 'No accounts found';
-      case 'extras.whoshere.emptyDescription':
-        return 'Once players create profiles, they will appear here.';
-      default:
-        return key;
-    }
-  };
+// Helper function for K/M abbreviation (same logic as dashboard)
+function formatHeroPower(power: number | null | undefined): string {
+  if (power == null || power === 0) return "0";
 
-  return { t };
+  const num = Math.round(power);
+
+  if (num >= 1_000_000) {
+    return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+  }
+
+  if (num >= 1_000) {
+    return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
+  }
+
+  return num.toLocaleString();
 }
 
-
-
 export default function WhosHerePage() {
-  const { t } = useWhosHereTranslations();
+  const { t } = useLanguage();
+
   const [profiles, setProfiles] = useState<Profile[]>([]);
-  const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [lastDoc, setLastDoc] =
+    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadPage = async () => {
-    if (isLoading || !hasMore) return;
+  const loadPage = async (shouldReset = false) => {
+    if (isLoading) return;
+    if (!hasMore && !shouldReset) return;
 
     setIsLoading(true);
     setError(null);
 
-    try {
-      let baseQuery = query(
-        collectionGroup(db, 'profiles'),
-        limit(PAGE_SIZE),
+    let currentLastDoc = lastDoc;
+    if (shouldReset) {
+      setProfiles([]);
+      currentLastDoc = null;
+      setHasMore(true);
+    }
+
+    const orderField = "__name__";
+    const orderDirection = "asc";
+
+    let baseQuery = query(
+      collectionGroup(db, "profiles"),
+      orderBy(orderField, orderDirection as "asc" | "desc"),
+      limit(PAGE_SIZE)
+    );
+
+    if (currentLastDoc) {
+      baseQuery = query(
+        collectionGroup(db, "profiles"),
+        orderBy(orderField, orderDirection as "asc" | "desc"),
+        startAfter(currentLastDoc),
+        limit(PAGE_SIZE)
       );
+    }
 
-      if (lastDoc) {
-        baseQuery = query(
-          collectionGroup(db, 'profiles'),
-          startAfter(lastDoc),
-          limit(PAGE_SIZE),
-        );
-      }
-
+    try {
       const snapshot = await getDocs(baseQuery);
 
-      console.log('[Who’s Here] snapshot size:', snapshot.size);
-      snapshot.docs.forEach((doc) => {
-        const data = doc.data(); // Get the data object
-        // Log a structured object instead of the raw, live data reference
-        console.log('[Who’s Here] doc path:', doc.ref.path, 'data:', {
-          id: doc.id,
-          path: doc.ref.path,
-          // Add all fields you expect to see
-          displayName: data.displayName,
-          totalHeroPower: data.totalHeroPower,
-          alliance: data.alliance,
-          language: data.language, // Include the one you know works
-        });
-      });
-
       if (snapshot.empty) {
-        if (!lastDoc) {
-          setProfiles([]);
-        }
         setHasMore(false);
+        if (shouldReset) setProfiles([]);
         return;
       }
 
-      const newProfiles: Profile[] = snapshot.docs.map((doc) => {
-        const data = doc.data();
+      const newProfiles: Profile[] = snapshot.docs.map((snap) => {
+        const data = snap.data();
         return {
-          id: doc.id,
-          path: doc.ref.path,
-          serverId: data.serverId,
+          id: snap.id,
+          path: snap.ref.path,
+          serverId: data.serverId ?? null,
           avatarUrl: data.avatarUrl,
-          displayName: data.displayName ?? '',
+          displayName: data.displayName ?? "",
           alliance: data.alliance,
           totalHeroPower:
-            typeof data.totalHeroPower === 'number' ? data.totalHeroPower : undefined,
+            typeof data.totalHeroPower === "number"
+              ? data.totalHeroPower
+              : undefined,
         };
       });
 
-      setProfiles((prev) => [...prev, ...newProfiles]);
+      setProfiles((prev) => {
+        if (shouldReset) {
+          return newProfiles;
+        }
+
+        const existingPaths = new Set(prev.map((p) => p.path));
+        const uniqueNewProfiles = newProfiles.filter(
+          (p) => !existingPaths.has(p.path)
+        );
+
+        return [...prev, ...uniqueNewProfiles];
+      });
 
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
       setLastDoc(lastVisible);
-
-      if (snapshot.size < PAGE_SIZE) {
-        setHasMore(false);
-      }
+      setHasMore(snapshot.size === PAGE_SIZE);
     } catch (err) {
       console.error(err);
-      setError('Failed to load accounts.');
+      setError(
+        "Failed to load accounts. Ensure your Firebase index for (__name__) exists."
+      );
+      setHasMore(false);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    // initial load
-    void loadPage();
+    void loadPage(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
-  // DEBUG: Force-write proper profile fields into your Firestore doc
-async function debugFixProfile() {
-  try {
-    await setDoc(
-      doc(db, "users", "6FGO4OpqkdbA34amGS4Y8ZwuHWX2", "profiles", "default"),
-      {
-        displayName: "Shöckwave",
-        alliance: "FER",
-        avatarUrl:
-          "https://firebasestorage.googleapis.com/v0/b/last-war-survival-tracker.firebasestorage.app/o/users%2F6FGO4OpqkdbA34amGS4Y8ZwuHWX2%2Favatar.jpg",
-        serverId: 977,
-        language: "en",
-        totalHeroPower: 0
-      },
-      { merge: true }
-    );
 
-    console.log("[DEBUG] Forced profile fix written!");
-  } catch (err) {
-    console.error("[DEBUG] Error writing forced profile fix:", err);
-  }
-}
-
-debugFixProfile();
-
-
+  // Optional debug: direct getDoc for your own profile
   useEffect(() => {
-  // DEBUG: direct getDoc check for your own profile
-  const run = async () => {
-    try {
-      const uid = '6FGO4OpqkdbA34amGS4Y8ZwuHWX2'
-
-      const ref = doc(db, 'users', uid, 'profiles', 'default');
-      const snap = await getDoc(ref);
-      console.log('[DEBUG] Direct getDoc for your profile:', snap.data());
-    } catch (err) {
-      console.error('[DEBUG] Error reading direct profile doc:', err);
-    }
-  };
-
-  void run();
-}, []);
-
-  useEffect(() => {
-    // temporary debug
-    // eslint-disable-next-line no-console
-    console.log('[Who’s Here] Firebase app options:', db.app.options);
+    const run = async () => {
+      try {
+        const uid = "6FGO4OpqkdbA34amGS4Y8ZwuHWX2";
+        const ref = doc(db, "users", uid, "profiles", "default");
+        const snap = await getDoc(ref);
+        console.log("[DEBUG] Direct getDoc for your profile:", snap.data());
+      } catch (err) {
+        console.error("[DEBUG] Error reading direct profile doc:", err);
+      }
+    };
+    void run();
   }, []);
 
   const renderAvatar = (profile: Profile) => {
@@ -201,13 +165,13 @@ debugFixProfile();
       return (
         <img
           src={profile.avatarUrl}
-          alt={profile.displayName || 'Avatar'}
+          alt={profile.displayName || "Avatar"}
           className="h-10 w-10 rounded-full object-cover"
         />
       );
     }
 
-    const initial = profile.displayName?.charAt(0)?.toUpperCase() ?? '?';
+    const initial = profile.displayName?.charAt(0)?.toUpperCase() ?? "?";
 
     return (
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-700 text-sm font-semibold text-white">
@@ -219,7 +183,9 @@ debugFixProfile();
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-6">
       <header>
-        <h1 className="text-2xl font-semibold">{t('extras.whoshere.title')}</h1>
+        <h1 className="text-2xl font-semibold">
+          {t("extras.whoshere.title")}
+        </h1>
       </header>
 
       {error && (
@@ -228,58 +194,79 @@ debugFixProfile();
         </div>
       )}
 
-      {profiles.length === 0 && !isLoading ? (
+      {profiles.length === 0 && !isLoading && !hasMore ? (
         <div className="rounded-lg border px-4 py-8 text-center text-sm text-gray-500">
           <div className="mb-1 text-base font-medium">
-            {t('extras.whoshere.emptyTitle')}
+            {t("extras.whoshere.emptyTitle")}
           </div>
-          <div>{t('extras.whoshere.emptyDescription')}</div>
+          <div>{t("extras.whoshere.emptyDescription")}</div>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {profiles.map((profile) => (
-            <div
-              key={profile.path}
-              className="flex h-full flex-col justify-between rounded-lg border bg-black/30 p-4"
-            >
-              {/* Top line: server */}
-              <div className="mb-2 text-xs text-gray-400">
-                {profile.serverId !== undefined && profile.serverId !== null
-                  ? `Server ${profile.serverId}`
-                  : ''}
-              </div>
+          {profiles.map((profile) => {
+            const pathParts = profile.path.split("/");
+            const uid = pathParts[2];
+            const displayId = uid.substring(0, 8);
+            const isTrulyEmpty =
+              profile.displayName === "" && !profile.alliance;
+            const finalDisplayName =
+              profile.displayName ||
+              (isTrulyEmpty
+                ? `User ID: ${displayId}...`
+                : t("extras.whoshere.unnamedPlayer"));
 
-              {/* Middle: avatar, name, alliance */}
-              <div className="flex flex-1 items-center gap-3">
-                {renderAvatar(profile)}
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium">
-                    {profile.displayName || 'Unnamed player'}
-                  </span>
-                  {profile.alliance && (
-                    <span className="text-xs text-gray-400">
-                      [{profile.alliance}]
+            return (
+              <div
+                key={profile.path}
+                className="flex h-full flex-col justify-between rounded-lg border bg-black/30 p-4"
+              >
+                <div className="mb-2 text-xs text-gray-400">
+                  {profile.serverId !== undefined &&
+                  profile.serverId !== null &&
+                  profile.serverId !== ""
+                    ? `${t("extras.whoshere.serverLabel")} ${
+                        profile.serverId
+                      }`
+                    : ""}
+                </div>
+
+                <div className="flex flex-1 items-center gap-3">
+                  {renderAvatar(profile)}
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">
+                      {finalDisplayName}
+                    </span>
+                    {profile.alliance && (
+                      <span className="text-xs text-gray-400">
+                        [{profile.alliance}]
+                      </span>
+                    )}
+                    {isTrulyEmpty && (
+                      <span className="text-xs text-orange-400 italic">
+                        {t("extras.whoshere.noProfileData")}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-4 flex justify-end text-xs text-gray-300">
+                  {typeof profile.totalHeroPower === "number" &&
+                  profile.totalHeroPower >= 0 ? (
+                    <span className="font-semibold text-white">
+                      {formatHeroPower(profile.totalHeroPower)}{" "}
+                      <span className="text-gray-400 font-normal">
+                        {t("extras.whoshere.totalHeroPowerLabel")}
+                      </span>
+                    </span>
+                  ) : (
+                    <span className="italic text-gray-500">
+                      {t("extras.whoshere.totalHeroPowerLabel")}
                     </span>
                   )}
                 </div>
               </div>
-
-              {/* Bottom: total hero power */}
-              <div className="mt-4 flex justify-end text-xs text-gray-300">
-                {typeof profile.totalHeroPower === 'number' ? (
-                  <span>
-                    {/* TODO: hook this up to your useFormatter helper once you add it here */}
-                    {profile.totalHeroPower.toLocaleString()}{' '}
-                    {t('extras.whoshere.totalHeroPowerLabel')}
-                  </span>
-                ) : (
-                  <span className="italic text-gray-500">
-                    {t('extras.whoshere.totalHeroPowerLabel')}
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -287,16 +274,18 @@ debugFixProfile();
         {hasMore && (
           <button
             type="button"
-            onClick={loadPage}
+            onClick={() => loadPage(false)}
             disabled={isLoading}
             className="rounded-md border px-4 py-2 text-sm disabled:opacity-60"
           >
-            {isLoading ? 'Loading…' : t('extras.whoshere.loadMore')}
+            {isLoading
+              ? t("extras.whoshere.loading")
+              : t("extras.whoshere.loadMore")}
           </button>
         )}
         {!hasMore && profiles.length > 0 && (
           <div className="text-xs text-gray-500">
-            {t('extras.whoshere.noMoreResults')}
+            {t("extras.whoshere.noMoreResults")}
           </div>
         )}
       </div>

@@ -129,6 +129,9 @@ import itCompare from "./it/compare.json";
 import frCompare from "./fr/compare.json";
 import arCompare from "./ar/compare.json";
 
+// Who's Here
+import enWhosHere from "./en/whos-here.json";
+import deWhosHere from "./de/whos-here.json";
 
 export const messages: AllMessages = {
   en: mergeMessages(
@@ -147,7 +150,8 @@ export const messages: AllMessages = {
     enHeroes,
     enBuildings,
     enResearch,
-    enCompare
+    enCompare,
+    enWhosHere
   ),
   de: mergeMessages(
     deCommon,
@@ -165,7 +169,8 @@ export const messages: AllMessages = {
     deHeroes,
     deBuildings,
     deResearch,
-    deCompare
+    deCompare,
+    deWhosHere
   ),
   it: mergeMessages(
     itCommon,

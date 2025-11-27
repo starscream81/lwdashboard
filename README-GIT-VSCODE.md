@@ -139,4 +139,27 @@ When shipping
 • Switch to main
 • Pull
 • Merge work into main using the VS Code terminal
-• Push main
+• Push main///
+
+  // DEBUG: Force-write proper profile fields into your Firestore doc
+async function debugFixProfile() {
+  try {
+    await setDoc(
+      doc(db, "users", "6FGO4OpqkdbA34amGS4Y8ZwuHWX2", "profiles", "default"),
+      {
+        displayName: "Shöckwave",
+        alliance: "FER",
+        avatarUrl:
+          "https://firebasestorage.googleapis.com/v0/b/last-war-survival-tracker.firebasestorage.app/o/users%2F6FGO4OpqkdbA34amGS4Y8ZwuHWX2%2Favatar.jpg",
+        serverId: 977,
+        language: "en",
+        totalHeroPower: 0
+      },
+      { merge: true }
+    );
+
+    console.log("[DEBUG] Forced profile fix written!");
+  } catch (err) {
+    console.error("[DEBUG] Error writing forced profile fix:", err);
+  }
+}

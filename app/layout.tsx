@@ -1,9 +1,13 @@
+// starscream81/lwdashboard/lwdashboard-work/app/layout.tsx (Modified)
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./i18n/LanguageProvider";
 import AppFooter from "@/components/AppFooter";
 import AppHeader from "@/components/AppHeader";
+// 💡 New import
+import AuthGate from "@/components/AuthGate"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,16 +34,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    // 💡 FIX 1: Add suppressHydrationWarning to HTML tag
+    <html lang="en" suppressHydrationWarning> 
       <body className="...">
         <LanguageProvider>
           {/* everything that calls useLanguage must live inside here */}
-          <AppHeader />
-          {children}
-          <AppFooter />
+          {/* 💡 FIX 2: Add AuthGate component here to manage routing */}
+          <AuthGate>
+            <AppHeader />
+            {children}
+            <AppFooter />
+          </AuthGate>
         </LanguageProvider>
       </body>
     </html>
   );
 }
-
