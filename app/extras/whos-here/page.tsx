@@ -16,8 +16,6 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useLanguage } from "../../i18n/LanguageProvider";
-import { useFormatter } from "@/hooks/useFormatter";
-
 
 type Profile = {
   id: string;
