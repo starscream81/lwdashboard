@@ -53,6 +53,66 @@ type Profile = {
   alliance?: string | null;
 };
 
+function heroesToCsv(heroes: Hero[]): string {
+  const headers = [
+    "id",
+    "name",
+    "power",
+    "team",
+    "type",
+    "role",
+    "rail_gun",
+    "rail_gun_stars",
+    "data_chip",
+    "data_chip_stars",
+    "armor",
+    "armor_stars",
+    "radar",
+    "radar_stars",
+    "skill1",
+    "skill2",
+    "skill3",
+    "max_skill_level",
+    "exclusive_weapon_owned",
+    "exclusive_weapon_level",
+  ];
+
+  const escape = (value: any): string => {
+    if (value === null || value === undefined) return "";
+    const str = String(value);
+    if (str.includes('"') || str.includes(",") || str.includes("\n")) {
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+  };
+
+  const lines = [
+    headers.join(","), // header row
+    ...heroes.map((h) =>
+      headers
+        .map((key) => {
+          const v = (h as any)[key];
+          return escape(v);
+        })
+        .join(",")
+    ),
+  ];
+
+  return lines.join("\n");
+}
+
+function downloadCsv(filename: string, csv: string) {
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 const TEAM_FILTERS = [
   "All",
   "Team 1",
@@ -127,6 +187,16 @@ export default function HeroesPage() {
     if (r === "support") return t("heroes.role.support");
     return role;
   };
+
+  const handleDownloadCsv = () => {
+  if (!heroes || heroes.length === 0) {
+    alert("No heroes to export yet.");
+    return;
+  }
+  const csv = heroesToCsv(heroes);
+  downloadCsv("heroes.csv", csv);
+};
+
 
   const getTeamFilterLabel = (value: TeamFilter) => {
     switch (value) {
@@ -557,15 +627,25 @@ export default function HeroesPage() {
     <main className="min-h-screen bg-slate-950 text-slate-50">
       <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
         {/* Header */}
-        <section className="space-y-2">
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-            {t("heroes.title")}
-          </h1>
-          <p className="text-sm text-slate-300">
-            {t("heroes.subtitle")}
-          </p>
+        <section className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-1">
+            <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+              Heroes
+            </h1>
+            <p className="text-sm text-slate-300">
+              Manage your squads, power, gear, and skills.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleDownloadCsv}
+              className="inline-flex items-center rounded-lg border border-slate-600 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-100 hover:border-sky-500 hover:text-sky-200 transition-colors"
+            >
+              Download CSV
+            </button>
+          </div>
         </section>
-
         {/* Filters */}
         <section className="space-y-3">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
