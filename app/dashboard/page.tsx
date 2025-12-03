@@ -127,6 +127,19 @@ type TrackingItem = {
   [key: string]: any;
 };
 
+// UPDATED: Gorilla Levels simplified to just power and level
+type GorillaLevels = {
+  power?: number | string;
+  level?: number | string;
+};
+
+// NEW: Type for Drone Levels
+type DroneLevels = {
+  power?: number | string;
+  level?: number | string;
+  combatBoost?: number | string;
+};
+
 const HQ_REQUIREMENTS = hqRequirements as HqRequirementsMap;
 const HQ_REQUIREMENT_GROUPS = hqRequirementsGroups as Record<
   string,
@@ -692,6 +705,8 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
   const [hqLevel, setHqLevel] = useState<number | null>(null);
   const [heroes, setHeroes] = useState<Hero[]>([]);
   const [teamsPower, setTeamsPower] = useState<TeamsPower>({});
+  const [gorillaLevels, setGorillaLevels] = useState<GorillaLevels>({});
+  const [droneLevels, setDroneLevels] = useState<DroneLevels>({});
   const [trackingItems, setTrackingItems] = useState<TrackingItem[]>([]);
   const [trackedCount, setTrackedCount] = useState<number>(0);
   const [trackedUpgrades, setTrackedUpgrades] = useState<UpgradeSummary[]>(
@@ -699,6 +714,8 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
   );
   const [loading, setLoading] = useState(true);
   const [savingTeam, setSavingTeam] = useState<number | null>(null);
+  const [savingGorilla, setSavingGorilla] = useState<string | null>(null);
+  const [savingDrone, setSavingDrone] = useState<string | null>(null);
   const [buildingLevels, setBuildingLevels] = useState<BuildingLevelsMap>(
     {}
   );
@@ -863,6 +880,30 @@ const getUpgradeDisplayName = (u: UpgradeSummary): string => {
           });
           setTeamsPower(newTeams);
         }
+        
+        // Overlord Gorilla levels meta (SIMPLIFIED FETCH)
+        const gorillaRef = doc(db, "users", uid, "dashboard_meta", "gorilla");
+        const gorillaSnap = await getDoc(gorillaRef);
+        if (gorillaSnap.exists()) {
+          const data = gorillaSnap.data() as any;
+          setGorillaLevels({
+            power: data.power ?? "",
+            level: data.level ?? "",
+          });
+        }
+        
+        // NEW: Tactical Drone levels meta
+        const droneRef = doc(db, "users", uid, "dashboard_meta", "drone");
+        const droneSnap = await getDoc(droneRef);
+        if (droneSnap.exists()) {
+          const data = droneSnap.data() as any;
+          setDroneLevels({
+            power: data.power ?? "",
+            level: data.level ?? "",
+            combatBoost: data.combatBoost ?? "",
+          });
+        }
+
 
         // Research tracking
         const researchRef = collection(db, "users", uid, "research_tracking");
@@ -1371,6 +1412,58 @@ useEffect(() => {
     }
   };
 
+  // UPDATED: Gorilla Handlers
+  const handleGorillaLevelChange = (
+    field: keyof GorillaLevels,
+    value: string
+  ) => {
+    setGorillaLevels((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const saveGorillaLevel = async (field: keyof GorillaLevels) => {
+    if (!user) return;
+    const value = gorillaLevels[field];
+    setSavingGorilla(field as string);
+    try {
+      const uid = user.uid;
+      const ref = doc(db, "users", uid, "dashboard_meta", "gorilla");
+      await setDoc(ref, { [field]: value ?? null }, { merge: true });
+    } catch (err) {
+      console.error("Failed to save gorilla level", err);
+    } finally {
+      setSavingGorilla(null);
+    }
+  };
+
+  // NEW: Drone Handlers
+  const handleDroneLevelChange = (
+    field: keyof DroneLevels,
+    value: string
+  ) => {
+    setDroneLevels((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const saveDroneLevel = async (field: keyof DroneLevels) => {
+    if (!user) return;
+    const value = droneLevels[field];
+    setSavingDrone(field as string);
+    try {
+      const uid = user.uid;
+      const ref = doc(db, "users", uid, "dashboard_meta", "drone");
+      await setDoc(ref, { [field]: value ?? null }, { merge: true });
+    } catch (err) {
+      console.error("Failed to save drone level", err);
+    } finally {
+      setSavingDrone(null);
+    }
+  };
+
   const getUpgradeStatusLabel = (u: UpgradeSummary) => {
     switch (u.status) {
       case "inProgress":
@@ -1385,6 +1478,11 @@ useEffect(() => {
         return t("status.upgrade.tracked");
     }
   };
+  
+  // Base class for all dashboard tiles to apply universal gradient
+  const TILE_BASE_CLASS = "relative overflow-hidden rounded-xl border border-slate-700/80 bg-slate-900/80 px-4 py-4";
+  const TILE_GRADIENT_CLASS = "absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.1),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(251,191,36,0.1),transparent_55%)]";
+
 
   if (!user) {
     return (
@@ -1481,8 +1579,9 @@ useEffect(() => {
         {/* Daily tiles */}
         <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {/* VS Today */}
-          <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
-            <h2 className="text-sm font-semibold text-slate-100">
+          <div className={TILE_BASE_CLASS + " flex flex-col gap-2"}>
+            <div className={TILE_GRADIENT_CLASS} />
+            <h2 className="text-sm font-semibold text-slate-50">
               {t("tiles.vsToday.title")}
             </h2>
 
@@ -1505,8 +1604,9 @@ useEffect(() => {
           </div>
 
           {/* Arms Race */}
-          <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
-            <h2 className="text-sm font-semibold text-slate-100">
+          <div className={TILE_BASE_CLASS + " flex flex-col gap-2"}>
+            <div className={TILE_GRADIENT_CLASS} />
+            <h2 className="text-sm font-semibold text-slate-50">
               {t("tiles.armsRace.title")}
             </h2>
 
@@ -1561,8 +1661,9 @@ useEffect(() => {
           </div>
 
           {/* Shiny Tasks */}
-          <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-4 flex flex-col gap-2">
-            <h2 className="text-sm font-semibold text-slate-100">
+          <div className={TILE_BASE_CLASS + " flex flex-col gap-2"}>
+            <div className={TILE_GRADIENT_CLASS} />
+            <h2 className="text-sm font-semibold text-slate-50">
               {t("tiles.shinyTasks.title")}
             </h2>
 
@@ -1589,9 +1690,10 @@ useEffect(() => {
           </div>
         </section>
 
-        {/* HQ Requirements / Research / Currently Upgrading */}
-        <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col gap-2">
+        {/* HQ Requirements / Research / Currently Upgrading (3 Columns) */}
+        <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={TILE_BASE_CLASS + " py-3"}>
+            <div className={TILE_GRADIENT_CLASS} />
             <div className="flex items-center justify-between">
               <p className="text-xs text-slate-400">
                 {nextLevel != null
@@ -1661,7 +1763,8 @@ useEffect(() => {
           </div>
 
           {/* Research Status */}
-          <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col gap-2">
+          <div className={TILE_BASE_CLASS + " py-3"}>
+            <div className={TILE_GRADIENT_CLASS} />
             <div className="flex items-center justify-between">
               <p className="text-xs text-slate-400">
                 {t("tiles.researchStatus.title")}
@@ -1690,7 +1793,8 @@ useEffect(() => {
           </div>
 
           {/* Currently Upgrading */}
-          <div className="rounded-xl bg-slate-900/80 border border-slate-700/70 px-4 py-3 flex flex-col justify-between gap-2">
+          <div className={TILE_BASE_CLASS + " py-3 flex flex-col justify-between gap-2"}>
+            <div className={TILE_GRADIENT_CLASS} />
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs text-slate-400">
@@ -1755,6 +1859,8 @@ useEffect(() => {
                 {t("teams.sectionTitle")}
               </h2>
             </div>
+            
+            {/* Team Power Cards (2x2 Grid) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4">
               {[1, 2, 3, 4].map((team) => {
                 const teamHeroes = heroesByTeam[team] ?? [];
@@ -1770,12 +1876,13 @@ useEffect(() => {
                 return (
                   <div
                     key={team}
-                    className="relative overflow-hidden rounded-xl border border-slate-700/80 bg-linear-to-br from-slate-900/90 via-slate-900 to-slate-900/80 px-4 py-4"
+                    className={TILE_BASE_CLASS}
                   >
                     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(129,140,248,0.16),transparent_55%)]" />
+                    <div className={TILE_GRADIENT_CLASS} />
                     <div className="relative space-y-3">
                       <div className="flex items-center justify-between">
-                        <h3 className="text-sm font-semibold">
+                        <h3 className="text-sm font-semibold text-slate-50">
                           {t("teams.card.title", { number: team })}
                         </h3>
                       </div>
@@ -1783,7 +1890,7 @@ useEffect(() => {
                         <div className="text-xs text-slate-300">
                           {t("teams.card.powerLabel")}
                         </div>
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 ml-auto">
                           <input
                             type="text"
                             inputMode="decimal"
@@ -1795,7 +1902,8 @@ useEffect(() => {
                               )
                             }
                             onBlur={() => saveTeamPower(team)}
-                            className="w-20 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70"
+                            className="w-20 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70 text-right"
+                            maxLength={5}
                             placeholder={t(
                               "teams.card.powerPlaceholder"
                             )}
@@ -1818,6 +1926,158 @@ useEffect(() => {
                 );
               })}
             </div>
+
+            {/* NEW: Gorilla and Drone Tiles (Aligned with the 2x2 grid above) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4">
+              {/* Overlord Gorilla Tile (Positioned below Team 3) */}
+              <div className={TILE_BASE_CLASS}>
+                {/* Applied Gorilla/Gold Gradient */}
+                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.16),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(251,191,36,0.16),transparent_55%)]" />
+                <div className="relative space-y-3">
+                  <div className="flex items-center justify-between">
+                    {/* Title color to white */}
+                    <h3 className="text-sm font-semibold text-slate-50">
+                      {t("gorilla.card.title")}
+                    </h3>
+                  </div>
+                  
+                  {/* Power Field (XXX.XX M) - MaxLength 6, use w-20 to be consistent with team power size */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300 min-w-[5rem]">
+                      {t("gorilla.card.powerLabel")}
+                    </span>
+                    <div className="flex items-center gap-1 min-w-[7rem] justify-end">
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        value={gorillaLevels.power ?? ""}
+                        onChange={(e) => handleGorillaLevelChange("power", e.target.value)}
+                        onBlur={() => saveGorillaLevel("power")}
+                        className="w-20 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70 text-right"
+                        maxLength={6}
+                      />
+                      <span className="text-sm text-slate-200">
+                        {t("gorilla.card.powerUnitMillions")}
+                      </span>
+                      {savingGorilla === "power" && (
+                        <span className="text-xs text-sky-300">
+                          {t("gorilla.card.saving")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Level Field (XXX) - MaxLength 3 */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300 min-w-[5rem]">
+                      {t("gorilla.card.levelLabel")}
+                    </span>
+                    <div className="flex items-center gap-1 min-w-[7rem] justify-end">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={gorillaLevels.level ?? ""}
+                        onChange={(e) => handleGorillaLevelChange("level", e.target.value)}
+                        onBlur={() => saveGorillaLevel("level")}
+                        className="w-12 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70 text-right"
+                        maxLength={3}
+                      />
+                      {savingGorilla === "level" && (
+                        <span className="text-xs text-sky-300">
+                          {t("gorilla.card.saving")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Tactical Drone Tile (Matches Gorilla Gradient) */}
+              <div className={TILE_BASE_CLASS}>
+                {/* Applied Gorilla/Gold Gradient */}
+                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.16),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(251,191,36,0.16),transparent_55%)]" />
+                <div className="relative space-y-3">
+                  <div className="flex items-center justify-between">
+                    {/* Title color to white */}
+                    <h3 className="text-sm font-semibold text-slate-50">
+                      {t("drone.card.title")}
+                    </h3>
+                  </div>
+                  
+                  {/* Power Field (XXX.XX M) - MaxLength 6, use w-20 to be consistent with team power size */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300 min-w-[5rem]">
+                      {t("drone.card.powerLabel")}
+                    </span>
+                    <div className="flex items-center gap-1 min-w-[7rem] justify-end">
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        value={droneLevels.power ?? ""}
+                        onChange={(e) => handleDroneLevelChange("power", e.target.value)}
+                        onBlur={() => saveDroneLevel("power")}
+                        className="w-20 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70 text-right"
+                        maxLength={6}
+                      />
+                      <span className="text-sm text-slate-200">
+                        {t("drone.card.powerUnitMillions")}
+                      </span>
+                      {savingDrone === "power" && (
+                        <span className="text-xs text-sky-300">
+                          {t("drone.card.saving")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Level Field (XXX) - MaxLength 3 */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300 min-w-[5rem]">
+                      {t("drone.card.levelLabel")}
+                    </span>
+                    <div className="flex items-center gap-1 min-w-[7rem] justify-end">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={droneLevels.level ?? ""}
+                        onChange={(e) => handleDroneLevelChange("level", e.target.value)}
+                        onBlur={() => saveDroneLevel("level")}
+                        className="w-12 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70 text-right"
+                        maxLength={3}
+                      />
+                      {savingDrone === "level" && (
+                        <span className="text-xs text-sky-300">
+                          {t("drone.card.saving")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Combat Boost Field (XXX) - MaxLength 3 */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300 min-w-[5rem]">
+                      {t("drone.card.combatBoostLabel")}
+                    </span>
+                    <div className="flex items-center gap-1 min-w-[7rem] justify-end">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={droneLevels.combatBoost ?? ""}
+                        onChange={(e) => handleDroneLevelChange("combatBoost", e.target.value)}
+                        onBlur={() => saveDroneLevel("combatBoost")}
+                        className="w-12 rounded-md bg-slate-950/60 border border-slate-600/80 px-2 py-1 text-sm text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500/70 focus:border-sky-500/70 text-right"
+                        maxLength={3}
+                      />
+                      {savingDrone === "combatBoost" && (
+                        <span className="text-xs text-sky-300">
+                          {t("drone.card.saving")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* Next Up section */}
@@ -1828,6 +2088,7 @@ useEffect(() => {
               </h2>
             </div>
             <div className="rounded-xl border border-slate-700/80 bg-slate-900/80 max-h-80 overflow-hidden flex flex-col">
+              <div className={TILE_GRADIENT_CLASS} />
               {trackingItems.length === 0 ? (
                 <div className="flex-1 flex items-center justify-center px-4 py-6 text-sm text-slate-400">
                   {t("nextUp.empty")}
@@ -1909,9 +2170,10 @@ function QuickLinkCard(props: {
   return (
     <Link
       href={props.href}
-      className="group rounded-xl border border-slate-700/80 bg-slate-900/80 px-4 py-4 flex flex-col justify-between hover:border-sky-500/70 hover:bg-slate-900 transition-colors"
+      className="group relative overflow-hidden rounded-xl border border-slate-700/80 bg-slate-900/80 px-4 py-4 flex flex-col justify-between hover:border-sky-500/70 hover:bg-slate-900 transition-colors"
     >
-      <div className="space-y-1">
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.1),transparent_55%),radial-gradient(circle_at_bottom_right,rgba(251,191,36,0.1),transparent_55%)]" />
+      <div className="relative space-y-1">
         <h3 className="text-sm font-semibold text-slate-50 group-hover:text-sky-200">
           {props.title}
         </h3>

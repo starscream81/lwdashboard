@@ -31,5 +31,23 @@
 
   "tiles.currentlyUpgrading.title": "Aktuell im Ausbau",
   "tiles.currentlyUpgrading.more": "+ {count} weitere",
-  "tiles.currentlyUpgrading.empty": "Zurzeit wird nichts ausgebaut. Gestartete Forschung, markierte Gebäude oder Prioritäten erscheinen hier."
+  "tiles.currentlyUpgrading.empty": "Zurzeit wird nichts ausgebaut. Gestartete Forschung, markierte Gebäude oder Prioritäten erscheinen hier.",
+
+  "dashboard.title": "Last War Dashboard",
+  "dashboard.subtitle": "Verwalte deine Basis, Trupps und Upgrades an einem Ort.",
+  
+  "gorilla.sectionTitle": "Overlord Gorilla",
+  "gorilla.card.title": "Overlord Gorilla",
+  "gorilla.card.powerLabel": "Aktuelle Stärke",
+  "gorilla.card.levelLabel": "Level",
+  "gorilla.card.powerUnitMillions": "M",
+  "gorilla.card.saving": "Speichern...",
+  "drone.sectionTitle": "Taktische Drohne",
+  "drone.card.title": "Taktische Drohne",
+  "drone.card.powerLabel": "Aktuelle Stärke",
+  "drone.card.levelLabel": "Level",
+  "drone.card.combatBoostLabel": "Kampffortschritt",
+  "drone.card.powerUnitMillions": "M",
+  "drone.card.saving": "Speichern..."
+
 }
