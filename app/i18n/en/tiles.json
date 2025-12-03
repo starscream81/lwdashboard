@@ -31,5 +31,22 @@
 
   "tiles.currentlyUpgrading.title": "Currently Upgrading",
   "tiles.currentlyUpgrading.more": "+ {count} more",
-  "tiles.currentlyUpgrading.empty": "Nothing upgrading yet. Start research or mark buildings as upgrading or add priority to see them here."
+  "tiles.currentlyUpgrading.empty": "Nothing upgrading yet. Start research or mark buildings as upgrading or add priority to see them here.",
+
+  "dashboard.title": "Last War Dashboard",
+  "dashboard.subtitle": "Track your base, squads, and upgrades in one place.",
+  "gorilla.sectionTitle": "Overlord Gorilla",
+  "gorilla.card.title": "Overlord Gorilla",
+  "gorilla.card.powerLabel": "Current Power",
+  "gorilla.card.levelLabel": "Level",
+  "gorilla.card.powerUnitMillions": "M",
+  "gorilla.card.saving": "Saving...",
+  "drone.sectionTitle": "Tactical Drone",
+  "drone.card.title": "Tactical Drone",
+  "drone.card.powerLabel": "Current Power",
+  "drone.card.levelLabel": "Level",
+  "drone.card.combatBoostLabel": "Combat Boost",
+  "drone.card.powerUnitMillions": "M",
+  "drone.card.saving": "Saving..."
+
 }
