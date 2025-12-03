@@ -60,5 +60,12 @@
   "heroes.detail.skills.maxSkillLabel": "Maximales Fähigkeitslevel",
   "heroes.detail.skills.skill1": "Fähigkeit 1",
   "heroes.detail.skills.skill2": "Fähigkeit 2",
-  "heroes.detail.skills.skill3": "Fähigkeit 3"
+  "heroes.detail.skills.skill3": "Fähigkeit 3",
+
+  
+  "heroes.filter.type.all": "Alle",
+  "heroes.filter.type.tank": "Panzer",
+  "heroes.filter.type.air": "Flugzeug",
+  "heroes.filter.type.missile": "Rakete",
+  "heroes.filter.sort.type": "Typ"
 }

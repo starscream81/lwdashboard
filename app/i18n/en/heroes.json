@@ -60,5 +60,11 @@
   "heroes.detail.skills.maxSkillLabel": "Max skill level",
   "heroes.detail.skills.skill1": "Skill 1",
   "heroes.detail.skills.skill2": "Skill 2",
-  "heroes.detail.skills.skill3": "Skill 3"
+  "heroes.detail.skills.skill3": "Skill 3",
+
+  "heroes.filter.type.all": "All",
+  "heroes.filter.type.tank": "Tank",
+  "heroes.filter.type.air": "Air",
+  "heroes.filter.type.missile": "Missile",
+  "heroes.filter.sort.type": "Type"
 }

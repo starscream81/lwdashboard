@@ -1,3 +1,5 @@
+// starscream81/lwdashboard/lwdashboard-work/app/heroes/page.tsx
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -126,7 +128,10 @@ type TeamFilter = (typeof TEAM_FILTERS)[number];
 const ROLE_FILTERS = ["All", "Attack", "Defense", "Support"] as const;
 type RoleFilter = (typeof ROLE_FILTERS)[number];
 
-const SORT_OPTIONS = ["Power", "Name", "Team"] as const;
+const TYPE_FILTERS = ["All", "Tank", "Air", "Missile"] as const;
+type TypeFilter = (typeof TYPE_FILTERS)[number];
+
+const SORT_OPTIONS = ["Power", "Name", "Team", "Type"] as const;
 type SortOption = (typeof SORT_OPTIONS)[number];
 
 const STAR_VALUES: string[] = [
@@ -168,6 +173,7 @@ export default function HeroesPage() {
 
   const [teamFilter, setTeamFilter] = useState<TeamFilter>("All");
   const [roleFilter, setRoleFilter] = useState<RoleFilter>("All");
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>("All");
   const [sortBy, setSortBy] = useState<SortOption>("Power");
 
   const [catalog, setCatalog] = useState<HeroCatalogEntry[]>([]);
@@ -212,6 +218,21 @@ export default function HeroesPage() {
         return t("heroes.filter.team.team4");
       case "Unassigned":
         return t("heroes.filter.team.unassigned");
+      default:
+        return value;
+    }
+  };
+
+  const getTypeFilterLabel = (value: TypeFilter) => {
+    switch (value) {
+      case "All":
+        return t("heroes.filter.type.all");
+      case "Tank":
+        return t("heroes.filter.type.tank");
+      case "Air":
+        return t("heroes.filter.type.air");
+      case "Missile":
+        return t("heroes.filter.type.missile");
       default:
         return value;
     }
@@ -375,6 +396,12 @@ export default function HeroesPage() {
     if (catalogFilter !== "All") {
       list = list.filter((h) => h.name === catalogFilter);
     }
+    
+    if (typeFilter !== "All") {
+      list = list.filter(
+        (h) => h.type && h.type.toLowerCase() === typeFilter.toLowerCase()
+      );
+    }
 
     if (teamFilter !== "All") {
       if (teamFilter === "Unassigned") {
@@ -405,6 +432,14 @@ export default function HeroesPage() {
         return a.name.localeCompare(b.name);
       }
 
+      if (sortBy === "Type") {
+        const ta = a.type ?? "";
+        const tb = b.type ?? "";
+        const typeCompare = ta.localeCompare(tb);
+        if (typeCompare !== 0) return typeCompare;
+        return a.name.localeCompare(b.name);
+      }
+
       const pa =
         typeof a.power === "number"
           ? a.power
@@ -422,7 +457,7 @@ export default function HeroesPage() {
     });
 
     return list;
-  }, [heroes, catalogFilter, teamFilter, roleFilter, sortBy]);
+  }, [heroes, catalogFilter, typeFilter, teamFilter, roleFilter, sortBy]);
 
   const selectedHero = useMemo(
     () => heroes.find((h) => h.id === selectedHeroId) ?? null,
@@ -717,7 +752,9 @@ export default function HeroesPage() {
                         ? t("heroes.filter.sort.power")
                         : s === "Name"
                         ? t("heroes.filter.sort.name")
-                        : t("heroes.filter.sort.team")}
+                        : s === "Team"
+                        ? t("heroes.filter.sort.team")
+                        : t("heroes.filter.sort.type")}
                     </option>
                   ))}
                 </select>
@@ -741,6 +778,27 @@ export default function HeroesPage() {
                   }`}
                 >
                   {getTeamFilterLabel(tFilter)}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Type filter chips */}
+          <div className="flex flex-wrap gap-2">
+            {TYPE_FILTERS.map((tFilter) => {
+              const active = tFilter === typeFilter;
+              return (
+                <button
+                  key={tFilter}
+                  type="button"
+                  onClick={() => setTypeFilter(tFilter)}
+                  className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                    active
+                      ? "bg-sky-600/80 border-sky-400 text-white"
+                      : "bg-slate-900/90 border-slate-700/80 text-slate-200 hover:border-sky-500/70"
+                  }`}
+                >
+                  {getTypeFilterLabel(tFilter)}
                 </button>
               );
             })}
@@ -968,8 +1026,14 @@ function HeroDetailPanel(props: {
   };
 
   return (
-    <div className="fixed inset-0 z-40 bg-black/60 flex justify-end">
-      <div className="h-full w-full max-w-md bg-slate-950 border-l border-slate-800 flex flex-col">
+    <div
+      className="fixed inset-0 z-40 bg-black/60 flex justify-end"
+      onClick={onClose} // Close when clicking the backdrop
+    >
+      <div
+        className="h-full w-full max-w-md bg-slate-950 border-l border-slate-800 flex flex-col"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the panel content
+      >
         <header className="px-4 py-3 border-b border-slate-800 flex items-center justify-between">
           <div>
             <p className="text-sm font-semibold text-slate-50">
